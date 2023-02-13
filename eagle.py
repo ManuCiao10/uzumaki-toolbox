@@ -6,6 +6,8 @@ GREEN = "\033[92m"
 YELLOW = "\033[93m"
 RED = "\033[91m"
 RESET = "\033[0m"
+BOLD = "\033[1m"
+UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
 LOGO = "https://media.discordapp.net/attachments/1074041462460784701/1074456541480095845/logo.jpg?width=1410&height=846"
@@ -89,7 +91,7 @@ def banner():
           " Select an option or type exit for exiting " + "\x1b[0m" + "\n")
 
     print(TAB + RED + " 01 " + WHITE + "Redirect" +
-          TAB + "Redirect packages ups dhl")
+          TAB + "Redirect packages ups brt")
 
     print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
           TAB + "Csv filler Jig")
@@ -97,7 +99,10 @@ def banner():
     print(TAB + RED + " 03 " + WHITE + "Tracker" +
           TAB + "Order Tracker ups dhl")
 
-    print(TAB + RED + " 04 " + WHITE + "Modules" +
+    print(TAB + RED + " 04 " + WHITE + "Scraper" +
+          TAB + "Resell payout scraper goat stockx restock")
+
+    print(TAB + RED + " 05 " + WHITE + "Modules" +
           TAB + "Modules Nike Adidas")
 
     print(TAB + RED + " 00 " + WHITE + "Exit" +
@@ -352,8 +357,8 @@ def ups(tracking_number):
 def companyHandler(company, tracking_number):
     if company == "ups":
         ups(tracking_number)
-    # elif company == "dhl":
-    #     dhl(tracking_number)
+    # elif company == "brt":
+    #     brt(tracking_number)
     else:
         print_task("invalid company", RED)
 
@@ -373,9 +378,33 @@ def tracker():
                 company, tracking_number)).start()
 
 
+def scraper():
+    # print new terminal
+    import os
+    os.system('clear')
+    print(RED + BANNER + RESET)
+
+    print(WHITE + "Author: " +
+          RED + "@MANUCIAO|YΞ\n" + RESET)
+    print(TAB + "\x1b[1;37;41m" +
+          " Scraper usage: " + "\x1b[0m" + "\n")
+    print(TAB + RED + " 01 " + WHITE + "Goat" +
+          TAB + "!goat < sku > or < key words >" + RESET)
+
+    print(TAB + RED + " 02 " + WHITE + "Restock" +
+          TAB + "!restock < sku > or < key words >" + RESET)
+
+    print("\n")
+    option = input(TAB + RED + ">" + WHITE +
+                   " your option (ex. !goat DZ5485-410): " + RESET)
+    print(option)
+
+
 def handler_option(option):
     if option == "03":
         tracker()
+    elif option == "04":
+        scraper()
     elif option == "00":
         exit()
     else:
