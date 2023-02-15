@@ -2,3 +2,5 @@ env
 .vscode
 eagleTools
 .DS_Store
+build
+dist

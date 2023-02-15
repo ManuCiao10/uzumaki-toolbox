@@ -2,8 +2,6 @@ from handler.utils import *
 
 
 def scraper():
-    import os
-    os.system('clear')
     print(RED + BANNER + RESET)
 
     print(WHITE + "Author: " +

@@ -1,4 +1,6 @@
 from handler.utils import print_task, RED, load_settings
+import time
+import os
 
 
 def auth():
@@ -14,4 +16,5 @@ def auth():
 
     if webhook == "WEBHOOK HERE" or webhook == "":
         print_task("please set webhook...", RED)
-        exit()
+        time.sleep(1)
+        os._exit(1)

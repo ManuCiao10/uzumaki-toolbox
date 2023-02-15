@@ -1,3 +1,5 @@
+import os
+
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
 DARKCYAN = "\033[36m"
@@ -32,7 +34,7 @@ def banner():
     print(WHITE + "Author: " +
           RED + "@MANUCIAO|YΞ\n" + RESET)
 
-    print(TAB + "\x1b[1;37;41m" +
+    print('\t' + "\x1b[1;37;41m" +
           " Select an option or type exit for exiting " + "\x1b[0m" + "\n")
 
     print(TAB + RED + " 01 " + WHITE + "Redirect" +
@@ -63,7 +65,7 @@ def banner():
 
 
 def checking():
-    import os
+
     print(PURPLE + "checking folders...")
     desktop_path = os.path.expanduser("~/Desktop")
 
