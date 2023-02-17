@@ -5,7 +5,6 @@ import requests
 from bs4 import BeautifulSoup
 
 def brt(company, tracking_number, OrderZip, name, phone, address, city, state, zip, email):
-
     headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
     'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -32,7 +31,7 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
 
     try :
         session = requests.Session()
-        http = "185.91.204.5:5022:hgj3x3cas2:0ef2uixpcu"
+        http = "185.91.206.181:6871:hgj3x3cas2:0ef2uixpcu"
         ip = http.split(":")[0]
         port = http.split(":")[1]
         username = http.split(":")[2]
@@ -65,29 +64,29 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                             spedizione = td.text
                             break
 
-                
                 if spedizione == "":
                     print_task("[brt %s] %s" % (tracking_number, "Redirect not available"), RED)
                     time.sleep(1)
                     os._exit(1)
 
                 headers = {
-    'authority': 'www.mybrt.it',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'cache-control': 'no-cache',
-    'pragma': 'no-cache',
-    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"macOS"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'cross-site',
-    'sec-fetch-user': '?1',
-    'sec-gpc': '1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-}
+                    'authority': 'www.mybrt.it',
+                    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+                    'cache-control': 'no-cache',
+                    'pragma': 'no-cache',
+                    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'cross-site',
+                    'sec-fetch-user': '?1',
+                    'sec-gpc': '1',
+                    'upgrade-insecure-requests': '1',
+                    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+                }
+
                 params = {
                     'lang': 'it',
                     'parcelNumber': '23' + spedizione,
@@ -149,7 +148,6 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                         time.sleep(1)
                         return
                     
-                    print("getting redirect link...")
                     brt_number = response.url.split("parcelNumber=")[1]
                     brt_tracking_response = response.url
 
@@ -186,11 +184,19 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                     }
                     session2 = requests.Session() 
                     response = session2.post('https://vas.brt.it/vas/istruzioni_consegna_form.htm', headers=headers, data=data)
-                    
-                    
+
                     if "Referente consegna" in response.text:
                         soup = BeautifulSoup(response.text, 'html.parser')
                         dateValue = soup.find("input", {"name": "dataConsegna"})['value']
+                        #<input name="desLoc" type="hidden" value="MERCATO S SEVERINO" />
+                        locationValue = soup.find("input", {"name": "desLoc"})['value']
+                        #<input name="desProv" type="hidden" value="SA" />
+                        provValue = soup.find("input", {"name": "desProv"})['value']
+
+                        #<input name="email" type="hidden" id="inputEmail" value="carlottasessa@hotmail.it" />
+                        emailValue = soup.find("input", {"name": "email"})['value']
+                        
+                        time.sleep(2)
 
                         bigGipServer = response.cookies.get_dict()['BIGipServerAS777-Pool']
 
@@ -202,7 +208,7 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                             'lstaut': '0000000000100',
                             'usrname': '',
                             'ksu': '',
-                            'lang': 'it',
+                            'lang': 'en',
                             'TS01ef7a66': TS01ef7a66,
                         }
 
@@ -226,6 +232,7 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                             'sec-ch-ua-platform': '"macOS"',
                         }
                         client_timestamp = int(time.time() * 1000)
+                        new_state = state.upper()
 
                         data = {
                             'newReferenteConsegna': name,
@@ -240,10 +247,9 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                             'newIndirizzoConsegna': address,
                             'newCapConsegna': zip,
                             'newLocalitaConsegna': city,
-                            'newProvinciaConsegna': state,
+                            'newProvinciaConsegna': new_state,
                             'newDataConsegnaNewInd': '',
                             'newOraConsegnaNewInd': '',
-                            'newMattinoNewInd': '1',
                             'altre': '',
                             'inputConferma': 'Confirm',
                             'annoSpedizione': '2023',
@@ -252,15 +258,15 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                             'clientTimeStamp': client_timestamp,
                             'referenteConsegna': '',
                             'telefonoFisso': '',
-                            'email': email,
+                            'email': emailValue,
                             'cellulare': '',
                             'destinat': '',
                             'destinat2': '',
                             'desIndir': '',
                             'desCap': '',
-                            'desLoc': '',
-                            'desProv': '',
-                            'dataConsegna': '',
+                            'desLoc': locationValue,
+                            'desProv': provValue,
+                            'dataConsegna': dateValue,
                             'oraConsegna': '',
                             'urlReferer': 'istruzioni_consegna_form.htm',
                             'refererBolla': 'sped_det_show.htm',
@@ -270,13 +276,17 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                             'newPudoId': '',
                             'oldPudoId': '',
                             'pudoData': '',
-                        }
+                    }
 
                         response = session2.post('https://vas.brt.it/vas/istruzioni_consegna_conferma.htm', cookies=cookies, headers=headers, data=data)
-                        # print(response.text)
-                        #write to file response.text
-                        if "Ti confermiamo di aver preso in carico la tua richiesta del" in response.text:
-                            print_task("[brt %s] %s" % (tracking_number, "Success"), GREEN)
+                        
+                        if "request submitted successfully" in response.text.lower():
+                            print_task("[brt %s] %s" % (tracking_number, "Successfull redirect"), GREEN)
+                            #send webhook
+                            time.sleep(1)
+                            return
+                        if "ti confermiamo di aver preso in carico la tua richiesta del" in response.text.lower():
+                            print_task("[brt %s] %s" % (tracking_number, "Successfull redirect"), GREEN)
                             #send webhook
                             time.sleep(1)
                             return
@@ -286,7 +296,7 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                             f.write(response.text)
                             
                     else:
-                        print_task("[brt %s] %s" % (tracking_number, "Unknown Error"), RED)
+                        print_task("[brt %s] %s" % (tracking_number, "No Redirect Found"), RED)
                         time.sleep(1)
                         return
                   

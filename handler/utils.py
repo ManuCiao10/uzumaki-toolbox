@@ -102,7 +102,7 @@ def checking():
         with open("Uzumaki/redirect/redirect.csv", "w") as f:
             #add email
             f.write(
-                "company(brt),tracking_number(V1698244423),OrderZipcode,name,phone,address,city,state(FI),zip,country")
+                "company(brt),tracking_number(V1698244423),OrderZipcode,name,phone,address,city,state(FI),zip,email")
             f.close()
 
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
