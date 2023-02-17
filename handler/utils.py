@@ -47,13 +47,13 @@ def banner():
           TAB + "Order Tracker (Ups Brt Sda)")
 
     print(TAB + RED + " 04 " + WHITE + "Scraper" +
-          TAB + "Resell payout scraper (Goat Stockx Restock)")
-
-    print(TAB + RED + " 05 " + WHITE + "Modules" +
-          TAB + "Modules (Nike  Adidas)==> TO IMPLEMENT")
+          TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
+    
+    print(TAB + RED + " 05 " + WHITE + "Geocode" +
+            TAB + "Geocode address")
 
     print(TAB + RED + " 06 " + WHITE + "Checker" +
-          TAB + "Combo list accounts (Zalando Gmail)==> TO FIX")
+          TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
 
     print(TAB + RED + " 00 " + WHITE + "Exit" +
           TAB + "Exit from Uzumaki Tools")
@@ -76,8 +76,8 @@ def checking():
               os.getcwd() + RESET)
         os.makedirs("Uzumaki")
         os.makedirs("Uzumaki/tracker")
-        os.makedirs("Uzumaki/modules")
         os.makedirs("Uzumaki/redirect")
+        os.makedirs("Uzumaki/geocode")
 
         with open("Uzumaki/settings.json", "w") as f:
             f.write(
@@ -102,6 +102,11 @@ def checking():
         with open("Uzumaki/redirect/redirect.csv", "w") as f:
             f.write(
                 "company,tracking_number(V1698244423),name,phone,address,city,state,zip,country")
+            f.close()
+
+        with open("Uzumaki/geocode/geocoding.csv", "w") as f:
+            f.write(
+                "zip_code")
             f.close()
 
 

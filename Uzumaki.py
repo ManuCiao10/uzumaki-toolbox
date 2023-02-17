@@ -1,5 +1,6 @@
 from handler.utils import *
 from handler.redirect import redirect
+from handler.geocode import geocode
 from handler.tracker import tracker
 from handler.scraper import scraper
 from handler.auth import auth
@@ -15,6 +16,8 @@ def handler_option(option):
         tracker()
     elif option == "04":
         scraper()
+    elif option == "05":
+        geocode()
     elif option == "00":
         print_task("bye bye...", RED)
         time.sleep(1)
