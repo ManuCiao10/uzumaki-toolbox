@@ -38,22 +38,22 @@ def banner():
           " Select an option or type exit for exiting " + "\x1b[0m" + "\n")
 
     print(TAB + RED + " 01 " + WHITE + "Redirect" +
-          TAB + "Redirect packages (Gls) ==> TO FIX")
+          TAB + "Redirect packages (Brt)")
 
-    print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
-          TAB + "Csv filler Jig ==> TO FIX")
+    # print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
+    #       TAB + "Csv filler Jig ==> TO FIX")
 
     print(TAB + RED + " 03 " + WHITE + "Tracker" +
           TAB + "Order Tracker (Ups Brt Sda)")
 
-    print(TAB + RED + " 04 " + WHITE + "Scraper" +
-          TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
+    # print(TAB + RED + " 04 " + WHITE + "Scraper" +
+    #       TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
     
     print(TAB + RED + " 05 " + WHITE + "Geocode" +
             TAB + "Geocode address")
 
-    print(TAB + RED + " 06 " + WHITE + "Checker" +
-          TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
+    # print(TAB + RED + " 06 " + WHITE + "Checker" +
+    #       TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
 
     print(TAB + RED + " 00 " + WHITE + "Exit" +
           TAB + "Exit from Uzumaki Tools")
@@ -100,8 +100,9 @@ def checking():
             f.close()
 
         with open("Uzumaki/redirect/redirect.csv", "w") as f:
+            #add email
             f.write(
-                "company,tracking_number(V1698244423),name,phone,address,city,state,zip,country")
+                "company(brt),tracking_number(V1698244423),OrderZipcode,name,phone,address,city,state(FI),zip,country")
             f.close()
 
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:

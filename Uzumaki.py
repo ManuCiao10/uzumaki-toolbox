@@ -41,6 +41,6 @@ if __name__ == "__main__":
 # - compile to exe for windows
 # - compile to app for mac
 # - authentication
-# - fix GLS
 # - add scraper tracking email gls
 # - maybe nike-instore monitor
+# - maybe nb tracker
