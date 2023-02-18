@@ -28,14 +28,14 @@ def tracker():
             next(reader)
         except StopIteration:
             print_task("file is empty", RED)
-            time.sleep(1)
+            time.sleep(2)
             os._exit(1)
 
         try:
             row = next(reader)
         except StopIteration:
             print_task("please fill tracker.csv", RED)
-            time.sleep(1)
+            time.sleep(2)
             os._exit(1)
 
         f.seek(0)

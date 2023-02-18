@@ -1,4 +1,5 @@
 import os
+import time
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -19,7 +20,7 @@ BANNER = """
      /     \  __  /    ------
     / /     \(  )/    -----
    //////   ' \/ '   ---            ┏───────────────────────────────┓
-  //// / // :    : ---              │  WELCOME TO HUZUMAKI TOOLS    │
+  //// / // :    : ---              │    WELCOME TO UZUMAKI TOOLS   │
  // /   /  /'    '--                │      https://Uzumaki.eu       │
 //           /..\                   │           v.0.0.23            │
        ====UU====UU====             └───────────────────────────────┘
@@ -43,13 +44,13 @@ def banner():
     # print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
     #       TAB + "Csv filler Jig ==> TO FIX")
 
-    print(TAB + RED + " 03 " + WHITE + "Tracker" +
+    print(TAB + RED + " 02 " + WHITE + "Tracker" +
           TAB + "Order Tracker (Ups Brt Sda)")
 
     # print(TAB + RED + " 04 " + WHITE + "Scraper" +
     #       TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
     
-    print(TAB + RED + " 05 " + WHITE + "Geocode" +
+    print(TAB + RED + " 03 " + WHITE + "Geocode" +
             TAB + "Geocode address")
 
     # print(TAB + RED + " 06 " + WHITE + "Checker" +
@@ -60,20 +61,20 @@ def banner():
 
     print("\n")
 
-    option = input(TAB + RED + ">" + WHITE + " choose: " + RESET)
+    option = input(TAB + "> choose: ")
     return option
 
 
 def checking():
-
-    print(PURPLE + "checking folders...")
+    # print(PURPLE + "checking folders...")
     desktop_path = os.path.expanduser("~/Desktop")
 
     os.chdir(desktop_path)
 
     if not os.path.exists("Uzumaki"):
-        print(GREEN + "creating folder Uzumaki in " +
-              os.getcwd() + RESET)
+        print_task("creating folder Uzumaki in " +
+              os.getcwd(), GREEN)
+        
         os.makedirs("Uzumaki")
         os.makedirs("Uzumaki/tracker")
         os.makedirs("Uzumaki/redirect")
@@ -81,7 +82,7 @@ def checking():
 
         with open("Uzumaki/settings.json", "w") as f:
             f.write(
-                '{\n  "webhook": "WEBHOOK HERE",\n  "key": "KEY HERE"\n}')
+                '{\n  "webhook": "WEBHOOK HERE",\n  "key": "BETA :)"\n}')
             f.close()
 
         with open("Uzumaki/tracker/tracker.csv", "w") as f:
@@ -89,20 +90,19 @@ def checking():
                 "company,tracking_number")
             f.close()
 
-        with open("Uzumaki/tracker/ups.csv", "w") as f:
+        with open("Uzumaki/tracker/ups_result.csv", "w") as f:
             f.write(
                 "tracking_number,packageStatus,simplifiedText,streetAddress1,city,country,zipCode,attentionName")
             f.close()
 
-        with open("Uzumaki/tracker/brt.csv", "w") as f:
+        with open("Uzumaki/tracker/brt_result.csv", "w") as f:
             f.write(
                 "tracking_number,date,time,location,status")
             f.close()
 
         with open("Uzumaki/redirect/redirect.csv", "w") as f:
-            #add email
             f.write(
-                "company(brt),tracking_number(V1698244423),OrderZipcode,name,phone,address,city,state(FI),zip,email")
+                "company(brt),tracking_number(05308112345),OrderZipcode,name,phone,address,city,state(FI),zip,email")
             f.close()
 
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
@@ -110,8 +110,11 @@ def checking():
                 "zip_code")
             f.close()
 
+        print_task("folder created, please check your desktop", PURPLE)
+        time.sleep(4)
+        os._exit(1)
 
-def time():
+def timeTask():
     import datetime
     now = datetime.datetime.now()
     return "[" + now.strftime("%H:%M:%S") + "] "
@@ -122,7 +125,7 @@ def Uzumaki():
 
 
 def print_task(msg, color):
-    print(color + Uzumaki() + time() + msg.upper() + RESET)
+    print(color + Uzumaki() + timeTask() + msg.upper() + RESET)
 
 
 def load_settings():

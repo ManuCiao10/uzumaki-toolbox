@@ -8,39 +8,38 @@ import os
 import time
 import colorama
 
+#https://www.remote.tools/remote-work/discord-text-formatting
 
 def handler_option(option):
     if option == "01":
         redirect()
-    elif option == "03":
+    elif option == "02":
         tracker()
-    elif option == "04":
-        scraper()
-    elif option == "05":
+    elif option == "03":
         geocode()
+    # elif option == "04":
+    #     scraper()
     elif option == "00":
         print_task("bye bye...", RED)
-        time.sleep(1)
+        time.sleep(2)
         os._exit(1)
     else:
         print_task("invalid option", RED)
-        time.sleep(1)
+        time.sleep(2)
         os._exit(1)
 
 
 if __name__ == "__main__":
     colorama.init(wrap=True)
+
     checking()
     auth()
+    
     option = banner()
     handler_option(option)
 
 # TODO:
-# - add a checekr to check when a file scraper run is empty
 # - add more companies and features
-# - compile to exe for windows
-# - compile to app for mac
 # - authentication
-# - add scraper tracking email gls
 # - maybe nike-instore monitor
-# - maybe nb tracker
+# - do brt only for the brt tracking instant

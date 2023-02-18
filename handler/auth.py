@@ -16,5 +16,5 @@ def auth():
 
     if webhook == "WEBHOOK HERE" or webhook == "":
         print_task("please set webhook...", RED)
-        time.sleep(1)
+        time.sleep(2)
         os._exit(1)

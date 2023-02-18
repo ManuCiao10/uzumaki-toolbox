@@ -15,6 +15,5 @@ def scraper():
           TAB + "!restock < sku > or < key words >" + RESET)
 
     print("\n")
-    option = input(TAB + RED + ">" + WHITE +
-                   " your option (ex. !goat DZ5485-410): " + RESET)
+    option = input(TAB + "> your option (ex. !goat DZ5485-410): ")
     print(option)

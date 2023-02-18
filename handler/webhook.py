@@ -1,31 +1,107 @@
 from handler.utils import *
+import requests
+import json
 
+def redirect_webhook_brt(company, tracking_number,name, phone, address, city, state, zip,url, email):
+    settings = load_settings()
+    webhook = settings["webhook"]
+
+    url_ = url
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": "Tracking Number",
+                "url": url_,
+                "color": 3128760,
+                "description": "> Successfully redirect your parcel!",
+                "footer": {
+                    "text": "by Uzumaki Tools",
+                    "icon_url": LOGO
+                },
+                "fields": [
+                    {
+                        "name": "Company",
+                        "value": company.upper(),
+                        "inline": True
+                    },
+                    {
+                        "name": "Tracking Number",
+                        "value": tracking_number,
+                        "inline": False
+                    },
+                    {
+                        "name": "Name",
+                        "value": name,
+                        "inline": True
+                    },
+                    {
+                        "name": "Phone",
+                        "value": phone,
+                        "inline": True
+                    },
+                    {
+                        "name": "Address",
+                        "value": address,
+                        "inline": True
+                    },
+                    {
+                        "name": "City",
+                        "value": city,
+                        "inline": True
+                    },
+                    {
+                        "name": "State",
+                        "value": state,
+                        "inline": True
+                    },
+                    {
+                        "name": "Zip",
+                        "value": zip,
+                        "inline": True
+                    },
+                    {
+                        "name": "Email",
+                        "value": email,
+                        "inline": True
+                    }
+
+                ]
+            }
+        ]
+    }
+
+    result = requests.post(webhook, data=json.dumps(
+        data), headers={"Content-Type": "application/json"})
+    try:
+        result.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(err)
 
 def send_webhook_sda(tracking_number, date, city, status):
     settings = load_settings()
     webhook = settings["webhook"]
 
-    import requests
-    import json
+    
     url: str = ""
 
     url = "https://www.sda.it/wps/portal/Servizi_online/dettaglio-spedizione?locale=it&tracing.letteraVettura=" + tracking_number
 
     data = {
-        "username": "Uzumaki Tools",
+        "username": "Uzumaki™",
         "avatar_url": LOGO,
         "content": " ",
         "embeds": [
             {
                 "title": "Tracking Number",
                 "url": url,
-                "color": 5529714,
+                "color": 3128760,
                 "footer": {
                     "text": "Powered by Uzumaki Tools",
                     "icon_url": LOGO
-                },
-                "thumbnail": {
-                    "url": "https://media.discordapp.net/attachments/819084339992068110/1075180966349381773/logo.jpeg"
                 },
                 "fields": [
                     {
@@ -74,20 +150,17 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
         url = "https://www.mybrt.it/it/mybrt/my-parcels/search?lang=en&parcelNumber=" + tracking_number
 
     data = {
-        "username": "Uzumaki Tools",
+        "username": "Uzumaki™",
         "avatar_url": LOGO,
         "content": " ",
         "embeds": [
             {
                 "title": "Tracking Number",
                 "url": url,
-                "color": 16731177,
+                "color": 3128760,
                 "footer": {
                     "text": "Powered by Uzumaki Tools",
                     "icon_url": LOGO
-                },
-                "thumbnail": {
-                    "url": "https://media.discordapp.net/attachments/1074041462460784701/1074456541480095845/logo.jpg?width=1410&height=846"
                 },
                 "fields": [
                     {
@@ -142,14 +215,14 @@ def send_webhook(company, tracking_number, status, simplifiedText, streetAddress
         url = "https://www.ups.com/track?loc=en_IT&tracknum=" + \
             tracking_number + "&requester=ST/trackdetails"
     data = {
-        "username": "Uzumaki Tools",
+        "username": "Uzumaki™",
         "avatar_url": LOGO,
         "content": " ",
         "embeds": [
             {
                 "title": "Tracking Number",
                 "url": url,
-                "color": 16731177,
+                "color": 3128760,
                 "footer": {
                     "text": "Powered by Uzumaki Tools",
                     "icon_url": LOGO

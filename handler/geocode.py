@@ -72,7 +72,7 @@ def geocodeRun(zip_zode):
 
         else:
             print_task("[geocode %s] error %s" % (zip_zode, resp.status_code), RED)
-            time.sleep(1)
+            time.sleep(2)
 
 
 def geocode():
@@ -86,14 +86,14 @@ def geocode():
                 next(reader)
             except StopIteration:
                 print_task("file is empty", RED)
-                time.sleep(1)
+                time.sleep(2)
                 os._exit(1)
 
             try:
                 row = next(reader)
             except StopIteration:
                 print_task("please fill Uzumaki/geocode/geocoding.csv", RED)
-                time.sleep(1)
+                time.sleep(2)
                 os._exit(1)
 
             f.seek(0)
@@ -107,5 +107,5 @@ def geocode():
 
     except FileNotFoundError:
         print_task("Uzumaki/geocode/geocoding.csv not found", RED)
-        time.sleep(1)
+        time.sleep(2)
         os._exit(1)

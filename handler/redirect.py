@@ -1,10 +1,19 @@
 from handler.utils import print_task, CYAN, RED, GREEN, PURPLE
+from handler.webhook import redirect_webhook_brt
 import os
 import time
 import requests
 from bs4 import BeautifulSoup
 
+
+
+
 def brt(company, tracking_number, OrderZip, name, phone, address, city, state, zip, email):
+
+    #if tracking_number first 2 digit is 05
+    # if tracking_number[:2] != "05":
+    #     brt_tarcking_redirect(company, tracking_number, OrderZip, name, phone, address, city, state, zip, email)
+
     headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
     'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -31,26 +40,28 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
 
     try :
         session = requests.Session()
-        http = "185.91.206.181:6871:hgj3x3cas2:0ef2uixpcu"
-        ip = http.split(":")[0]
-        port = http.split(":")[1]
-        username = http.split(":")[2]
-        password = http.split(":")[3]
+        # http = "185.91.206.181:6871:hgj3x3cas2:0ef2uixpcu"
+        # ip = http.split(":")[0]
+        # port = http.split(":")[1]
+        # username = http.split(":")[2]
+        # password = http.split(":")[3]
 
-        proxies = {
-            "http": "http://%s:%s@%s:%s" % (username, password, ip, port),
-            "https": "http://%s:%s@%s:%s" % (username, password, ip, port),
-        }
+        # proxies = {
+        #     "http": "http://%s:%s@%s:%s" % (username, password, ip, port),
+        #     "https": "http://%s:%s@%s:%s" % (username, password, ip, port),
+        # }
 
-        session.proxies = proxies
+        # session.proxies = proxies
 
         response = session.get('https://vas.brt.it/vas/sped_ricdocmit_load.hsm', params=params, headers=headers)
         
         if "Shipment not found." in response.text:
             print_task("[brt %s] %s" % (tracking_number, "Shipment not found"), RED)
-            time.sleep(1)
+            time.sleep(2)
             os._exit(1)
 
+        url = "https://vas.brt.it/vas/sped_ricdocmit_load.hsm?docmit=%s&ksu=1664282&lang=en" % tracking_number
+        
         if "dettaglio della spedizione" in response.text.lower():
             spedizione = ""
             print_task("[brt %s] %s" % (tracking_number, "Redirecting package"), GREEN)
@@ -66,7 +77,7 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
 
                 if spedizione == "":
                     print_task("[brt %s] %s" % (tracking_number, "Redirect not available"), RED)
-                    time.sleep(1)
+                    time.sleep(2)
                     os._exit(1)
 
                 headers = {
@@ -135,17 +146,17 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
 
                     if "Il CAP inserito non corrisponde alla spedizione" in response.text:
                         print_task("[brt %s] %s" % (tracking_number, "Wrong ZipCode"), RED)
-                        time.sleep(1)
+                        time.sleep(2)
                         return
                     
                     if "della richiesta si è verificato un problema tecnico." in response.text:
                         print_task("[brt %s] %s" % (tracking_number, "problema tecnico."), RED)
-                        time.sleep(1)
+                        time.sleep(2)
                         return
                     
                     if "CAPTCHA mancante o non valido, si prega di riprovare." in response.text:
                         print_task("[brt %s] %s" % (tracking_number, "CAPTCHA hit."), RED)
-                        time.sleep(1)
+                        time.sleep(2)
                         return
                     
                     brt_number = response.url.split("parcelNumber=")[1]
@@ -282,40 +293,116 @@ def brt(company, tracking_number, OrderZip, name, phone, address, city, state, z
                         
                         if "request submitted successfully" in response.text.lower():
                             print_task("[brt %s] %s" % (tracking_number, "Successfull redirect"), GREEN)
-                            #send webhook
-                            time.sleep(1)
+                            redirect_webhook_brt(company, brt_number, OrderZip, name, phone, address, city, state, zip, brt_tracking_response, email)
+                            time.sleep(2)
                             return
                         if "ti confermiamo di aver preso in carico la tua richiesta del" in response.text.lower():
                             print_task("[brt %s] %s" % (tracking_number, "Successfull redirect"), GREEN)
-                            #send webhook
-                            time.sleep(1)
+                            redirect_webhook_brt(company, brt_number, OrderZip, name, phone, address, city, state, zip, brt_tracking_response, email)
+                            time.sleep(2)
                             return
-
-
-                        with open('brt.txt', 'a') as f:
-                            f.write(response.text)
+                        
+                        else:
+                            print_task("[brt %s] %s" % (tracking_number, "Failed redirect"), RED)
+                            time.sleep(3)
+                            return
                             
                     else:
                         print_task("[brt %s] %s" % (tracking_number, "No Redirect Found"), RED)
-                        time.sleep(1)
+                        time.sleep(3)
                         return
                   
- 
                 except requests.exceptions.ConnectionError or requests.exceptions.ReadTimeout:
                     print_task("[brt %s] %s" % (tracking_number, "Connection Error"), RED)
-                    time.sleep(1)
+                    time.sleep(2)
                     return
                 
-          
     except requests.exceptions.ConnectionError:
         print_task("[brt %s] %s" % (tracking_number, "Connection Error"), RED)
         
+
+def ups(company, tracking_number, OrderZip, name, phone, address, city, state, zip, email):
+    
+    headers = {
+    'authority': 'www.ups.com',
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+    'cache-control': 'no-cache',
+    'pragma': 'no-cache',
+    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"macOS"',
+    'sec-fetch-dest': 'document',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-user': '?1',
+    'sec-gpc': '1',
+    'upgrade-insecure-requests': '1',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+}
+
+    params = {
+    'loc': 'it_IT',
+    'tracknum': '1Z30R0336869572495',
+    'requester': 'ST/trackdetails/trackdetails',
+}
+    session = requests.Session()
+    response = session.get('https://www.ups.com/track', params=params, headers=headers)
+
+    xxsrfoken = response.cookies.get_dict()['X-XSRF-TOKEN-ST']
+
+    headers = {
+    'authority': 'www.ups.com',
+    'accept': 'application/json, text/plain, */*',
+    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json',
+    'origin': 'https://www.ups.com',
+    'pragma': 'no-cache',
+    'referer': 'https://www.ups.com/track?loc=it_IT&tracknum=1Z30R0336869572495&requester=ST%2Ftracksummary%2Ftrackdetails',
+    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"macOS"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'sec-gpc': '1',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+    'x-xsrf-token': xxsrfoken,
+}
+
+    params = {
+        'loc': 'it_IT',
+    }
+
+    json_data = {
+        'Locale': 'it_IT',
+        'TrackNumberType': 'TRACK_NUM_TYPE_INFO_NOTICE',
+        'TrackingNumber': [
+            'ayload''true',
+        ],
+    }
+
+    response = session.post(
+    'https://www.ups.com/track/api/Track/GetStatus',
+    params=params,
+    headers=headers,
+    json=json_data,
+)
+    print(response.text)
+
+
 
 
 def redirectHandler(company, tracking_number, OrderZip, name, phone, address, city, state, zip, email):
     if company == "brt":
         brt(company, tracking_number, OrderZip, name, phone, address, city, state, zip, email)
-
+    elif company == "ups":
+        ups(company, tracking_number, OrderZip, name, phone, address, city, state, zip, email)
+    else:
+        print_task("Company not supported", RED)
+        time.sleep(3)
+        os._exit(1)
 
 def redirect():
     import csv
@@ -331,14 +418,14 @@ def redirect():
                 next(reader)
             except StopIteration:
                 print_task("file is empty", RED)
-                time.sleep(1)
+                time.sleep(2)
                 os._exit(1)
 
             try:
                 row = next(reader)
             except StopIteration:
                 print_task("Please Fill Uzumaki/redirect/redirect.csv", RED)
-                time.sleep(1)
+                time.sleep(2)
                 os._exit(1)
 
             f.seek(0)
@@ -362,5 +449,5 @@ def redirect():
                 
     except FileNotFoundError:
         print_task("Uzumaki/redirect/redirect.csv not found", RED)
-        time.sleep(1)
+        time.sleep(2)
         os._exit(1)

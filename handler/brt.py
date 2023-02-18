@@ -98,7 +98,7 @@ def brt(tracking_number):
                 send_webhook_brt("brt", tracking_number,
                                  cols[0], cols[1], cols[2], cols[3])
 
-                with open("Uzumaki/tracker/brt.csv", "a") as f:
+                with open("Uzumaki/tracker/brt_result.csv", "a") as f:
                     import csv
                     writer = csv.writer(f)
                     writer.writerow([tracking_number, cols[0], cols[1],
