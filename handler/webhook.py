@@ -199,3 +199,60 @@ def send_webhook(
         result.raise_for_status()
     except requests.exceptions.HTTPError as err:
         print(err)
+
+
+def webhook_nike(
+    price: str,
+    name: str,
+    url_image: str,
+    size: str,
+    lineItemStatus: str,
+    address: str,
+    city: str,
+    country: str,
+    zip: str,
+    tracklink: str,
+    tracking_number: str,
+):
+    settings = load_settings()
+    webhook = settings["webhook"]
+
+    import requests
+    import json
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": "Tracking Number",
+                "url": tracklink,
+                "color": 3128760,
+                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": url_image},
+                "fields": [
+                    {"name": "Status", "value": lineItemStatus, "inline": False},
+                    {"name": "Price", "value": price + "€", "inline": True},
+                    {"name": "Name", "value": name, "inline": True},
+                    {"name": "Size", "value": size, "inline": True},
+                    {"name": "Address", "value": address, "inline": True},
+                    {"name": "City", "value": city, "inline": True},
+                    {"name": "Country", "value": country, "inline": True},
+                    {"name": "Zip", "value": zip, "inline": True},
+                    {
+                        "name": "Order Number",
+                        "value": tracking_number,
+                        "inline": True,
+                    },
+                ],
+            }
+        ],
+    }
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
+    try:
+        result.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(err)

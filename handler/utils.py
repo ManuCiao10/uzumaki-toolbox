@@ -48,7 +48,15 @@ def banner(username):
     # print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
     #       TAB + "Csv filler Jig ==> TO FIX")
 
-    print(TAB + RED + " 02 " + WHITE + "Tracker" + TAB + "Order Tracker (Ups Brt Sda Nike)")
+    print(
+        TAB
+        + RED
+        + " 02 "
+        + WHITE
+        + "Tracker"
+        + TAB
+        + "Order Tracker (Ups Brt Sda Nike)"
+    )
 
     # print(TAB + RED + " 04 " + WHITE + "Scraper" +
     #       TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
