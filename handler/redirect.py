@@ -82,7 +82,7 @@ def brt_tracking_redirect(
 
     if "Referente consegna" in response.text:
         soup = BeautifulSoup(response.text, "html.parser")
-        
+
         dateValue = soup.find("input", {"name": "dataConsegna"})["value"]
         locationValue = soup.find("input", {"name": "desLoc"})["value"]
         provValue = soup.find("input", {"name": "desProv"})["value"]
@@ -231,7 +231,6 @@ def brt_tracking_redirect(
 def brt(
     company, tracking_number, OrderZip, name, phone, address, city, state, zip, email
 ):
-
     if tracking_number[:2] == "05":
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -627,7 +626,10 @@ def brt(
                             time.sleep(3)
                             return
 
-                    except requests.exceptions.ConnectionError or requests.exceptions.ReadTimeout:
+                    except (
+                        requests.exceptions.ConnectionError
+                        or requests.exceptions.ReadTimeout
+                    ):
                         print_task(
                             "[brt %s] %s" % (tracking_number, "Connection Error"), RED
                         )
@@ -654,7 +656,6 @@ def brt(
 def ups(
     company, tracking_number, OrderZip, name, phone, address, city, state, zip, email
 ):
-
     headers = {
         "authority": "www.ups.com",
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",

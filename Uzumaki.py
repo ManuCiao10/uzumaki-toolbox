@@ -38,4 +38,4 @@ if __name__ == "__main__":
 
 # TODO:
 # - add dhl tracker
-# - auto update
+# - add ups redirect

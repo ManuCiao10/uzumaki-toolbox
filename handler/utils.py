@@ -32,8 +32,8 @@ BANNER = """
 def banner(username):
     print(RED + BANNER + RESET)
 
-    print(WHITE + "Welcome Back: " + RED + username + RESET)
-    print('\n')
+    print(WHITE + "WELCOME BACK: " + RED + username.upper() + RESET)
+    print("\n")
 
     print(
         "\t"
@@ -48,7 +48,7 @@ def banner(username):
     # print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
     #       TAB + "Csv filler Jig ==> TO FIX")
 
-    print(TAB + RED + " 02 " + WHITE + "Tracker" + TAB + "Order Tracker (Ups Brt Sda)")
+    print(TAB + RED + " 02 " + WHITE + "Tracker" + TAB + "Order Tracker (Ups Brt Sda Nike)")
 
     # print(TAB + RED + " 04 " + WHITE + "Scraper" +
     #       TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
@@ -85,7 +85,7 @@ def checking():
             f.close()
 
         with open("Uzumaki/tracker/tracker.csv", "w") as f:
-            f.write("company,tracking_number")
+            f.write("company,tracking_number/orderNumber,email(only_nike)")
             f.close()
 
         with open("Uzumaki/tracker/ups_result.csv", "w") as f:

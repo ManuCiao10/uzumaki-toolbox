@@ -8,7 +8,6 @@ import threading
 
 
 def geocodeRun(zip_zode):
-
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
         "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
@@ -29,7 +28,6 @@ def geocodeRun(zip_zode):
 
     query_page = 1
     while query_page <= 100:
-
         params = {
             "k": zip_zode,
             "s": query_page,
