@@ -29,35 +29,36 @@ BANNER = """
 """
 
 
-def banner():
+def banner(username):
     print(RED + BANNER + RESET)
 
-    print(WHITE + "Author: " +
-          RED + "@MANUCIAO|YΞ\n" + RESET)
+    print(WHITE + "Welcome Back: " + RED + username + RESET)
+    print('\n')
 
-    print('\t' + "\x1b[1;37;41m" +
-          " Select an option or type exit for exiting " + "\x1b[0m" + "\n")
+    print(
+        "\t"
+        + "\x1b[1;37;41m"
+        + " Select an option or type exit for exiting "
+        + "\x1b[0m"
+        + "\n"
+    )
 
-    print(TAB + RED + " 01 " + WHITE + "Redirect" +
-          TAB + "Redirect packages (Brt)")
+    print(TAB + RED + " 01 " + WHITE + "Redirect" + TAB + "Redirect packages (Brt)")
 
     # print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
     #       TAB + "Csv filler Jig ==> TO FIX")
 
-    print(TAB + RED + " 02 " + WHITE + "Tracker" +
-          TAB + "Order Tracker (Ups Brt Sda)")
+    print(TAB + RED + " 02 " + WHITE + "Tracker" + TAB + "Order Tracker (Ups Brt Sda)")
 
     # print(TAB + RED + " 04 " + WHITE + "Scraper" +
     #       TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
-    
-    print(TAB + RED + " 03 " + WHITE + "Geocode" +
-            TAB + "Geocode address")
+
+    print(TAB + RED + " 03 " + WHITE + "Geocode" + TAB + "Geocode address")
 
     # print(TAB + RED + " 06 " + WHITE + "Checker" +
     #       TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
 
-    print(TAB + RED + " 00 " + WHITE + "Exit" +
-          TAB + "Exit from Uzumaki Tools")
+    print(TAB + RED + " 00 " + WHITE + "Exit" + TAB + "Exit from Uzumaki Tools")
 
     print("\n")
 
@@ -72,50 +73,49 @@ def checking():
     os.chdir(desktop_path)
 
     if not os.path.exists("Uzumaki"):
-        print_task("creating folder Uzumaki in " +
-              os.getcwd(), GREEN)
-        
+        print_task("creating folder Uzumaki in " + os.getcwd(), GREEN)
+
         os.makedirs("Uzumaki")
         os.makedirs("Uzumaki/tracker")
         os.makedirs("Uzumaki/redirect")
         os.makedirs("Uzumaki/geocode")
 
         with open("Uzumaki/settings.json", "w") as f:
-            f.write(
-                '{\n  "webhook": "WEBHOOK HERE",\n  "key": "BETA :)"\n}')
+            f.write('{\n  "webhook": "WEBHOOK HERE",\n  "key": "KEY HERE"\n}')
             f.close()
 
         with open("Uzumaki/tracker/tracker.csv", "w") as f:
-            f.write(
-                "company,tracking_number")
+            f.write("company,tracking_number")
             f.close()
 
         with open("Uzumaki/tracker/ups_result.csv", "w") as f:
             f.write(
-                "tracking_number,packageStatus,simplifiedText,streetAddress1,city,country,zipCode,attentionName")
+                "tracking_number,packageStatus,simplifiedText,streetAddress1,city,country,zipCode,attentionName"
+            )
             f.close()
 
         with open("Uzumaki/tracker/brt_result.csv", "w") as f:
-            f.write(
-                "tracking_number,date,time,location,status")
+            f.write("tracking_number,date,time,location,status")
             f.close()
 
         with open("Uzumaki/redirect/redirect.csv", "w") as f:
             f.write(
-                "company(brt),tracking_number(05308112345),OrderZipcode,name,phone,address,city,state(FI),zip,email")
+                "company(brt),tracking_number(05308112345),OrderZipcode,name,phone,address,city,state(FI),zip,email"
+            )
             f.close()
 
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
-            f.write(
-                "zip_code")
+            f.write("zip_code")
             f.close()
 
         print_task("folder created, please check your desktop", PURPLE)
         time.sleep(4)
         os._exit(1)
 
+
 def timeTask():
     import datetime
+
     now = datetime.datetime.now()
     return "[" + now.strftime("%H:%M:%S") + "] "
 
@@ -130,8 +130,15 @@ def print_task(msg, color):
 
 def load_settings():
     import json
-    with open("Uzumaki/settings.json", "r") as f:
-        settings = json.load(f)
-        f.close()
+
+    try:
+        with open("Uzumaki/settings.json", "r") as f:
+            settings = json.load(f)
+            f.close()
+    except:
+        print_task("settings.json not found", RED)
+        print_task("please check your folder", RED)
+        time.sleep(3)
+        os._exit(1)
 
     return settings

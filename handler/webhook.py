@@ -2,7 +2,10 @@ from handler.utils import *
 import requests
 import json
 
-def redirect_webhook_brt(company, tracking_number,name, phone, address, city, state, zip,url, email):
+
+def redirect_webhook_brt(
+    company, tracking_number, name, phone, address, city, state, zip, url, email
+):
     settings = load_settings()
     webhook = settings["webhook"]
 
@@ -18,77 +21,45 @@ def redirect_webhook_brt(company, tracking_number,name, phone, address, city, st
                 "url": url_,
                 "color": 3128760,
                 "description": "> Successfully redirect your parcel!",
-                "footer": {
-                    "text": "by Uzumaki Tools",
-                    "icon_url": LOGO
-                },
+                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
-                    {
-                        "name": "Company",
-                        "value": company.upper(),
-                        "inline": True
-                    },
+                    {"name": "Company", "value": company.upper(), "inline": True},
                     {
                         "name": "Tracking Number",
                         "value": tracking_number,
-                        "inline": False
+                        "inline": False,
                     },
-                    {
-                        "name": "Name",
-                        "value": name,
-                        "inline": True
-                    },
-                    {
-                        "name": "Phone",
-                        "value": phone,
-                        "inline": True
-                    },
-                    {
-                        "name": "Address",
-                        "value": address,
-                        "inline": True
-                    },
-                    {
-                        "name": "City",
-                        "value": city,
-                        "inline": True
-                    },
-                    {
-                        "name": "State",
-                        "value": state,
-                        "inline": True
-                    },
-                    {
-                        "name": "Zip",
-                        "value": zip,
-                        "inline": True
-                    },
-                    {
-                        "name": "Email",
-                        "value": email,
-                        "inline": True
-                    }
-
-                ]
+                    {"name": "Name", "value": name, "inline": True},
+                    {"name": "Phone", "value": phone, "inline": True},
+                    {"name": "Address", "value": address, "inline": True},
+                    {"name": "City", "value": city, "inline": True},
+                    {"name": "State", "value": state, "inline": True},
+                    {"name": "Zip", "value": zip, "inline": True},
+                    {"name": "Email", "value": email, "inline": True},
+                ],
             }
-        ]
+        ],
     }
 
-    result = requests.post(webhook, data=json.dumps(
-        data), headers={"Content-Type": "application/json"})
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
     try:
         result.raise_for_status()
     except requests.exceptions.HTTPError as err:
         print(err)
 
+
 def send_webhook_sda(tracking_number, date, city, status):
     settings = load_settings()
     webhook = settings["webhook"]
 
-    
     url: str = ""
 
-    url = "https://www.sda.it/wps/portal/Servizi_online/dettaglio-spedizione?locale=it&tracing.letteraVettura=" + tracking_number
+    url = (
+        "https://www.sda.it/wps/portal/Servizi_online/dettaglio-spedizione?locale=it&tracing.letteraVettura="
+        + tracking_number
+    )
 
     data = {
         "username": "Uzumaki™",
@@ -99,38 +70,20 @@ def send_webhook_sda(tracking_number, date, city, status):
                 "title": "Tracking Number",
                 "url": url,
                 "color": 3128760,
-                "footer": {
-                    "text": "Powered by Uzumaki Tools",
-                    "icon_url": LOGO
-                },
+                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
-                    {
-                        "name": "Company",
-                        "value": "SDA",
-                        "inline": True
-                    },
-                    {
-                        "name": "Date",
-                        "value": date,
-                        "inline": True
-                    },
-                    {
-                        "name": "City",
-                        "value": city,
-                        "inline": False
-                    },
-                    {
-                        "name": "Status",
-                        "value": status,
-                        "inline": True
-                    }
-                ]
+                    {"name": "Company", "value": "SDA", "inline": True},
+                    {"name": "Date", "value": date, "inline": True},
+                    {"name": "City", "value": city, "inline": False},
+                    {"name": "Status", "value": status, "inline": True},
+                ],
             }
-        ]
+        ],
     }
 
-    result = requests.post(webhook, data=json.dumps(
-        data), headers={"Content-Type": "application/json"})
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
 
     try:
         result.raise_for_status()
@@ -144,10 +97,14 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
 
     import requests
     import json
+
     url: str = ""
 
     if company == "brt":
-        url = "https://www.mybrt.it/it/mybrt/my-parcels/search?lang=en&parcelNumber=" + tracking_number
+        url = (
+            "https://www.mybrt.it/it/mybrt/my-parcels/search?lang=en&parcelNumber="
+            + tracking_number
+        )
 
     data = {
         "username": "Uzumaki™",
@@ -158,50 +115,38 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
                 "title": "Tracking Number",
                 "url": url,
                 "color": 3128760,
-                "footer": {
-                    "text": "Powered by Uzumaki Tools",
-                    "icon_url": LOGO
-                },
+                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
-                    {
-                        "name": "Company",
-                        "value": "BRT",
-                        "inline": True
-                    },
-                    {
-                        "name": "Status",
-                        "value": status,
-                        "inline": True
-                    },
-                    {
-                        "name": "Date",
-                        "value": date,
-                        "inline": True
-                    },
-                    {
-                        "name": "Time",
-                        "value": time,
-                        "inline": True
-                    },
-                    {
-                        "name": "Branch",
-                        "value": location,
-                        "inline": True
-                    }
-                ]
+                    {"name": "Company", "value": "BRT", "inline": True},
+                    {"name": "Status", "value": status, "inline": True},
+                    {"name": "Date", "value": date, "inline": True},
+                    {"name": "Time", "value": time, "inline": True},
+                    {"name": "Branch", "value": location, "inline": True},
+                ],
             }
-        ]
+        ],
     }
 
-    result = requests.post(webhook, data=json.dumps(
-        data), headers={"Content-Type": "application/json"})
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
     try:
         result.raise_for_status()
     except requests.exceptions.HTTPError as err:
         print(err)
 
 
-def send_webhook(company, tracking_number, status, simplifiedText, streetAddress1, city, country, zipCode, attentionName):
+def send_webhook(
+    company,
+    tracking_number,
+    status,
+    simplifiedText,
+    streetAddress1,
+    city,
+    country,
+    zipCode,
+    attentionName,
+):
     # https://www.mathsisfun.com/hexadecimal-decimal-colors.html
 
     settings = load_settings()
@@ -209,11 +154,15 @@ def send_webhook(company, tracking_number, status, simplifiedText, streetAddress
 
     import requests
     import json
+
     url: str = ""
 
     if company == "ups":
-        url = "https://www.ups.com/track?loc=en_IT&tracknum=" + \
-            tracking_number + "&requester=ST/trackdetails"
+        url = (
+            "https://www.ups.com/track?loc=en_IT&tracknum="
+            + tracking_number
+            + "&requester=ST/trackdetails"
+        )
     data = {
         "username": "Uzumaki™",
         "avatar_url": LOGO,
@@ -223,65 +172,29 @@ def send_webhook(company, tracking_number, status, simplifiedText, streetAddress
                 "title": "Tracking Number",
                 "url": url,
                 "color": 3128760,
-                "footer": {
-                    "text": "Powered by Uzumaki Tools",
-                    "icon_url": LOGO
-                },
-                "thumbnail": {
-                    "url": LOGO
-                },
+                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": LOGO},
                 "fields": [
-                    {
-                        "name": "Company",
-                        "value": company,
-                        "inline": True
-                    },
+                    {"name": "Company", "value": company, "inline": True},
                     {
                         "name": "Tracking Number",
                         "value": tracking_number,
-                        "inline": True
+                        "inline": True,
                     },
-                    {
-                        "name": "Status",
-                        "value": status,
-                        "inline": True
-                    },
-                    {
-                        "name": "Text",
-                        "value": simplifiedText,
-                        "inline": True
-                    },
-                    {
-                        "name": "Street Address",
-                        "value": streetAddress1,
-                        "inline": True
-                    },
-                    {
-                        "name": "City",
-                        "value": city,
-                        "inline": True
-                    },
-                    {
-                        "name": "Country",
-                        "value": country,
-                        "inline": True
-                    },
-                    {
-                        "name": "Zip Code",
-                        "value": zipCode,
-                        "inline": True
-                    },
-                    {
-                        "name": "Name",
-                        "value": attentionName,
-                        "inline": True
-                    }
-                ]
+                    {"name": "Status", "value": status, "inline": True},
+                    {"name": "Text", "value": simplifiedText, "inline": True},
+                    {"name": "Street Address", "value": streetAddress1, "inline": True},
+                    {"name": "City", "value": city, "inline": True},
+                    {"name": "Country", "value": country, "inline": True},
+                    {"name": "Zip Code", "value": zipCode, "inline": True},
+                    {"name": "Name", "value": attentionName, "inline": True},
+                ],
             }
-        ]
+        ],
     }
     result = requests.post(
-        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"})
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
     try:
         result.raise_for_status()
     except requests.exceptions.HTTPError as err:

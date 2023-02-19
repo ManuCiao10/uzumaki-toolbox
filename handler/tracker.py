@@ -20,6 +20,7 @@ def companyHandler(company, tracking_number):
 def tracker():
     import csv
     import threading
+
     print_task("starting tracker.csv...", CYAN)
     with open("Uzumaki/tracker/tracker.csv", "r") as f:
         reader = csv.reader(f)
@@ -46,5 +47,6 @@ def tracker():
             company = row[0].lower().strip()
             tracking_number = row[1].strip()
 
-            threading.Thread(target=companyHandler, args=(
-                company, tracking_number)).start()
+            threading.Thread(
+                target=companyHandler, args=(company, tracking_number)
+            ).start()

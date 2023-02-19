@@ -4,11 +4,9 @@ from handler.geocode import geocode
 from handler.tracker import tracker
 from handler.scraper import scraper
 from handler.auth import auth
-import os
 import time
 import colorama
 
-#https://www.remote.tools/remote-work/discord-text-formatting
 
 def handler_option(option):
     if option == "01":
@@ -31,15 +29,13 @@ def handler_option(option):
 
 if __name__ == "__main__":
     colorama.init(wrap=True)
-
-    checking()
-    auth()
     
-    option = banner()
+    checking()
+    username = auth()
+
+    option = banner(username)
     handler_option(option)
 
 # TODO:
-# - add more companies and features
-# - authentication
-# - maybe nike-instore monitor
-# - do brt only for the brt tracking instant
+# - add dhl tracker
+# - auto update
