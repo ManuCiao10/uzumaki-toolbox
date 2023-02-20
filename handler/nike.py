@@ -6,7 +6,7 @@ from handler.webhook import webhook_nike
 
 
 def nike(tracking_number, email):
-    if len(email) == 0:
+    if len(email) == 0 or email == "":
         print_task("[nike %s] email is required" % tracking_number, RED)
         time.sleep(3)
         os._exit(1)

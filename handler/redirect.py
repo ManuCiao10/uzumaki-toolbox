@@ -1,9 +1,11 @@
-from handler.utils import print_task, CYAN, RED, GREEN, PURPLE
+from handler.utils import *
 from handler.webhook import redirect_webhook_brt
 import os
 import time
 import requests
 from bs4 import BeautifulSoup
+import csv
+import threading
 
 
 def brt_tracking_redirect(
@@ -761,62 +763,76 @@ def redirectHandler(
 
 
 def redirect():
-    import csv
-    import threading
+    os.system("cls" if os.name == "nt" else "clear")
 
-    print_task("starting redirect.csv...", CYAN)
+    print(RED + BANNER + RESET)
+
+    os.chdir("Uzumaki/redirect")
+    files = os.listdir()
+    os.chdir("../..")
+
+    files_dict = {}
+
+    for index, file in enumerate(files):
+        print_file(str(index) + ". " + file)
+
+        files_dict[str(index)] = file
+
+    print("\n")
+    option = input(TAB + "> choose: ")
 
     try:
-        with open("Uzumaki/redirect/redirect.csv", "r") as f:
-            reader = csv.reader(f)
-
-            try:
-                next(reader)
-            except StopIteration:
-                print_task("file is empty", RED)
-                time.sleep(2)
-                os._exit(1)
-
-            try:
-                row = next(reader)
-            except StopIteration:
-                print_task("Please Fill Uzumaki/redirect/redirect.csv", RED)
-                time.sleep(2)
-                os._exit(1)
-
-            f.seek(0)
-            reader = csv.reader(f)
-            next(reader)
-
-            for row in reader:
-                company = row[0].lower().strip()
-                tracking_number = row[1].lower().strip()
-                OrderZip = row[2].lower().strip()
-                name = row[3].lower().strip()
-                phone = row[4].lower().strip()
-                address = row[5].lower().strip()
-                city = row[6].lower().strip()
-                state = row[7].lower().strip()
-                zip = row[8].lower().strip()
-                email = row[9].lower().strip()
-
-                threading.Thread(
-                    target=redirectHandler,
-                    args=(
-                        company,
-                        tracking_number,
-                        OrderZip,
-                        name,
-                        phone,
-                        address,
-                        city,
-                        state,
-                        zip,
-                        email,
-                    ),
-                ).start()
-
-    except FileNotFoundError:
-        print_task("Uzumaki/redirect/redirect.csv not found", RED)
-        time.sleep(2)
+        file = files_dict[option]
+    except KeyError:
+        print_task("invalid option", RED)
+        time.sleep(3)
         os._exit(1)
+
+    with open("Uzumaki/redirect/" + file, "r") as f:
+        reader = csv.reader(f)
+
+        try:
+            next(reader)
+        except StopIteration:
+            print_task("file is empty", RED)
+            time.sleep(2)
+            os._exit(1)
+
+        try:
+            row = next(reader)
+        except StopIteration:
+            print_task("Please Fill Uzumaki/redirect/" + file, RED)
+            time.sleep(2)
+            os._exit(1)
+
+        f.seek(0)
+        reader = csv.reader(f)
+        next(reader)
+
+        for row in reader:
+            company = row[0].lower().strip()
+            tracking_number = row[1].lower().strip()
+            OrderZip = row[2].lower().strip()
+            name = row[3].lower().strip()
+            phone = row[4].lower().strip()
+            address = row[5].lower().strip()
+            city = row[6].lower().strip()
+            state = row[7].lower().strip()
+            zip = row[8].lower().strip()
+            email = row[9].lower().strip()
+
+            threading.Thread(
+                target=redirectHandler,
+                args=(
+                    company,
+                    tracking_number,
+                    OrderZip,
+                    name,
+                    phone,
+                    address,
+                    city,
+                    state,
+                    zip,
+                    email,
+                ),
+            ).start()

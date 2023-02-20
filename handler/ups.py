@@ -131,22 +131,22 @@ def ups(tracking_number):
 
         print_task("[ups %s] successful got data..." % tracking_number, GREEN)
 
-        with open("Uzumaki/tracker/ups_result.csv", "a") as f:
-            import csv
+        # with open("Uzumaki/tracker/ups_result.csv", "a") as f:
+        #     import csv
 
-            writer = csv.writer(f)
-            writer.writerow(
-                [
-                    tracking_number,
-                    packageStatus,
-                    simplifiedText,
-                    streetAddress1,
-                    city,
-                    country,
-                    zipCode,
-                    attentionName,
-                ]
-            )
+        #     writer = csv.writer(f)
+        #     writer.writerow(
+        #         [
+        #             tracking_number,
+        #             packageStatus,
+        #             simplifiedText,
+        #             streetAddress1,
+        #             city,
+        #             country,
+        #             zipCode,
+        #             attentionName,
+        #         ]
+        #     )
 
         # send discord webhook
         send_webhook(

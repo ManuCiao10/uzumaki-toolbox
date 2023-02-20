@@ -88,30 +88,36 @@ def checking():
         os.makedirs("Uzumaki/redirect")
         os.makedirs("Uzumaki/geocode")
 
+        # ----settings.json----#
         with open("Uzumaki/settings.json", "w") as f:
             f.write('{\n  "webhook": "WEBHOOK HERE",\n  "key": "KEY HERE"\n}')
             f.close()
 
-        with open("Uzumaki/tracker/tracker.csv", "w") as f:
-            f.write("company,tracking_number/orderNumber,email(only_nike)")
+        # ----tracker----#
+        with open("Uzumaki/tracker/nike.csv", "w") as f:
+            f.write("company,orderNumber,email")
             f.close()
 
-        with open("Uzumaki/tracker/ups_result.csv", "w") as f:
+        with open("Uzumaki/tracker/brt.csv", "w") as f:
+            f.write("company,tracking_number")
+            f.close()
+
+        with open("Uzumaki/tracker/ups.csv", "w") as f:
+            f.write("company,tracking_number")
+            f.close()
+
+        with open("Uzumaki/tracker/sda.csv", "w") as f:
+            f.write("company,tracking_number")
+            f.close()
+
+        # ----tracker----#
+        with open("Uzumaki/redirect/brt.csv", "w") as f:
             f.write(
-                "tracking_number,packageStatus,simplifiedText,streetAddress1,city,country,zipCode,attentionName"
+                "company,tracking_number,OrderZipcode,name,phone,address,city,state(FI),zip,email"
             )
             f.close()
 
-        with open("Uzumaki/tracker/brt_result.csv", "w") as f:
-            f.write("tracking_number,date,time,location,status")
-            f.close()
-
-        with open("Uzumaki/redirect/redirect.csv", "w") as f:
-            f.write(
-                "company(brt),tracking_number(05308112345),OrderZipcode,name,phone,address,city,state(FI),zip,email"
-            )
-            f.close()
-
+        # ----tracker----#
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
             f.write("zip_code")
             f.close()
@@ -125,7 +131,7 @@ def timeTask():
     import datetime
 
     now = datetime.datetime.now()
-    return "[" + now.strftime("%H:%M:%S") + "] "
+    return "[" + now.strftime("%H:%M:%S:%f") + "] "
 
 
 def Uzumaki():
@@ -134,6 +140,10 @@ def Uzumaki():
 
 def print_task(msg, color):
     print(color + Uzumaki() + timeTask() + msg.upper() + RESET)
+
+
+def print_file(file):
+    print(PURPLE + Uzumaki() + timeTask() + WHITE + file + RESET)
 
 
 def load_settings():

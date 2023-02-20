@@ -1,10 +1,12 @@
-from handler.utils import print_task, CYAN, RED
+from handler.utils import *
 from handler.ups import ups
 from handler.brt import brt
 from handler.sda import sda
 from handler.nike import nike
 import time
 import os
+import csv
+import threading
 
 
 def companyHandler(company, tracking_number, email):
@@ -21,11 +23,32 @@ def companyHandler(company, tracking_number, email):
 
 
 def tracker():
-    import csv
-    import threading
+    os.system("cls" if os.name == "nt" else "clear")
 
-    print_task("starting tracker.csv...", CYAN)
-    with open("Uzumaki/tracker/tracker.csv", "r") as f:
+    print(RED + BANNER + RESET)
+
+    os.chdir("Uzumaki/tracker")
+    files = os.listdir()
+    os.chdir("../..")
+
+    files_dict = {}
+
+    for index, file in enumerate(files):
+        print_file(str(index) + ". " + file)
+
+        files_dict[str(index)] = file
+
+    print("\n")
+    option = input(TAB + "> choose: ")
+
+    try:
+        file = files_dict[option]
+    except KeyError:
+        print_task("invalid option", RED)
+        time.sleep(3)
+        os._exit(1)
+
+    with open("Uzumaki/tracker/" + file, "r") as f:
         reader = csv.reader(f)
 
         try:
@@ -38,7 +61,7 @@ def tracker():
         try:
             row = next(reader)
         except StopIteration:
-            print_task("please fill tracker.csv", RED)
+            print_task("please fill " + file , RED)
             time.sleep(2)
             os._exit(1)
 
@@ -51,13 +74,13 @@ def tracker():
                 company = row[0].lower().strip()
                 tracking_number = row[1].strip()
             except IndexError:
-                print_task("company and tracking_number are required", RED)
+                print_task("company and tracking/orderNumber are required", RED)
                 time.sleep(3)
                 os._exit(1)
             try:
                 email = row[2].strip()
             except IndexError:
-                email = None
+                email = ""
 
             threading.Thread(
                 target=companyHandler, args=(company, tracking_number, email)
