@@ -2,8 +2,8 @@ from handler.utils import *
 from handler.redirect import redirect
 from handler.geocode import geocode
 from handler.tracker import tracker
-from handler.scraper import scraper
 from handler.auth import auth
+from handler.jigger import jigger
 import time
 import colorama
 
@@ -15,8 +15,8 @@ def handler_option(option):
         tracker()
     elif option == "03":
         geocode()
-    # elif option == "04":
-    #     scraper()
+    elif option == "04":
+        jigger()
     elif option == "00":
         print_task("bye bye...", RED)
         time.sleep(2)
@@ -37,5 +37,5 @@ if __name__ == "__main__":
     handler_option(option)
 
 # TODO:
-# - add dhl tracker
-# - add ups redirect
+#---------------------------------
+#scraper SKU nike

@@ -1,15 +1,12 @@
 from handler.utils import print_task, RED, load_settings
 import time
 import os
-from dotenv import load_dotenv
 import requests
 
-load_dotenv()
+api_key = "***REMOVED***"
 
 
 def get_license(license_key):
-    api_key = os.getenv("API_KEY")
-
     headers = {
         "Authorization": f"Bearer {api_key}",
     }

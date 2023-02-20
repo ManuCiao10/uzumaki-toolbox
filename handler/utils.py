@@ -1,6 +1,7 @@
 import os
 import time
 
+
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
 DARKCYAN = "\033[36m"
@@ -21,7 +22,7 @@ BANNER = """
     / /     \(  )/    -----
    //////   ' \/ '   ---            ┏───────────────────────────────┓
   //// / // :    : ---              │    WELCOME TO UZUMAKI TOOLS   │
- // /   /  /'    '--                │      https://Uzumaki.eu       │
+ // /   /  /'    '--                │ https://uzumakitools.hyper.co │
 //           /..\                   │           v.0.0.23            │
        ====UU====UU====             └───────────────────────────────┘
             ./||\.
@@ -45,9 +46,6 @@ def banner(username):
 
     print(TAB + RED + " 01 " + WHITE + "Redirect" + TAB + "Redirect packages (Brt)")
 
-    # print(TAB + RED + " 02 " + WHITE + "Csv" + TAB +
-    #       TAB + "Csv filler Jig ==> TO FIX")
-
     print(
         TAB
         + RED
@@ -62,6 +60,7 @@ def banner(username):
     #       TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
 
     print(TAB + RED + " 03 " + WHITE + "Geocode" + TAB + "Geocode address")
+    print(TAB + RED + " 04 " + WHITE + "Csv" + TAB + TAB + "Csv filler Jig")
 
     # print(TAB + RED + " 06 " + WHITE + "Checker" +
     #       TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
@@ -75,53 +74,84 @@ def banner(username):
 
 
 def checking():
-    # print(PURPLE + "checking folders...")
+    # print_task("checking for files...", PURPLE)
     desktop_path = os.path.expanduser("~/Desktop")
+    firstRun = False
 
     os.chdir(desktop_path)
 
     if not os.path.exists("Uzumaki"):
         print_task("creating folder Uzumaki in " + os.getcwd(), GREEN)
-
         os.makedirs("Uzumaki")
+        firstRun = True
+
+    if not os.path.exists("Uzumaki/tracker"):
         os.makedirs("Uzumaki/tracker")
+
+    if not os.path.exists("Uzumaki/redirect"):
         os.makedirs("Uzumaki/redirect")
+    
+    if not os.path.exists("Uzumaki/geocode"):
         os.makedirs("Uzumaki/geocode")
 
-        # ----settings.json----#
+    if not os.path.exists("Uzumaki/jigger"):
+        os.makedirs("Uzumaki/jigger")
+
+    # ----settings.json----#
+
+    if not os.path.exists("Uzumaki/settings.json"):
         with open("Uzumaki/settings.json", "w") as f:
             f.write('{\n  "webhook": "WEBHOOK HERE",\n  "key": "KEY HERE"\n}')
             f.close()
 
-        # ----tracker----#
+    # ----tracker----#
+
+    if not os.path.exists("Uzumaki/tracker/nike.csv"):
         with open("Uzumaki/tracker/nike.csv", "w") as f:
             f.write("company,orderNumber,email")
             f.close()
-
+    
+    if not os.path.exists("Uzumaki/tracker/brt.csv"):
         with open("Uzumaki/tracker/brt.csv", "w") as f:
             f.write("company,tracking_number")
             f.close()
 
+    if not os.path.exists("Uzumaki/tracker/ups.csv"):
         with open("Uzumaki/tracker/ups.csv", "w") as f:
             f.write("company,tracking_number")
             f.close()
 
+    if not os.path.exists("Uzumaki/tracker/sda.csv"):
         with open("Uzumaki/tracker/sda.csv", "w") as f:
             f.write("company,tracking_number")
             f.close()
 
-        # ----tracker----#
+    # ----redirect----#
+
+    if not os.path.exists("Uzumaki/redirect/brt.csv"):
         with open("Uzumaki/redirect/brt.csv", "w") as f:
             f.write(
                 "company,tracking_number,OrderZipcode,name,phone,address,city,state(FI),zip,email"
             )
             f.close()
 
-        # ----tracker----#
+    # ----geocode----#
+    
+    if not os.path.exists("Uzumaki/geocode/geocoding.csv"):
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
             f.write("zip_code")
             f.close()
+    
+    # ----Csv jig----#
 
+    if not os.path.exists("Uzumaki/jigger/jig.csv"):
+        with open("Uzumaki/jigger/jig.csv", "w") as f:
+            f.write(
+                "First Name,Second name,Mobile Number,Address,HouseNumber,country(italy)"
+            )
+            f.close()
+
+    if firstRun:
         print_task("folder created, please check your desktop", PURPLE)
         time.sleep(4)
         os._exit(1)

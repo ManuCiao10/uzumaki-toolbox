@@ -61,7 +61,7 @@ def tracker():
         try:
             row = next(reader)
         except StopIteration:
-            print_task("please fill " + file , RED)
+            print_task("please fill " + file, RED)
             time.sleep(2)
             os._exit(1)
 
