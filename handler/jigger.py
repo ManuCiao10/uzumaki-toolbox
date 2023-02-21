@@ -145,8 +145,41 @@ def jigStart(First_Name, Second_name, Mobile_Number, Address, HouseNumebr, Count
         first_car = First_Name[0]
         mod5 = first_car + First_Name
         array_name.append(mod5)
+
+        mod6 = First_Name + "x"
+        array_name.append(mod6)
+
+        mod7 = Second_name
+        array_name.append(mod7)
+
+        mod8 = Second_name + last_car
+        array_name.append(mod8)
+
+        mod9 = Second_name[:-1]
+        array_name.append(mod9)
+
+        mod10 = Second_name[1:]
+        array_name.append(mod10)
+
+        mod11 = Second_name.replace(middle_car, middle_car + middle_car)
+        array_name.append(mod11)
+
+        mod12 = first_car + Second_name
+        array_name.append(mod12)
+
+        mod13 = Second_name + "x"
+        array_name.append(mod13)
+
+        mod14 = "x" + First_Name
+        array_name.append(mod14)
+
+        mod15 = "x" + Second_name
+        array_name.append(mod15)
+
+
     else:
         First_Name = names.get_first_name()
+        array_name.append(First_Name)
 
     if Second_name != "random":
         last_car = Second_name[-1]
@@ -166,8 +199,40 @@ def jigStart(First_Name, Second_name, Mobile_Number, Address, HouseNumebr, Count
         first_car_ = Second_name[0]
         mod5_ = first_car_ + Second_name
         array_surname.append(mod5_)
+
+        mod6_ = Second_name + "x"
+        array_surname.append(mod6_)
+
+        mod7_ = First_Name
+        array_surname.append(mod7_)
+
+        mod8_ = First_Name + last_car
+        array_surname.append(mod8_)
+
+        mod9_ = First_Name[:-1]
+        array_surname.append(mod9_)
+
+        mod10_ = First_Name[1:]
+        array_surname.append(mod10_)
+
+        mod11_ = First_Name.replace(middle_car_, middle_car_ + middle_car_)
+        array_surname.append(mod11_)
+
+        mod12_ = first_car_ + First_Name
+        array_surname.append(mod12_)
+
+        mod13_ = First_Name + "x"
+        array_surname.append(mod13_)
+
+        mod14_ = "x" + First_Name
+        array_surname.append(mod14_)
+
+        mod15_ = "x" + Second_name
+        array_surname.append(mod15_)
+
     else:
         Second_name = names.get_last_name()
+        array_surname.append(Second_name)
 
     prefix = country_prefix[Country]
 
@@ -198,6 +263,37 @@ def jigStart(First_Name, Second_name, Mobile_Number, Address, HouseNumebr, Count
         first_car = i[0]
         mod5 = first_car + i
         array_.append(mod5)
+
+        mod6 = i + "x"
+        array_.append(mod6)
+
+        mod7 = "Street " + i
+        array_.append(mod7)
+
+        mod8 = i + "xx"
+        array_.append(mod8)
+
+        mod9 = "xx" + i
+        array_.append(mod9)
+
+        mod10 = "x" + i
+        array_.append(mod10)
+
+        mod11 = i + "x"
+        array_.append(mod11)
+
+        mod12 = "x" + i + "x"
+        array_.append(mod12)
+
+        mod13 = "x" + i + "xx"
+        array_.append(mod13)
+
+        mod14 = "x " + i
+        array_.append(mod14)
+
+        mod15 = i + " x"
+        array_.append(mod15)
+
 
     split_arrays = np.array_split(array_, counter)
     result_array = [" ".join(row) for row in np.transpose(split_arrays)]
@@ -232,6 +328,7 @@ def jigStart(First_Name, Second_name, Mobile_Number, Address, HouseNumebr, Count
                 ]
             )
             print_task("writing info in result.csv", GREEN)
+
 
 
 def jigger():

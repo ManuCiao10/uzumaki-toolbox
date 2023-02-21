@@ -61,6 +61,7 @@ def banner(username):
 
     print(TAB + RED + " 03 " + WHITE + "Geocode" + TAB + "Geocode address")
     print(TAB + RED + " 04 " + WHITE + "Csv" + TAB + TAB + "Csv filler Jig")
+    print(TAB + RED + " 05 " + WHITE + "Amazon" + TAB + "Amazon Email Checker")
 
     # print(TAB + RED + " 06 " + WHITE + "Checker" +
     #       TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
@@ -74,7 +75,6 @@ def banner(username):
 
 
 def checking():
-    # print_task("checking for files...", PURPLE)
     desktop_path = os.path.expanduser("~/Desktop")
     firstRun = False
 
@@ -90,7 +90,7 @@ def checking():
 
     if not os.path.exists("Uzumaki/redirect"):
         os.makedirs("Uzumaki/redirect")
-    
+
     if not os.path.exists("Uzumaki/geocode"):
         os.makedirs("Uzumaki/geocode")
 
@@ -110,7 +110,7 @@ def checking():
         with open("Uzumaki/tracker/nike.csv", "w") as f:
             f.write("company,orderNumber,email")
             f.close()
-    
+
     if not os.path.exists("Uzumaki/tracker/brt.csv"):
         with open("Uzumaki/tracker/brt.csv", "w") as f:
             f.write("company,tracking_number")
@@ -136,12 +136,12 @@ def checking():
             f.close()
 
     # ----geocode----#
-    
+
     if not os.path.exists("Uzumaki/geocode/geocoding.csv"):
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
             f.write("zip_code")
             f.close()
-    
+
     # ----Csv jig----#
 
     if not os.path.exists("Uzumaki/jigger/jig.csv"):
