@@ -4,6 +4,7 @@ from handler.geocode import geocode
 from handler.tracker import tracker
 from handler.auth import auth
 from handler.jigger import jigger
+from handler.scraperOrder import scraperOrder
 import time
 import colorama
 
@@ -17,6 +18,8 @@ def handler_option(option):
         geocode()
     elif option == "04":
         jigger()
+    elif option == "05":
+        scraperOrder()
     elif option == "00":
         print_task("bye bye...", RED)
         time.sleep(2)
@@ -39,3 +42,7 @@ if __name__ == "__main__":
 # TODO:
 #---------------------------------
 #scraper SKU nike
+#zalando account checker
+#nb checker
+#leva company in file.csv
+#guide

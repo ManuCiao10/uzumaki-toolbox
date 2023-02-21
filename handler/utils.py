@@ -61,7 +61,7 @@ def banner(username):
 
     print(TAB + RED + " 03 " + WHITE + "Geocode" + TAB + "Geocode address")
     print(TAB + RED + " 04 " + WHITE + "Csv" + TAB + TAB + "Csv filler Jig")
-    print(TAB + RED + " 05 " + WHITE + "Amazon" + TAB + "Amazon Email Checker")
+    print(TAB + RED + " 05 " + WHITE + "Scraper" + TAB + "Scraper Order (New Balance)")
 
     # print(TAB + RED + " 06 " + WHITE + "Checker" +
     #       TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
@@ -75,7 +75,11 @@ def banner(username):
 
 
 def checking():
-    desktop_path = os.path.expanduser("~/Desktop")
+    if os.name == "nt":
+        desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+    else:
+        desktop_path = os.path.expanduser("~/Desktop")
+
     firstRun = False
 
     os.chdir(desktop_path)
@@ -97,6 +101,9 @@ def checking():
     if not os.path.exists("Uzumaki/jigger"):
         os.makedirs("Uzumaki/jigger")
 
+    if not os.path.exists("Uzumaki/scraper"):
+        os.makedirs("Uzumaki/scraper")
+
     # ----settings.json----#
 
     if not os.path.exists("Uzumaki/settings.json"):
@@ -108,22 +115,22 @@ def checking():
 
     if not os.path.exists("Uzumaki/tracker/nike.csv"):
         with open("Uzumaki/tracker/nike.csv", "w") as f:
-            f.write("company,orderNumber,email")
+            f.write("orderNumber,email")
             f.close()
 
     if not os.path.exists("Uzumaki/tracker/brt.csv"):
         with open("Uzumaki/tracker/brt.csv", "w") as f:
-            f.write("company,tracking_number")
+            f.write("tracking_number")
             f.close()
 
     if not os.path.exists("Uzumaki/tracker/ups.csv"):
         with open("Uzumaki/tracker/ups.csv", "w") as f:
-            f.write("company,tracking_number")
+            f.write("tracking_number")
             f.close()
 
     if not os.path.exists("Uzumaki/tracker/sda.csv"):
         with open("Uzumaki/tracker/sda.csv", "w") as f:
-            f.write("company,tracking_number")
+            f.write("tracking_number")
             f.close()
 
     # ----redirect----#
@@ -131,8 +138,14 @@ def checking():
     if not os.path.exists("Uzumaki/redirect/brt.csv"):
         with open("Uzumaki/redirect/brt.csv", "w") as f:
             f.write(
-                "company,tracking_number,OrderZipcode,name,phone,address,city,state(FI),zip,email"
+                "tracking_number,OrderZipcode,name,phone,address,city,state(FI),zip,email"
             )
+            f.close()
+
+    # ----scraper----#
+    if not os.path.exists("Uzumaki/scraper/newBalance.csv"):
+        with open("Uzumaki/scraper/newBalance.csv", "w") as f:
+            f.write("orderNumber,postalCode,orderLastname")
             f.close()
 
     # ----geocode----#

@@ -176,7 +176,6 @@ def jigStart(First_Name, Second_name, Mobile_Number, Address, HouseNumebr, Count
         mod15 = "x" + Second_name
         array_name.append(mod15)
 
-
     else:
         First_Name = names.get_first_name()
         array_name.append(First_Name)
@@ -294,7 +293,6 @@ def jigStart(First_Name, Second_name, Mobile_Number, Address, HouseNumebr, Count
         mod15 = i + " x"
         array_.append(mod15)
 
-
     split_arrays = np.array_split(array_, counter)
     result_array = [" ".join(row) for row in np.transpose(split_arrays)]
 
@@ -328,7 +326,6 @@ def jigStart(First_Name, Second_name, Mobile_Number, Address, HouseNumebr, Count
                 ]
             )
             print_task("writing info in result.csv", GREEN)
-
 
 
 def jigger():

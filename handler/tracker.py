@@ -9,14 +9,14 @@ import csv
 import threading
 
 
-def companyHandler(company, tracking_number, email):
-    if company == "ups":
+def companyHandler(fileName, tracking_number, email):
+    if fileName == "ups.csv":
         ups(tracking_number)
-    elif company == "brt":
+    elif fileName == "brt.csv":
         brt(tracking_number)
-    elif company == "sda":
+    elif fileName == "sda.csv":
         sda(tracking_number)
-    elif company == "nike":
+    elif fileName == "nike.csv":
         nike(tracking_number, email)
     else:
         print_task("invalid company", RED)
@@ -71,17 +71,16 @@ def tracker():
 
         for row in reader:
             try:
-                company = row[0].lower().strip()
-                tracking_number = row[1].strip()
+                tracking_number = row[0].strip()
             except IndexError:
-                print_task("company and tracking/orderNumber are required", RED)
+                print_task("tracking/orderNumber are required", RED)
                 time.sleep(3)
                 os._exit(1)
             try:
-                email = row[2].strip()
+                email = row[1].strip()
             except IndexError:
                 email = ""
 
             threading.Thread(
-                target=companyHandler, args=(company, tracking_number, email)
+                target=companyHandler, args=(file, tracking_number, email)
             ).start()

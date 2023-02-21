@@ -9,7 +9,7 @@ import threading
 
 
 def brt_tracking_redirect(
-    company, tracking_number, OrderZip, name, phone, address, city, state, zip, email
+    tracking_number, OrderZip, name, phone, address, city, state, zip, email
 ):
     print_task("[brt %s] %s" % (tracking_number, "getting tracking info"), PURPLE)
     headers = {
@@ -182,10 +182,11 @@ def brt_tracking_redirect(
             "https://www.mybrt.it/it/mybrt/my-parcels/incoming?parcelNumber="
             + tracking_number
         )
+        print(response.text)
         if "request submitted successfully" in response.text.lower():
             print_task("[brt %s] %s" % (tracking_number, "Successfull redirect"), GREEN)
             redirect_webhook_brt(
-                company,
+                "BRT",
                 tracking_number,
                 name,
                 phone,
@@ -205,7 +206,7 @@ def brt_tracking_redirect(
         ):
             print_task("[brt %s] %s" % (tracking_number, "Successfull redirect"), GREEN)
             redirect_webhook_brt(
-                company,
+                "BRT",
                 tracking_number,
                 name,
                 phone,
@@ -230,9 +231,7 @@ def brt_tracking_redirect(
         return
 
 
-def brt(
-    company, tracking_number, OrderZip, name, phone, address, city, state, zip, email
-):
+def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email):
     if tracking_number[:2] == "05":
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -572,7 +571,7 @@ def brt(
                                     GREEN,
                                 )
                                 redirect_webhook_brt(
-                                    company,
+                                    "BRT",
                                     brt_number,
                                     OrderZip,
                                     name,
@@ -596,7 +595,7 @@ def brt(
                                     GREEN,
                                 )
                                 redirect_webhook_brt(
-                                    company,
+                                    "BRT",
                                     brt_number,
                                     OrderZip,
                                     name,
@@ -642,7 +641,6 @@ def brt(
 
     else:
         brt_tracking_redirect(
-            company,
             tracking_number,
             OrderZip,
             name,
@@ -728,11 +726,10 @@ def ups(
 
 
 def redirectHandler(
-    company, tracking_number, OrderZip, name, phone, address, city, state, zip, email
+    fileName, tracking_number, OrderZip, name, phone, address, city, state, zip, email
 ):
-    if company == "brt":
+    if fileName == "brt.csv":
         brt(
-            company,
             tracking_number,
             OrderZip,
             name,
@@ -743,19 +740,19 @@ def redirectHandler(
             zip,
             email,
         )
-    elif company == "ups":
-        ups(
-            company,
-            tracking_number,
-            OrderZip,
-            name,
-            phone,
-            address,
-            city,
-            state,
-            zip,
-            email,
-        )
+    # elif fileName == "ups.csv":
+    #     ups(
+    #         company,
+    #         tracking_number,
+    #         OrderZip,
+    #         name,
+    #         phone,
+    #         address,
+    #         city,
+    #         state,
+    #         zip,
+    #         email,
+    #     )
     else:
         print_task("Company not supported", RED)
         time.sleep(3)
@@ -810,21 +807,21 @@ def redirect():
         next(reader)
 
         for row in reader:
-            company = row[0].lower().strip()
-            tracking_number = row[1].lower().strip()
-            OrderZip = row[2].lower().strip()
-            name = row[3].lower().strip()
-            phone = row[4].lower().strip()
-            address = row[5].lower().strip()
-            city = row[6].lower().strip()
-            state = row[7].lower().strip()
-            zip = row[8].lower().strip()
-            email = row[9].lower().strip()
+            # company = row[0].lower().strip()
+            tracking_number = row[0].lower().strip()
+            OrderZip = row[1].lower().strip()
+            name = row[2].lower().strip()
+            phone = row[3].lower().strip()
+            address = row[4].lower().strip()
+            city = row[5].lower().strip()
+            state = row[6].lower().strip()
+            zip = row[7].lower().strip()
+            email = row[8].lower().strip()
 
             threading.Thread(
                 target=redirectHandler,
                 args=(
-                    company,
+                    file,
                     tracking_number,
                     OrderZip,
                     name,

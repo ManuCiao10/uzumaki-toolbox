@@ -95,9 +95,6 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
     settings = load_settings()
     webhook = settings["webhook"]
 
-    import requests
-    import json
-
     url: str = ""
 
     if company == "brt":
@@ -151,9 +148,6 @@ def send_webhook(
 
     settings = load_settings()
     webhook = settings["webhook"]
-
-    import requests
-    import json
 
     url: str = ""
 
@@ -217,9 +211,6 @@ def webhook_nike(
     settings = load_settings()
     webhook = settings["webhook"]
 
-    import requests
-    import json
-
     data = {
         "username": "Uzumaki™",
         "avatar_url": LOGO,
@@ -245,6 +236,59 @@ def webhook_nike(
                         "value": tracking_number,
                         "inline": True,
                     },
+                ],
+            }
+        ],
+    }
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
+    try:
+        result.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(err)
+
+
+def webhook_newBalance(
+    orderNumber,
+    date,
+    style,
+    price,
+    image,
+    title,
+    email,
+    firstName,
+    secondName,
+    addy,
+    zipCode,
+    status,
+    trackingLink,
+):
+    settings = load_settings()
+    webhook = settings["webhook"]
+    status_final = "[" + status + "]" + "(" + trackingLink + ")"
+    orderNumber = "||" + orderNumber + "||"
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": title,
+                "color": 3128760,
+                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": image},
+                "fields": [
+                    {"name": "Status", "value": status_final, "inline": False},
+                    {"name": "Order Number", "value": orderNumber, "inline": True},
+                    {"name": "Date", "value": date, "inline": True},
+                    {"name": "Price", "value": price, "inline": True},
+                    {"name": "Email", "value": email, "inline": False},
+                    {"name": "First Name", "value": firstName, "inline": True},
+                    {"name": "Second Name", "value": secondName, "inline": True},
+                    {"name": "Address", "value": addy, "inline": True},
+                    {"name": "Zip Code", "value": zipCode, "inline": True},
                 ],
             }
         ],
