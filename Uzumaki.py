@@ -43,6 +43,4 @@ if __name__ == "__main__":
 #---------------------------------
 #scraper SKU nike
 #zalando account checker
-#nb checker
-#leva company in file.csv
 #guide

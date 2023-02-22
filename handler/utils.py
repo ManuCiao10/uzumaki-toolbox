@@ -39,7 +39,7 @@ def banner(username):
     print(
         "\t"
         + "\x1b[1;37;41m"
-        + " Select an option or type exit for exiting "
+        + " Select an option or type 00 for exiting "
         + "\x1b[0m"
         + "\n"
     )
@@ -75,18 +75,12 @@ def banner(username):
 
 
 def checking():
-    if os.name == "nt":
-        desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-    else:
-        desktop_path = os.path.expanduser("~/Desktop")
-
     firstRun = False
 
-    os.chdir(desktop_path)
-
     if not os.path.exists("Uzumaki"):
-        print_task("creating folder Uzumaki in " + os.getcwd(), GREEN)
+        print_task("creating folder Uzumaki...", GREEN)
         os.makedirs("Uzumaki")
+
         firstRun = True
 
     if not os.path.exists("Uzumaki/tracker"):
@@ -165,8 +159,8 @@ def checking():
             f.close()
 
     if firstRun:
-        print_task("folder created, please check your desktop", PURPLE)
-        time.sleep(4)
+        print_task("folder created, check " + os.getcwd() , PURPLE)
+        time.sleep(5)
         os._exit(1)
 
 

@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from handler.webhook import webhook_newBalance
 
+
 def newBalance(orderNumber, postalCode, orderLastname):
     headers = {
         "authority": "www.newbalance.it",
@@ -32,13 +33,10 @@ def newBalance(orderNumber, postalCode, orderLastname):
     }
     url_request = "https://www.newbalance.it/track/"
 
-
     if orderNumber[:2] == "nk":
         url_request = "https://www.newbalance.co.uk/track/"
 
-    response = requests.get(
-        url_request, params=params, headers=headers
-    )
+    response = requests.get(url_request, params=params, headers=headers)
 
     if "Indirizzo di spedizione" or "Shipping Address" in response.text:
         print_task(
@@ -49,7 +47,7 @@ def newBalance(orderNumber, postalCode, orderLastname):
         soup = BeautifulSoup(response.text, "html.parser")
 
         date = soup.find("div", {"class": "col-8 col-lg-8"}).text
-        
+
         style = soup.find("p", {"class": "font-body-small mb-0"}).text
         style = style.split(":")[1].strip()
 
@@ -93,7 +91,6 @@ def newBalance(orderNumber, postalCode, orderLastname):
         )
         time.sleep(3)
         os._exit(1)
-
 
 
 def scraperOrderhanlder(fileName, orderNumber, postalCode, orderLastname):
