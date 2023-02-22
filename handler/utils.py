@@ -77,6 +77,11 @@ def banner(username):
 def checking():
     firstRun = False
 
+    #get current path 
+    path = os.getcwd()
+
+    # ----Uzumaki----#
+    os.chdir(path)
     if not os.path.exists("Uzumaki"):
         print_task("creating folder Uzumaki...", GREEN)
         os.makedirs("Uzumaki")

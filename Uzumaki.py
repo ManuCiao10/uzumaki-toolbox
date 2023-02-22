@@ -43,5 +43,6 @@ if __name__ == "__main__":
 #---------------------------------
 #scraper SKU nike
 #zalando account checker
-#guide
 #price checker goat stock
+#revolut Business
+#the bot directly on discord
