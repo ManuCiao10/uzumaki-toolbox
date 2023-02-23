@@ -86,7 +86,7 @@ def ups(tracking_number):
             headers=headers,
             json=json_data,
         )
-        
+
         if response.json()["statusCode"] != "200":
             print_task(f"[ups {tracking_number}] error: {response.status_code}", RED)
             time.sleep(3)
@@ -99,7 +99,9 @@ def ups(tracking_number):
             simplified_text = track_details.get("simplifiedText", "Not Found")
 
             access_point = track_details.get("upsAccessPoint")
-            street_address1 = access_point["location"].get("streetAddress1", "Not Found")
+            street_address1 = access_point["location"].get(
+                "streetAddress1", "Not Found"
+            )
             city = access_point["location"].get("city", "Not Found")
             country = access_point["location"].get("country", "Not Found")
             zip_code = access_point["location"].get("zipCode", "Not Found")
@@ -117,7 +119,6 @@ def ups(tracking_number):
                 "zip_code": zip_code,
                 "attention_name": attention_name,
             }
- 
 
             send_webhook("ups", data)
 
@@ -126,7 +127,6 @@ def ups(tracking_number):
             time.sleep(3)
             os._exit(1)
 
-        
     except Exception as e:
         print_task(f"[ups {tracking_number}] error: {e}", RED)
         time.sleep(3)

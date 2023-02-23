@@ -100,7 +100,7 @@ def geocode():
                 row = next(reader)
             except StopIteration:
                 print_task("please fill Uzumaki/geocode/geocoding.csv", RED)
-                time.sleep(2)
+                input("Press Enter to exit...")
                 os._exit(1)
 
             f.seek(0)

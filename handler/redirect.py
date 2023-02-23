@@ -827,7 +827,7 @@ def redirect():
             # Add error handling
             try:
                 threading.Thread(
-                    target=redirectHandler,
+                    target=redirect_handler,
                     args=(
                         file,
                         tracking_number,

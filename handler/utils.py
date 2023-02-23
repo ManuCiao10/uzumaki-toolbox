@@ -1,6 +1,8 @@
 import os
 import time
-
+import datetime
+import json
+from colorama import init, Fore, Back, Style
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -14,9 +16,11 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-LOGO = "https://media.discordapp.net/attachments/819084339992068110/1075180966349381773/logo.jpeg"
 
-BANNER = """
+init()
+
+LOGO = "https://media.discordapp.net/attachments/819084339992068110/1075180966349381773/logo.jpeg"
+BANNER = f"""
       .---.        .-----------
      /     \  __  /    ------
     / /     \(  )/    -----
@@ -31,75 +35,48 @@ BANNER = """
 
 
 def banner(username):
-    print(RED + BANNER + RESET)
+    print(Fore.RED + BANNER + Style.RESET_ALL)
 
-    print(WHITE + "WELCOME BACK: " + RED + username.upper() + RESET)
-    print("\n")
-
-    print(
-        "\t"
-        + "\x1b[1;37;41m"
-        + " Select an option or type 00 for exiting "
-        + "\x1b[0m"
-        + "\n"
-    )
-
-    print(TAB + RED + " 01 " + WHITE + "Redirect" + TAB + "Redirect packages (Brt)")
+    print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
     print(
-        TAB
-        + RED
-        + " 02 "
-        + WHITE
-        + "Tracker"
-        + TAB
-        + "Order Tracker (Ups Brt Sda Nike)"
+        f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"
     )
 
-    print(TAB + RED + " 03 " + WHITE + "Geocode" + TAB + "Geocode address")
-    print(TAB + RED + " 04 " + WHITE + "Csv" + TAB + TAB + "Csv filler Jig")
-    print(TAB + RED + " 05 " + WHITE + "Scraper" + TAB + "Scraper Order (New Balance)")
-    print(TAB + RED + " 06 " + WHITE + "Restock" + TAB + "Missing Payout Scraper")
+    print(f"\t{Fore.RED} 01 {Fore.WHITE}Redirect\tRedirect packages (Brt)")
+    print(f"\t{Fore.RED} 02 {Fore.WHITE}Tracker\tOrder Tracker (Ups Brt Sda Nike)")
+    print(f"\t{Fore.RED} 03 {Fore.WHITE}Geocode\tGeocode address")
+    print(f"\t{Fore.RED} 04 {Fore.WHITE}Csv\t\tCsv filler Jig")
+    print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance)")
+    print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
+    print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
-    print(TAB + RED + " 00 " + WHITE + "Exit" + TAB + "Exit from Uzumaki Tools")
-
-    print("\n")
-
-    option = input(TAB + "> choose: ")
+    option = input("\t> choose: ")
     return option
 
 
 def checking():
     firstRun = False
 
-    # get current path
-    path = os.getcwd()
-
     # ----Uzumaki----#
-    os.chdir(path)
     if not os.path.exists("Uzumaki"):
         print_task("creating folder Uzumaki...", GREEN)
         os.makedirs("Uzumaki")
 
         firstRun = True
 
-    if not os.path.exists("Uzumaki/tracker"):
-        os.makedirs("Uzumaki/tracker")
+    directories = [
+        "Uzumaki/tracker",
+        "Uzumaki/redirect",
+        "Uzumaki/geocode",
+        "Uzumaki/jigger",
+        "Uzumaki/scraper",
+        "Uzumaki/restock",
+    ]
 
-    if not os.path.exists("Uzumaki/redirect"):
-        os.makedirs("Uzumaki/redirect")
-
-    if not os.path.exists("Uzumaki/geocode"):
-        os.makedirs("Uzumaki/geocode")
-
-    if not os.path.exists("Uzumaki/jigger"):
-        os.makedirs("Uzumaki/jigger")
-
-    if not os.path.exists("Uzumaki/scraper"):
-        os.makedirs("Uzumaki/scraper")
-
-    if not os.path.exists("Uzumaki/restock"):
-        os.makedirs("Uzumaki/restock")
+    for directory in directories:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
     # ----settings.json----#
 
@@ -171,40 +148,70 @@ def checking():
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), PURPLE)
-        time.sleep(5)
+        input("Press Enter to exit...")
         os._exit(1)
 
 
-def timeTask():
-    import datetime
-
+def time_task():
+    """
+    Returns the current time formatted as a string.
+    """
     now = datetime.datetime.now()
     return "[" + now.strftime("%H:%M:%S:%f") + "] "
 
 
-def Uzumaki():
+def uzumaki():
+    """
+    Returns the name and version number of the program as a string.
+    """
     return "[Uzumaki 0.0.23] "
 
 
 def print_task(msg, color):
-    print(color + Uzumaki() + timeTask() + msg.upper() + RESET)
+    """
+    Prints a message with a color code and a timestamp.
+
+    Args:
+        msg (str): The message to print.
+        color (str): The ANSI color code to use.
+    """
+    print(color + uzumaki() + time_task() + msg.upper() + RESET)
 
 
-def print_file(file):
-    print(PURPLE + Uzumaki() + timeTask() + WHITE + file + RESET)
+def print_file(file_name):
+    """
+    Prints the name of a file.
+
+    Args:
+        file_name (str): The name of the file to print.
+    """
+    print(PURPLE + uzumaki() + time_task() + WHITE + file_name + RESET)
 
 
 def load_settings():
-    import json
+    """
+    Reads the settings from a JSON file.
 
+    Returns:
+        dict: The settings as a dictionary.
+    """
     try:
-        with open("Uzumaki/settings.json", "r") as f:
-            settings = json.load(f)
-            f.close()
-    except:
+        with open("Uzumaki/settings.json", "r") as settings_file:
+            settings = json.load(settings_file)
+
+    except FileNotFoundError:
         print_task("settings.json not found", RED)
         print_task("please check your folder", RED)
         time.sleep(3)
         os._exit(1)
 
     return settings
+
+
+def bye():
+    """
+    Prints a goodbye message and exits the program.
+    """
+    print_task("bye bye...", RED)
+    time.sleep(3)
+    os._exit(1)

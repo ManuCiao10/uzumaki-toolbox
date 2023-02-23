@@ -4,6 +4,7 @@ import json
 
 UPS_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1078449797121445920/ups-social-share-logo-removebg-preview.png"
 
+
 def redirect_webhook_brt(
     company, tracking_number, name, phone, address, city, state, zip, url, email
 ):
@@ -134,14 +135,13 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
         print(err)
 
 
-def send_webhook(company,dataInfo):
+def send_webhook(company, dataInfo):
     # https://www.mathsisfun.com/hexadecimal-decimal-colors.html
 
     settings = load_settings()
     webhook = settings["webhook"]
 
     url: str = ""
-
 
     if company == "ups":
         url = (
@@ -168,13 +168,29 @@ def send_webhook(company,dataInfo):
                         "value": dataInfo["tracking_number"],
                         "inline": True,
                     },
-                    {"name": "Status", "value": dataInfo["package_status"], "inline": True},
-                    {"name": "Text", "value": dataInfo["simplified_text"], "inline": True},
-                    {"name": "Street Address", "value": dataInfo["street_address1"], "inline": True},
+                    {
+                        "name": "Status",
+                        "value": dataInfo["package_status"],
+                        "inline": True,
+                    },
+                    {
+                        "name": "Text",
+                        "value": dataInfo["simplified_text"],
+                        "inline": True,
+                    },
+                    {
+                        "name": "Street Address",
+                        "value": dataInfo["street_address1"],
+                        "inline": True,
+                    },
                     {"name": "City", "value": dataInfo["city"], "inline": True},
                     {"name": "Country", "value": dataInfo["country"], "inline": True},
                     {"name": "Zip Code", "value": dataInfo["zip_code"], "inline": True},
-                    {"name": "Name", "value": dataInfo["attention_name"], "inline": True},
+                    {
+                        "name": "Name",
+                        "value": dataInfo["attention_name"],
+                        "inline": True,
+                    },
                 ],
             }
         ],

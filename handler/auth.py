@@ -25,7 +25,7 @@ def auth():
     webhook = settings["webhook"]
     key = settings["key"]
 
-    if key == "KEY HERE" or key == "":
+    if not key or key == "KEY HERE":
         print_task("please set key...", RED)
         time.sleep(3)
         os._exit(1)
@@ -44,7 +44,7 @@ def auth():
 
     username = license_data.get("integrations").get("discord").get("username")
 
-    if webhook == "WEBHOOK HERE" or webhook == "":
+    if not webhook or webhook == "WEBHOOK HERE":
         print_task("please set webhook...", RED)
         time.sleep(3)
         os._exit(1)

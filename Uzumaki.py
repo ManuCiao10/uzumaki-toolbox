@@ -10,10 +10,6 @@ from handler.restock import restockPayout
 import time
 import colorama
 
-def bye():
-    print_task("bye bye...",RED)
-    time.sleep(3)
-    lambda: os._exit(1)
 
 OPTIONS = {
     "01": redirect,
