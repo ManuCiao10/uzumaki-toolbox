@@ -39,16 +39,18 @@ def newBalance(orderNumber, postalCode, orderLastname):
     response = requests.get(url_request, params=params, headers=headers)
 
     if "Indirizzo di spedizione" or "Shipping Address" in response.text:
-        
         trackingLink = response.url
 
         soup = BeautifulSoup(response.text, "html.parser")
 
         try:
             date = soup.find("div", {"class": "col-8 col-lg-8"}).text
-        
+
         except:
-            print_task("order not found %s %s %s" % (orderNumber, postalCode, orderLastname), RED)
+            print_task(
+                "order not found %s %s %s" % (orderNumber, postalCode, orderLastname),
+                RED,
+            )
             time.sleep(5)
             return
 
@@ -102,6 +104,7 @@ def newBalance(orderNumber, postalCode, orderLastname):
 
 
 # def courir(email, zipCode):
+
 
 def scraperOrder():
     print("ordescraperOrder")

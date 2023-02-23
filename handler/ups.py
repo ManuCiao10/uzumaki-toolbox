@@ -86,81 +86,48 @@ def ups(tracking_number):
             headers=headers,
             json=json_data,
         )
+        
         if response.json()["statusCode"] != "200":
-            print_task("[ups %s] error: %s" % (tracking_number), RED)
+            print_task(f"[ups {tracking_number}] error: {response.status_code}", RED)
+            time.sleep(3)
             return
 
         try:
-            packageStatus = response.json()["trackDetails"][0]["packageStatus"]
-        except:
-            packageStatus = "Not Found"
-        try:
-            simplifiedText = response.json()["trackDetails"][0]["simplifiedText"]
-        except:
-            simplifiedText = "Not Found"
-        try:
-            streetAddress1 = response.json()["trackDetails"][0]["upsAccessPoint"][
-                "location"
-            ]["streetAddress1"]
-        except:
-            streetAddress1 = "Not Found"
-        try:
-            city = response.json()["trackDetails"][0]["upsAccessPoint"]["location"][
-                "city"
-            ]
-        except:
-            city = "Not Found"
-        try:
-            country = response.json()["trackDetails"][0]["upsAccessPoint"]["location"][
-                "country"
-            ]
-        except:
-            country = "Not Found"
-        try:
-            zipCode = response.json()["trackDetails"][0]["upsAccessPoint"]["location"][
-                "zipCode"
-            ]
-        except:
-            zipCode = "Not Found"
-        try:
-            attentionName = response.json()["trackDetails"][0]["upsAccessPoint"][
-                "location"
-            ]["attentionName"]
-        except:
-            attentionName = "Not Found"
+            track_details = response.json()["trackDetails"][0]
 
-        print_task("[ups %s] successful got data..." % tracking_number, GREEN)
+            package_status = track_details.get("packageStatus", "Not Found")
+            simplified_text = track_details.get("simplifiedText", "Not Found")
 
-        # with open("Uzumaki/tracker/ups_result.csv", "a") as f:
-        #     import csv
+            access_point = track_details.get("upsAccessPoint")
+            street_address1 = access_point["location"].get("streetAddress1", "Not Found")
+            city = access_point["location"].get("city", "Not Found")
+            country = access_point["location"].get("country", "Not Found")
+            zip_code = access_point["location"].get("zipCode", "Not Found")
+            attention_name = access_point["location"].get("attentionName", "Not Found")
 
-        #     writer = csv.writer(f)
-        #     writer.writerow(
-        #         [
-        #             tracking_number,
-        #             packageStatus,
-        #             simplifiedText,
-        #             streetAddress1,
-        #             city,
-        #             country,
-        #             zipCode,
-        #             attentionName,
-        #         ]
-        #     )
+            print_task(f"[ups {tracking_number}] successful got data...", GREEN)
 
-        # send discord webhook
-        send_webhook(
-            "ups",
-            tracking_number,
-            packageStatus,
-            simplifiedText,
-            streetAddress1,
-            city,
-            country,
-            zipCode,
-            attentionName,
-        )
+            data = {
+                "tracking_number": tracking_number,
+                "package_status": package_status,
+                "simplified_text": simplified_text,
+                "street_address1": street_address1,
+                "city": city,
+                "country": country,
+                "zip_code": zip_code,
+                "attention_name": attention_name,
+            }
+ 
 
+            send_webhook("ups", data)
+
+        except KeyError:
+            print_task(f"[ups {tracking_number}] error: invalid response format", RED)
+            time.sleep(3)
+            os._exit(1)
+
+        
     except Exception as e:
-        print_task("[ups %s] error: %s" % (tracking_number, e), RED)
+        print_task(f"[ups {tracking_number}] error: {e}", RED)
+        time.sleep(3)
         return

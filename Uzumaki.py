@@ -10,31 +10,30 @@ from handler.restock import restockPayout
 import time
 import colorama
 
+def bye():
+    print_task("bye bye...",RED)
+    time.sleep(3)
+    lambda: os._exit(1)
+
+OPTIONS = {
+    "01": redirect,
+    "02": tracker,
+    "03": geocode,
+    "04": jigger,
+    "05": scraperOrder,
+    "06": restockPayout,
+    "00": bye,
+}
 
 def handler_option(option):
-    if option == "01":
-        redirect()
-    elif option == "02":
-        tracker()
-    elif option == "03":
-        geocode()
-    elif option == "04":
-        jigger()
-    elif option == "05":
-        scraperOrder()
-    elif option == "06":
-        restockPayout()
-    elif option == "00":
-        print_task("bye bye...", RED)
-        time.sleep(2)
-        os._exit(1)
-    else:
+    try:
+        OPTIONS[option]()
+    except KeyError:
         print_task("invalid option", RED)
-        time.sleep(2)
+        time.sleep(3)
         os._exit(1)
 
-
-if __name__ == "__main__":
+def main():
     colorama.init(wrap=True)
 
     checking()
@@ -44,10 +43,16 @@ if __name__ == "__main__":
     option = banner(username)
     handler_option(option)
 
+if __name__ == "__main__":
+    main()
+
+
 
 # ups redirect => opt bot
 # courir checker
 # twitter account
+# roles
+
 
 # scraper SKU nike
 # zalando account checker

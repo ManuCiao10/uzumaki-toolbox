@@ -4,12 +4,13 @@ import time
 import os
 from handler.webhook import webhook_nike
 
+ORDER_NOT_FOUND_MSG = "Order Not Found"
+INVALID_ORDER_MSG = "invalid or unavailable order..."
+SLEEP_TIME = 3
+
 
 def nike(tracking_number, email):
-    if len(email) == 0 or email == "":
-        print_task("[nike %s] email is required" % tracking_number, RED)
-        time.sleep(3)
-        os._exit(1)
+    assert email, print_task("email is required", RED) or time.sleep(3) or os._exit(1)
 
     headers = {
         "authority": "www.nike.com",
@@ -89,49 +90,10 @@ def nike(tracking_number, email):
                         "[nike %s] error: %s" % (tracking_number, "Order Not Found..."),
                         RED,
                     )
-                    time.sleep(3)
+                    time.sleep(SLEEP_TIME)
                     os._exit(1)
             except:
                 pass
-
-            print_task("[nike %s] successful got order..." % tracking_number, GREEN)
-
-            price = data.get("transaction").get("orderTotal")
-            name = data.get("group")[0].get("orderItems")[0].get("product").get("title")
-            url_image = (
-                data.get("group")[0]
-                .get("orderItems")[0]
-                .get("product")
-                .get("productImage")
-            )
-            size = data.get("group")[0].get("orderItems")[0].get("product").get("size")
-            lineItemStatus = (
-                data.get("group")[0]
-                .get("orderItems")[0]
-                .get("lineItemStatus")
-                .get("status")
-            )
-            address = data.get("shipFrom").get("address").get("address1")
-            city = data.get("shipFrom").get("address").get("city")
-            country = data.get("shipFrom").get("address").get("country")
-            zip = data.get("shipFrom").get("address").get("zipCode")
-            tracklink = (
-                data.get("group")[0].get("actions").get("trackShipment").get("webLink")
-            )
-
-            webhook_nike(
-                str(price),
-                name,
-                url_image,
-                str(size),
-                lineItemStatus,
-                address,
-                city,
-                country,
-                str(zip),
-                tracklink,
-                tracking_number,
-            )
 
         except ValueError:
             print_task(
@@ -141,6 +103,42 @@ def nike(tracking_number, email):
             )
             time.sleep(3)
             os._exit(1)
+
+        print_task("[nike %s] successful got order..." % tracking_number, GREEN)
+
+        price = data.get("transaction").get("orderTotal")
+        name = data.get("group")[0].get("orderItems")[0].get("product").get("title")
+        url_image = (
+            data.get("group")[0].get("orderItems")[0].get("product").get("productImage")
+        )
+        size = data.get("group")[0].get("orderItems")[0].get("product").get("size")
+        lineItemStatus = (
+            data.get("group")[0]
+            .get("orderItems")[0]
+            .get("lineItemStatus")
+            .get("status")
+        )
+        address = data.get("shipFrom").get("address").get("address1")
+        city = data.get("shipFrom").get("address").get("city")
+        country = data.get("shipFrom").get("address").get("country")
+        zip = data.get("shipFrom").get("address").get("zipCode")
+        tracklink = (
+            data.get("group")[0].get("actions").get("trackShipment").get("webLink")
+        )
+
+        webhook_nike(
+            str(price),
+            name,
+            url_image,
+            str(size),
+            lineItemStatus,
+            address,
+            city,
+            country,
+            str(zip),
+            tracklink,
+            tracking_number,
+        )
 
     except requests.exceptions.ConnectionError:
         print_task("connection error", RED)

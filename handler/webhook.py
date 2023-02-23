@@ -2,6 +2,7 @@ from handler.utils import *
 import requests
 import json
 
+UPS_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1078449797121445920/ups-social-share-logo-removebg-preview.png"
 
 def redirect_webhook_brt(
     company, tracking_number, name, phone, address, city, state, zip, url, email
@@ -133,17 +134,7 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
         print(err)
 
 
-def send_webhook(
-    company,
-    tracking_number,
-    status,
-    simplifiedText,
-    streetAddress1,
-    city,
-    country,
-    zipCode,
-    attentionName,
-):
+def send_webhook(company,dataInfo):
     # https://www.mathsisfun.com/hexadecimal-decimal-colors.html
 
     settings = load_settings()
@@ -151,12 +142,14 @@ def send_webhook(
 
     url: str = ""
 
+
     if company == "ups":
         url = (
             "https://www.ups.com/track?loc=en_IT&tracknum="
-            + tracking_number
+            + dataInfo["tracking_number"]
             + "&requester=ST/trackdetails"
         )
+
     data = {
         "username": "Uzumaki™",
         "avatar_url": LOGO,
@@ -167,21 +160,21 @@ def send_webhook(
                 "url": url,
                 "color": 3128760,
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
-                "thumbnail": {"url": LOGO},
+                "thumbnail": {"url": UPS_LOGO},
                 "fields": [
                     {"name": "Company", "value": company, "inline": True},
                     {
                         "name": "Tracking Number",
-                        "value": tracking_number,
+                        "value": dataInfo["tracking_number"],
                         "inline": True,
                     },
-                    {"name": "Status", "value": status, "inline": True},
-                    {"name": "Text", "value": simplifiedText, "inline": True},
-                    {"name": "Street Address", "value": streetAddress1, "inline": True},
-                    {"name": "City", "value": city, "inline": True},
-                    {"name": "Country", "value": country, "inline": True},
-                    {"name": "Zip Code", "value": zipCode, "inline": True},
-                    {"name": "Name", "value": attentionName, "inline": True},
+                    {"name": "Status", "value": dataInfo["package_status"], "inline": True},
+                    {"name": "Text", "value": dataInfo["simplified_text"], "inline": True},
+                    {"name": "Street Address", "value": dataInfo["street_address1"], "inline": True},
+                    {"name": "City", "value": dataInfo["city"], "inline": True},
+                    {"name": "Country", "value": dataInfo["country"], "inline": True},
+                    {"name": "Zip Code", "value": dataInfo["zip_code"], "inline": True},
+                    {"name": "Name", "value": dataInfo["attention_name"], "inline": True},
                 ],
             }
         ],

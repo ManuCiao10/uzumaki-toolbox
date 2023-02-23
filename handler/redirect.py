@@ -11,7 +11,9 @@ import threading
 def brt_tracking_redirect(
     tracking_number, OrderZip, name, phone, address, city, state, zip, email
 ):
-    print_task("[brt %s] %s" % (tracking_number, "getting tracking info"), PURPLE)
+    base_url = "https://vas.brt.it/vas/"
+    print_task(f"[brt {tracking_number}] getting tracking info", PURPLE)
+
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
         "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
@@ -19,7 +21,7 @@ def brt_tracking_redirect(
         "Connection": "keep-alive",
         "Origin": "https://vas.brt.it",
         "Pragma": "no-cache",
-        "Referer": "https://vas.brt.it/vas/sped_numspe_par.htm",
+        "Referer": f"{base_url}sped_numspe_par.htm",
         "Sec-Fetch-Dest": "document",
         "Sec-Fetch-Mode": "navigate",
         "Sec-Fetch-Site": "same-origin",
@@ -38,6 +40,7 @@ def brt_tracking_redirect(
         "referer": "sped_numspe_par.htm",
         "nSpediz": tracking_number[2:],
     }
+
     session = requests.Session()
 
     response = session.post(
@@ -725,38 +728,43 @@ def ups(
     print(response.text)
 
 
-def redirectHandler(
-    fileName, tracking_number, OrderZip, name, phone, address, city, state, zip, email
+def redirect_handler(
+    file_name,
+    tracking_number,
+    order_zip,
+    name,
+    phone,
+    address,
+    city,
+    state,
+    zip_code,
+    email,
 ):
-    if fileName == "brt.csv":
+    """
+    Redirects the package to the correct handler function based on the file name.
+    """
+
+    if file_name == "brt.csv":
         brt(
             tracking_number,
-            OrderZip,
+            order_zip,
             name,
             phone,
             address,
             city,
             state,
-            zip,
+            zip_code,
             email,
         )
-    # elif fileName == "ups.csv":
-    #     ups(
-    #         company,
-    #         tracking_number,
-    #         OrderZip,
-    #         name,
-    #         phone,
-    #         address,
-    #         city,
-    #         state,
-    #         zip,
-    #         email,
-    #     )
+    # elif file_name == "ups.csv":
+    #     ups_handler(tracking_number, order_zip, name, phone, address, city, state, zip_code, email)
     else:
         print_task("Company not supported", RED)
         time.sleep(3)
         os._exit(1)
+
+
+REDIRECT_PATH = "Uzumaki/redirect"
 
 
 def redirect():
@@ -764,16 +772,13 @@ def redirect():
 
     print(RED + BANNER + RESET)
 
-    os.chdir("Uzumaki/redirect")
-    files = os.listdir()
-    os.chdir("../..")
-
-    files_dict = {}
-
-    for index, file in enumerate(files):
-        print_file(str(index) + ". " + file)
-
-        files_dict[str(index)] = file
+    # Use with statement to open file and change directory
+    with os.scandir(REDIRECT_PATH) as dir_entries:
+        files_dict = {}
+        for index, entry in enumerate(dir_entries):
+            if entry.is_file():
+                print_file(f"{index}. {entry.name}")
+                files_dict[str(index)] = entry.name
 
     print("\n")
     option = input(TAB + "> choose: ")
@@ -785,7 +790,8 @@ def redirect():
         time.sleep(3)
         os._exit(1)
 
-    with open("Uzumaki/redirect/" + file, "r") as f:
+    # Use with statement to open file
+    with open(os.path.join(REDIRECT_PATH, file), "r") as f:
         reader = csv.reader(f)
 
         try:
@@ -798,16 +804,16 @@ def redirect():
         try:
             row = next(reader)
         except StopIteration:
-            print_task("Please Fill Uzumaki/redirect/" + file, RED)
+            print_task(f"Please Fill {REDIRECT_PATH}/{file}", RED)
             time.sleep(2)
             os._exit(1)
 
+        # Use descriptive variable names
         f.seek(0)
         reader = csv.reader(f)
         next(reader)
 
         for row in reader:
-            # company = row[0].lower().strip()
             tracking_number = row[0].lower().strip()
             OrderZip = row[1].lower().strip()
             name = row[2].lower().strip()
@@ -815,21 +821,27 @@ def redirect():
             address = row[4].lower().strip()
             city = row[5].lower().strip()
             state = row[6].lower().strip()
-            zip = row[7].lower().strip()
+            zip_code = row[7].lower().strip()
             email = row[8].lower().strip()
 
-            threading.Thread(
-                target=redirectHandler,
-                args=(
-                    file,
-                    tracking_number,
-                    OrderZip,
-                    name,
-                    phone,
-                    address,
-                    city,
-                    state,
-                    zip,
-                    email,
-                ),
-            ).start()
+            # Add error handling
+            try:
+                threading.Thread(
+                    target=redirectHandler,
+                    args=(
+                        file,
+                        tracking_number,
+                        OrderZip,
+                        name,
+                        phone,
+                        address,
+                        city,
+                        state,
+                        zip_code,
+                        email,
+                    ),
+                ).start()
+            except Exception as e:
+                print(f"Error: {e}")
+                time.sleep(3)
+                return
