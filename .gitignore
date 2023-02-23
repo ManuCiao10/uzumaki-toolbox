@@ -6,3 +6,4 @@ build
 dist
 Uzumaki
 Uzumaki.spec
+Uzumaki/restock/credentials.json

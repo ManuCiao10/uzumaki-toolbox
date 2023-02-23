@@ -72,7 +72,7 @@ def banner(username):
 def checking():
     firstRun = False
 
-    #get current path 
+    # get current path
     path = os.getcwd()
 
     # ----Uzumaki----#
@@ -111,7 +111,9 @@ def checking():
     # ----credentials.json----#
     if not os.path.exists("Uzumaki/restock/credentials.json"):
         with open("Uzumaki/restock/credentials.json", "w") as f:
-            f.write('{\n  "userGmail": "userGmail here",\n  "passwordGmail": "passwordGmail here", \n\n  "userRestock": "userRestock here",\n  "passwordRestock": "passwordRestock here"\n}')
+            f.write(
+                '{\n  "userGmail": "userGmail here",\n  "passwordGmail": "passwordGmail here", \n\n  "userRestock": "userRestock here",\n  "passwordRestock": "passwordRestock here"\n}'
+            )
             f.close()
 
     # ----tracker----#
@@ -168,7 +170,7 @@ def checking():
             f.close()
 
     if firstRun:
-        print_task("folder created, check " + os.getcwd() , PURPLE)
+        print_task("folder created, check " + os.getcwd(), PURPLE)
         time.sleep(5)
         os._exit(1)
 

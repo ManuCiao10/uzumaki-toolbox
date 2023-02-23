@@ -39,14 +39,22 @@ def newBalance(orderNumber, postalCode, orderLastname):
     response = requests.get(url_request, params=params, headers=headers)
 
     if "Indirizzo di spedizione" or "Shipping Address" in response.text:
-        print_task(
-            "order found %s %s %s" % (orderNumber, postalCode, orderLastname), GREEN
-        )
+        
         trackingLink = response.url
 
         soup = BeautifulSoup(response.text, "html.parser")
 
-        date = soup.find("div", {"class": "col-8 col-lg-8"}).text
+        try:
+            date = soup.find("div", {"class": "col-8 col-lg-8"}).text
+        
+        except:
+            print_task("order not found %s %s %s" % (orderNumber, postalCode, orderLastname), RED)
+            time.sleep(5)
+            return
+
+        print_task(
+            "order found %s %s %s" % (orderNumber, postalCode, orderLastname), GREEN
+        )
 
         style = soup.find("p", {"class": "font-body-small mb-0"}).text
         style = style.split(":")[1].strip()
@@ -93,14 +101,7 @@ def newBalance(orderNumber, postalCode, orderLastname):
         os._exit(1)
 
 
-def scraperOrderhanlder(fileName, orderNumber, postalCode, orderLastname):
-    if fileName == "newBalance.csv":
-        newBalance(orderNumber, postalCode, orderLastname)
-    else:
-        print_task("invalid option", RED)
-        time.sleep(3)
-        os._exit(1)
-
+# def courir(email, zipCode):
 
 def scraperOrder():
     print("ordescraperOrder")
@@ -150,18 +151,37 @@ def scraperOrder():
         reader = csv.reader(f)
         next(reader)
 
-        for row in reader:
-            try:
-                orderNumber = row[0].strip().lower()
-                postalCode = row[1].strip().lower()
-                orderLastname = row[2].strip().lower()
+        if file == "newBalance.csv":
+            for row in reader:
+                try:
+                    orderNumber = row[0].strip().lower()
+                    postalCode = row[1].strip().lower()
+                    orderLastname = row[2].strip().lower()
 
-            except IndexError:
-                print_task("invalid file", RED)
-                time.sleep(3)
-                os._exit(1)
+                except IndexError:
+                    print_task("invalid file", RED)
+                    time.sleep(3)
+                    os._exit(1)
 
-            threading.Thread(
-                target=scraperOrderhanlder,
-                args=(file, orderNumber, postalCode, orderLastname),
-            ).start()
+                threading.Thread(
+                    target=newBalance,
+                    args=(orderNumber, postalCode, orderLastname),
+                ).start()
+
+        elif file == "courir.csv":
+            for row in reader:
+                try:
+                    email = row[0].strip().lower()
+                    zipCode = row[1].strip().lower()
+
+                except IndexError:
+                    print_task("invalid file", RED)
+                    time.sleep(3)
+                    os._exit(1)
+
+                threading.Thread(target=courir, args=(email, zipCode)).start()
+
+        else:
+            print_task("invalid option", RED)
+            time.sleep(3)
+            os._exit(1)

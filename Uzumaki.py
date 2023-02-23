@@ -45,10 +45,12 @@ if __name__ == "__main__":
     handler_option(option)
 
 
+# ups redirect => opt bot
+# courir checker
+# twitter account
+
 # scraper SKU nike
 # zalando account checker
 # price checker goat stock
 # revolut Business
 # bot directly on discord
-# restock shit csv no payout
-# ups redirect
