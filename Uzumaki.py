@@ -5,6 +5,8 @@ from handler.tracker import tracker
 from handler.auth import auth
 from handler.jigger import jigger
 from handler.scraperOrder import scraperOrder
+from handler.presence import reachPresence
+from handler.restock import restockPayout
 import time
 import colorama
 
@@ -20,6 +22,8 @@ def handler_option(option):
         jigger()
     elif option == "05":
         scraperOrder()
+    elif option == "06":
+        restockPayout()
     elif option == "00":
         print_task("bye bye...", RED)
         time.sleep(2)
@@ -32,17 +36,19 @@ def handler_option(option):
 
 if __name__ == "__main__":
     colorama.init(wrap=True)
-    
+
     checking()
     username = auth()
+    reachPresence(username)
 
     option = banner(username)
     handler_option(option)
 
-# TODO:
-#---------------------------------
-#scraper SKU nike
-#zalando account checker
-#price checker goat stock
-#revolut Business
-#the bot directly on discord
+
+# scraper SKU nike
+# zalando account checker
+# price checker goat stock
+# revolut Business
+# bot directly on discord
+# restock shit csv no payout
+# ups redirect

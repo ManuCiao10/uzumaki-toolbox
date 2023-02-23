@@ -56,15 +56,10 @@ def banner(username):
         + "Order Tracker (Ups Brt Sda Nike)"
     )
 
-    # print(TAB + RED + " 04 " + WHITE + "Scraper" +
-    #       TAB + "Resell payout scraper (Goat Stockx Restock) ==> TO FIX")
-
     print(TAB + RED + " 03 " + WHITE + "Geocode" + TAB + "Geocode address")
     print(TAB + RED + " 04 " + WHITE + "Csv" + TAB + TAB + "Csv filler Jig")
     print(TAB + RED + " 05 " + WHITE + "Scraper" + TAB + "Scraper Order (New Balance)")
-
-    # print(TAB + RED + " 06 " + WHITE + "Checker" +
-    #       TAB + "Combo list accounts (Zalando Gmail) ==> TO FIX")
+    print(TAB + RED + " 06 " + WHITE + "Restock" + TAB + "Missing Payout Scraper")
 
     print(TAB + RED + " 00 " + WHITE + "Exit" + TAB + "Exit from Uzumaki Tools")
 
@@ -103,11 +98,20 @@ def checking():
     if not os.path.exists("Uzumaki/scraper"):
         os.makedirs("Uzumaki/scraper")
 
+    if not os.path.exists("Uzumaki/restock"):
+        os.makedirs("Uzumaki/restock")
+
     # ----settings.json----#
 
     if not os.path.exists("Uzumaki/settings.json"):
         with open("Uzumaki/settings.json", "w") as f:
             f.write('{\n  "webhook": "WEBHOOK HERE",\n  "key": "KEY HERE"\n}')
+            f.close()
+
+    # ----credentials.json----#
+    if not os.path.exists("Uzumaki/restock/credentials.json"):
+        with open("Uzumaki/restock/credentials.json", "w") as f:
+            f.write('{\n  "userGmail": "userGmail here",\n  "passwordGmail": "passwordGmail here", \n\n  "userRestock": "userRestock here",\n  "passwordRestock": "passwordRestock here"\n}')
             f.close()
 
     # ----tracker----#
