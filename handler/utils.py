@@ -89,7 +89,7 @@ def checking():
     if not os.path.exists("Uzumaki/restock/credentials.json"):
         with open("Uzumaki/restock/credentials.json", "w") as f:
             f.write(
-                '{\n  "userGmail": "userGmail here",\n  "passwordGmail": "passwordGmail here", \n\n  "userRestock": "userRestock here",\n  "passwordRestock": "passwordRestock here"\n}'
+                '{\n  "userGmail": "",\n  "passwordGmail": "", \n\n  "userRestock": "",\n  "passwordRestock": ""\n}'
             )
             f.close()
 

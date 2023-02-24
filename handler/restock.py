@@ -91,59 +91,62 @@ def get_wise_mails(user, password, wise_mail):
         os._exit(1)
 
 
-def restockPayout():
-    # url: https://www.youtube.com/watch?v=hXiPshHn9Pw
+def validate_credentials(credentials):
+    required_fields = ["userGmail", "passwordGmail", "userRestock", "passwordRestock"]
+    for field in required_fields:
+        if credentials.get(field, "").strip() == "":
+            return False
+    return True
 
+
+def restockPayout():
     os.chdir("Uzumaki/restock")
 
-    print_task("starting restock payout...", CYAN)
+    print_task("starting restock payout...", PURPLE)
 
     # Get credentials from file
     try:
         with open("credentials.json", "r") as f:
             credentials = json.load(f)
-            userGmail = credentials["userGmail"]
-            passwordGmail = credentials["passwordGmail"]
 
-            userRestock = credentials["userRestock"]
-            passwordRestock = credentials["passwordRestock"]
-
-            wise_mail = "noreply@wise.com"
-
-            f.close()
-
-        if (
-            userGmail == "userGmail here"
-            or passwordGmail == "passwordGmail here"
-            or userRestock == "userRestock here"
-            or passwordRestock == "passwordRestock here"
-        ):
+        if not validate_credentials(credentials):
             print_task("please fill credentials.json", RED)
-            time.sleep(5)
-            os._exit(1)
-
-        if (
-            len(userGmail) == 0
-            or len(passwordGmail) == 0
-            or len(userRestock) == 0
-            or len(passwordRestock) == 0
-        ):
-            print_task("please fill credentials.json", RED)
-            time.sleep(5)
+            input("Press Enter to exit...")
             os._exit(1)
 
     except:
         print_task("error getting credentials", RED)
-        time.sleep(5)
+        input("Press Enter to exit...")
         os._exit(1)
 
-    wise_mails = get_wise_mails(userGmail, passwordGmail, wise_mail)
-    print_task("wise mails: " + str(len(wise_mails)), GREEN)
-    restocks_sales = get_restocks_sales(userRestock, passwordRestock)
-    print_task("restocks sales: " + str(len(restocks_sales)), GREEN)
+    userGmail = credentials["userGmail"]
+    passwordGmail = credentials["passwordGmail"]
+    userRestock = credentials["userRestock"]
+    passwordRestock = credentials["passwordRestock"]
+    wise_mail = "noreply@wise.com"
+
+    try:
+        print_task("getting wise mails...", CYAN)
+        wise_mails = get_wise_mails(userGmail, passwordGmail, wise_mail)
+        print_task(f"wise mails: {len(wise_mails)}", GREEN)
+    except Exception as e:
+        print_task(f"error getting wise mails: {str(e)}", RED)
+        input("Press Enter to exit...")
+        os._exit(1)
+
+    try:
+        print_task("getting restock sales...", CYAN)
+        restocks_sales = get_restocks_sales(userRestock, passwordRestock)
+        print_task(f"restocks sales: {len(restocks_sales)}", GREEN)
+    except Exception as e:
+        print_task(f"error getting restock sales: {str(e)}", RED)
+        input("Press Enter to exit...")
+        os._exit(1)
+
     # Create CSV and get missing payout count
     missing_payout_count = create_csv(restocks_sales, wise_mails)
-    print_task("missing payout count: " + str(missing_payout_count), YELLOW)
+    print_task(f"missing payout count: {missing_payout_count}", YELLOW)
+
     # check output.csv
-    print_task("check output.csv", PURPLE)
-    time.sleep(5)
+    print_task("check restock/output.csv", PURPLE)
+    input("Press Enter to exit...")

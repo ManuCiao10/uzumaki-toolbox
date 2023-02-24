@@ -27,7 +27,7 @@ def auth():
 
     if not key or key == "KEY HERE":
         print_task("please set key...", RED)
-        time.sleep(3)
+        input("Press Enter to exit...")
         os._exit(1)
 
     license_data = get_license(key)
@@ -35,18 +35,18 @@ def auth():
     if license_data:
         if license_data.get("metadata") != {}:
             print_task("License is already in use on another machine!", RED)
-            time.sleep(3)
+            input("Press Enter to exit...")
             os._exit(1)
     else:
         print_task("Invalid license key!", RED)
-        time.sleep(3)
+        input("Press Enter to exit...")
         os._exit(1)
 
     username = license_data.get("integrations").get("discord").get("username")
 
     if not webhook or webhook == "WEBHOOK HERE":
         print_task("please set webhook...", RED)
-        time.sleep(3)
+        input("Press Enter to exit...")
         os._exit(1)
 
     return username
