@@ -47,7 +47,7 @@ def banner(username):
     print(f"\t{Fore.RED} 02 {Fore.WHITE}Tracker\tOrder Tracker (Ups Brt Sda Nike)")
     print(f"\t{Fore.RED} 03 {Fore.WHITE}Geocode\tGeocode address")
     print(f"\t{Fore.RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
-    print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance)")
+    print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
@@ -60,7 +60,8 @@ def checking():
 
     # ----Uzumaki----#
     if not os.path.exists("Uzumaki"):
-        print_task("creating folder Uzumaki...", GREEN)
+        print_task("creating folder Uzumaki...", PURPLE)
+        print_task("Uzumaki created", GREEN)
         os.makedirs("Uzumaki")
 
         firstRun = True
@@ -76,6 +77,7 @@ def checking():
 
     for directory in directories:
         if not os.path.exists(directory):
+            print_task(directory + "created", GREEN)
             os.makedirs(directory)
 
     # ----settings.json----#
@@ -83,6 +85,7 @@ def checking():
     if not os.path.exists("Uzumaki/settings.json"):
         with open("Uzumaki/settings.json", "w") as f:
             f.write('{\n  "webhook": "WEBHOOK HERE",\n  "key": "KEY HERE"\n}')
+            print_task("settings.json created", GREEN)
             f.close()
 
     # ----credentials.json----#
@@ -91,6 +94,8 @@ def checking():
             f.write(
                 '{\n  "userGmail": "",\n  "passwordGmail": "", \n\n  "userRestock": "",\n  "passwordRestock": ""\n}'
             )
+
+            print_task("credentials.json created", GREEN)
             f.close()
 
     # ----tracker----#
@@ -98,11 +103,13 @@ def checking():
     if not os.path.exists("Uzumaki/tracker/nike.csv"):
         with open("Uzumaki/tracker/nike.csv", "w") as f:
             f.write("orderNumber,email")
+            print_task("nike.csv created", GREEN)
             f.close()
 
     if not os.path.exists("Uzumaki/tracker/brt.csv"):
         with open("Uzumaki/tracker/brt.csv", "w") as f:
             f.write("tracking_number")
+            print_task("brt.csv created", GREEN)
             f.close()
 
     if not os.path.exists("Uzumaki/tracker/ups.csv"):
@@ -113,6 +120,7 @@ def checking():
     if not os.path.exists("Uzumaki/tracker/sda.csv"):
         with open("Uzumaki/tracker/sda.csv", "w") as f:
             f.write("tracking_number")
+            print_task("sda.csv created", GREEN)
             f.close()
 
     # ----redirect----#
@@ -122,18 +130,27 @@ def checking():
             f.write(
                 "tracking_number,OrderZipcode,name,phone,address,city,state(FI),zip,email"
             )
+            print_task("brt.csv created", GREEN)
             f.close()
 
     # ----scraper----#
     if not os.path.exists("Uzumaki/scraper/newBalance.csv"):
         with open("Uzumaki/scraper/newBalance.csv", "w") as f:
             f.write("orderNumber,postalCode,orderLastname")
+            print_task("newBalance.csv created", GREEN)
+            f.close()
+
+    if not os.path.exists("Uzumaki/scraper/courir.csv"):
+        with open("Uzumaki/scraper/courir.csv", "w") as f:
+            f.write("email,zipCode")
+            print_task("courir.csv created", GREEN)
             f.close()
 
     # ----geocode----#
 
     if not os.path.exists("Uzumaki/geocode/geocoding.csv"):
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
+            print_task("geocoding.csv created", GREEN)
             f.write("zip_code")
             f.close()
 
@@ -144,10 +161,11 @@ def checking():
             f.write(
                 "First Name,Second name,Mobile Number,Address,HouseNumber,country(italy)"
             )
+            print_task("jig.csv reated", GREEN)
             f.close()
 
     if firstRun:
-        print_task("folder created, check " + os.getcwd(), PURPLE)
+        print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")
         os._exit(1)
 

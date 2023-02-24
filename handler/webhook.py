@@ -309,3 +309,35 @@ def webhook_newBalance(
         result.raise_for_status()
     except requests.exceptions.HTTPError as err:
         print(err)
+
+
+def webhook_courir(orderNumber, image, status, title, email, zipCode):
+    settings = load_settings()
+    webhook = settings["webhook"]
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": title,
+                "color": 3128760,
+                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": image},
+                "fields": [
+                    {"name": "Status", "value": status, "inline": False},
+                    {"name": "Order Number", "value": orderNumber, "inline": True},
+                    {"name": "Email", "value": email, "inline": False},
+                    {"name": "Zip Code", "value": zipCode, "inline": True},
+                ],
+            }
+        ],
+    }
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
+    try:
+        result.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(err)

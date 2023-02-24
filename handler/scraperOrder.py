@@ -4,7 +4,7 @@ import csv
 import threading
 import requests
 from bs4 import BeautifulSoup
-from handler.webhook import webhook_newBalance
+from handler.webhook import webhook_newBalance, webhook_courir
 
 
 def newBalance(orderNumber, postalCode, orderLastname):
@@ -103,7 +103,59 @@ def newBalance(orderNumber, postalCode, orderLastname):
         os._exit(1)
 
 
-# def courir(email, zipCode):
+API_ENDPOINT = "https://api.shipup.co/v1/orders/tracking_page_order"
+AUTH_TOKEN = "psjuWukt7xZALCREwhUgYg"
+
+
+def courir(email, zipCode):
+    headers = {
+        "authority": "api.shipup.co",
+        "accept": "application/vnd.api+json",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "authorization": f"Bearer {AUTH_TOKEN}",
+        "cache-control": "no-cache",
+        "content-type": "application/vnd.api+json",
+        "origin": "https://www.courir.com",
+        "pragma": "no-cache",
+        "referer": "https://www.courir.com/",
+        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "cross-site",
+        "sec-gpc": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    }
+
+    try:
+        with requests.get(
+            f"{API_ENDPOINT}?address_zip={zipCode}&email={email}",
+            headers=headers,
+        ) as response:
+            response.raise_for_status()
+            data = response.json()
+
+            print_task(f"order found {email} {zipCode}", GREEN)
+
+            orderNumber = data["data"][0]["attributes"]["orderNumber"]
+            image = data["included"][1]["attributes"]["thumbnail"]["src"]
+            status = data["included"][0]["attributes"]["statusCode"]
+            title = data["included"][1]["attributes"]["title"]
+
+            time.sleep(1)
+            webhook_courir(orderNumber, image, status, title, email, zipCode)
+
+            time.sleep(4)
+    except requests.exceptions.HTTPError as e:
+        print_task(f"order not found {email} {zipCode}", RED)
+        time.sleep(3)
+    except json.decoder.JSONDecodeError as e:
+        print_task(f"order not found {email} {zipCode}", RED)
+        time.sleep(3)
+    except Exception as e:
+        print_task(f"unknown error {email} {zipCode}", RED)
+        time.sleep(5)
 
 
 def scraperOrder():

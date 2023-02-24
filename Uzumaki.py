@@ -45,7 +45,6 @@ if __name__ == "__main__":
 
 
 # ups redirect => opt bot
-# courir checker
 # twitter account
 # roles
 
