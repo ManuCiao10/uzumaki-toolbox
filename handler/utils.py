@@ -81,22 +81,26 @@ def checking():
             os.makedirs(directory)
 
     # ----settings.json----#
+    setting = {"webhook": "WEBHOOK HERE", "key": "KEY HERE"}
 
     if not os.path.exists("Uzumaki/settings.json"):
         with open("Uzumaki/settings.json", "w") as f:
-            f.write('{\n  "webhook": "WEBHOOK HERE",\n  "key": "KEY HERE"\n}')
+            json.dump(setting, f, indent=2)
             print_task("settings.json created", GREEN)
-            f.close()
 
     # ----credentials.json----#
+
+    credentials = {
+        "userGmail": "",
+        "passwordGmail": "",
+        "userRestock": "",
+        "passwordRestock": "",
+    }
+
     if not os.path.exists("Uzumaki/restock/credentials.json"):
         with open("Uzumaki/restock/credentials.json", "w") as f:
-            f.write(
-                '{\n  "userGmail": "",\n  "passwordGmail": "", \n\n  "userRestock": "",\n  "passwordRestock": ""\n}'
-            )
-
+            json.dump(credentials, f,indent=2)
             print_task("credentials.json created", GREEN)
-            f.close()
 
     # ----tracker----#
 
@@ -213,15 +217,24 @@ def load_settings():
     Returns:
         dict: The settings as a dictionary.
     """
+
+    path = "Uzumaki/settings.json"
+
     try:
-        with open("Uzumaki/settings.json", "r") as settings_file:
-            settings = json.load(settings_file)
+        with open(path, "r") as f:
+            settings = json.load(f)
 
     except FileNotFoundError:
         print_task("settings.json not found", RED)
         print_task("please check your folder", RED)
-        time.sleep(3)
-        os._exit(1)
+        input("Press Enter to exit...")
+        return
+
+    except json.decoder.JSONDecodeError:
+        print_task("settings.json is corrupted", RED)
+        print_task("please check your folder", RED)
+        input("Press Enter to exit...")
+        return
 
     return settings
 

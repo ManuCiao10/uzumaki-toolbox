@@ -21,6 +21,7 @@ OPTIONS = {
     "00": bye,
 }
 
+
 def handler_option(option):
     try:
         OPTIONS[option]()
@@ -28,6 +29,7 @@ def handler_option(option):
         print_task("invalid option", RED)
         time.sleep(3)
         os._exit(1)
+
 
 def main():
     colorama.init(wrap=True)
@@ -39,18 +41,15 @@ def main():
     option = banner(username)
     handler_option(option)
 
+
 if __name__ == "__main__":
     main()
 
 
-
 # ups redirect => opt bot
-# twitter account
-# roles
 
 
 # scraper SKU nike
 # zalando account checker
 # price checker goat stock
 # revolut Business
-# bot directly on discord

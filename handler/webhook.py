@@ -311,9 +311,11 @@ def webhook_newBalance(
         print(err)
 
 
-def webhook_courir(orderNumber, image, status, title, email, zipCode):
+def webhook_courir(orderNumber, image, status, title, email, zipCode, trackingLink):
     settings = load_settings()
     webhook = settings["webhook"]
+    if trackingLink != None:
+        status = "[" + status + "]" + "(" + trackingLink + ")"
 
     data = {
         "username": "Uzumaki™",

@@ -262,18 +262,6 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
 
         try:
             session = requests.Session()
-            # http = "185.91.206.181:6871:hgj3x3cas2:0ef2uixpcu"
-            # ip = http.split(":")[0]
-            # port = http.split(":")[1]
-            # username = http.split(":")[2]
-            # password = http.split(":")[3]
-
-            # proxies = {
-            #     "http": "http://%s:%s@%s:%s" % (username, password, ip, port),
-            #     "https": "http://%s:%s@%s:%s" % (username, password, ip, port),
-            # }
-
-            # session.proxies = proxies
 
             response = session.get(
                 "https://vas.brt.it/vas/sped_ricdocmit_load.hsm",

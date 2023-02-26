@@ -1,5 +1,4 @@
-from handler.utils import print_task, RED, load_settings
-import time
+from handler.utils import *
 import os
 import requests
 

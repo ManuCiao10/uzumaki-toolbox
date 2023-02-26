@@ -143,8 +143,17 @@ def courir(email, zipCode):
             status = data["included"][0]["attributes"]["statusCode"]
             title = data["included"][1]["attributes"]["title"]
 
+            try:
+                trackingLink = (
+                    data.get("included")[2].get("attributes").get("trackingLink")
+                )
+            except:
+                trackingLink = None
             time.sleep(1)
-            webhook_courir(orderNumber, image, status, title, email, zipCode)
+
+            webhook_courir(
+                orderNumber, image, status, title, email, zipCode, trackingLink
+            )
 
             time.sleep(4)
     except requests.exceptions.HTTPError as e:
