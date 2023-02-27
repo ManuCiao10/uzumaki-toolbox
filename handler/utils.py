@@ -16,7 +16,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.24"
+VERSION = "0.0.25"
 
 init()
 
@@ -36,6 +36,7 @@ BANNER = (
 """
     % VERSION
 )
+
 
 def banner(username):
     print(Fore.RED + BANNER + Style.RESET_ALL)
