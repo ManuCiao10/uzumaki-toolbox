@@ -7,10 +7,12 @@ from io import BytesIO
 from zipfile import ZipFile
 import urllib.request
 
-def geocodeRunVersion(zipcode):
 
+def geocodeRunVersion(zipcode):
     try:
-        url = urllib.request.urlopen("https://data.openaddresses.io/runs/1042889/it/countrywide.zip")
+        url = urllib.request.urlopen(
+            "https://data.openaddresses.io/runs/1042889/it/countrywide.zip"
+        )
     except:
         print_task("[geocode %s] error: %s" % (zipcode, "error getting data..."), RED)
         input("Press Enter to exit...")
@@ -32,26 +34,27 @@ def geocodeRunVersion(zipcode):
                         with open("Uzumaki/geocode/result.csv", "a") as f:
                             if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
                                 writer = csv.writer(f)
-                                writer.writerow(["address", "number", "city", "region","zip_zode"])
+                                writer.writerow(
+                                    ["address", "number", "city", "region", "zip_zode"]
+                                )
                             writer = csv.writer(f)
-                            writer.writerow([street, number, city.lower(), region.lower(), zipcode])
+                            writer.writerow(
+                                [street, number, city.lower(), region.lower(), zipcode]
+                            )
 
         print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
         input("Press Enter to exit...")
         return
 
-
     except urllib.error.HTTPError:
         print_task("[geocode %s] http error" % zipcode, RED)
         input("Press Enter to exit...")
         return
-    
+
     except:
         print_task("[geocode %s] unexpected error" % zipcode, RED)
         input("Press Enter to exit...")
         return
-    
-
 
 
 def geocode():
@@ -88,4 +91,3 @@ def geocode():
         print_task("Uzumaki/geocode/geocoding.csv not found", RED)
         time.sleep(2)
         os._exit(1)
-

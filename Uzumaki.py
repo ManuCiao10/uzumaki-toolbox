@@ -2,11 +2,12 @@ from handler.utils import *
 from handler.redirect import redirect
 from handler.geocode import geocode
 from handler.tracker import tracker
-from handler.auth import auth
+from handler.auth import auth, update
 from handler.jigger import jigger
 from handler.scraperOrder import scraperOrder
 from handler.presence import reachPresence
 from handler.restock import restockPayout
+
 import time
 import colorama
 
@@ -34,6 +35,7 @@ def handler_option(option):
 def main():
     colorama.init(wrap=True)
 
+    update()
     checking()
     username = auth()
     reachPresence(username)
@@ -46,8 +48,8 @@ if __name__ == "__main__":
     main()
 
 
+# auto update
 # ups redirect => opt bot
-# fix gecode address with number
 
 # scraper SKU nike
 # zalando account checker

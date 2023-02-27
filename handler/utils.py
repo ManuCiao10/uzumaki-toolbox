@@ -16,23 +16,26 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
+VERSION = "0.0.24"
 
 init()
 
 LOGO = "https://media.discordapp.net/attachments/819084339992068110/1075180966349381773/logo.jpeg"
-BANNER = f"""
+BANNER = (
+    f"""
       .---.        .-----------
      /     \  __  /    ------
     / /     \(  )/    -----
    //////   ' \/ '   ---            ┏───────────────────────────────┓
   //// / // :    : ---              │    WELCOME TO UZUMAKI TOOLS   │
  // /   /  /'    '--                │ https://uzumakitools.hyper.co │
-//           /..\                   │           v.0.0.23            │
+//           /..\                   │            v.%s           │
        ====UU====UU====             └───────────────────────────────┘
             ./||\.
              ''''
 """
-
+    % VERSION
+)
 
 def banner(username):
     print(Fore.RED + BANNER + Style.RESET_ALL)
@@ -187,7 +190,7 @@ def uzumaki():
     """
     Returns the name and version number of the program as a string.
     """
-    return "[Uzumaki 0.0.23] "
+    return "[Uzumaki %s] " % VERSION
 
 
 def print_task(msg, color):

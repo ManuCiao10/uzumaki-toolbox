@@ -1,8 +1,62 @@
 from handler.utils import *
 import os
 import requests
+import platform
 
 api_key = "***REMOVED***"
+
+
+def update():
+    cookies = {
+        "authorization": "edjOnQx1qVIcRZnhwrqxK",
+    }
+
+    headers = {
+        "authority": "uzumakitools.hyper.co",
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "cache-control": "no-cache",
+        "hyper-account": "I_lF5bu5kFr1JAp-Wyu3W",
+        "hyper-env": "portal",
+        "pragma": "no-cache",
+        "referer": "https://uzumakitools.hyper.co/dashboard",
+        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "sec-gpc": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    }
+
+    params = ""
+
+    response = requests.get(
+        "https://uzumakitools.hyper.co/ajax/products/w4AR4dZsZ4njJ6Y815DRK/files",
+        params=params,
+        cookies=cookies,
+        headers=headers,
+    )
+
+    if response.status_code != 200:
+        print_task("Failed to check for updates!", RED)
+        input("Press Enter to exit...")
+        return
+
+    try:
+        data = response.json()
+        print(data)
+        #get latest version
+        latest_version = data["data"][0]["filename"].split("_")[1][:-1]
+        if latest_version != VERSION:
+            print_task("New version available!", GREEN)
+            
+
+    except:
+        print_task("Failed to check for updates!", RED)
+        input("Press Enter to exit...")
+        return
 
 
 def get_license(license_key):
