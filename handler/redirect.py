@@ -294,8 +294,8 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                             "[brt %s] %s" % (tracking_number, "Redirect not available"),
                             RED,
                         )
-                        time.sleep(2)
-                        os._exit(1)
+                        input("Press enter to exit...")
+                        return
 
                     headers = {
                         "authority": "www.mybrt.it",
@@ -381,7 +381,7 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                             print_task(
                                 "[brt %s] %s" % (tracking_number, "Wrong ZipCode"), RED
                             )
-                            time.sleep(2)
+                            input("Press enter to exit...")
                             return
 
                         if (
@@ -392,7 +392,7 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                                 "[brt %s] %s" % (tracking_number, "problema tecnico."),
                                 RED,
                             )
-                            time.sleep(2)
+                            input("Press enter to exit...")
                             return
 
                         if (
@@ -402,7 +402,7 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                             print_task(
                                 "[brt %s] %s" % (tracking_number, "CAPTCHA hit."), RED
                             )
-                            time.sleep(2)
+                            input("Press enter to exit...")
                             return
 
                         brt_number = response.url.split("parcelNumber=")[1]
@@ -574,7 +574,7 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                                     brt_tracking_response,
                                     email,
                                 )
-                                time.sleep(2)
+                                input("Press enter to exit...")
                                 return
                             if (
                                 "ti confermiamo di aver preso in carico la tua richiesta del"
@@ -598,7 +598,7 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                                     brt_tracking_response,
                                     email,
                                 )
-                                time.sleep(2)
+                                input("Press enter to exit...")
                                 return
 
                             else:
@@ -607,7 +607,7 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                                     % (tracking_number, "Failed redirect"),
                                     RED,
                                 )
-                                time.sleep(3)
+                                input("Press enter to exit...")
                                 return
 
                         else:
@@ -615,7 +615,7 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                                 "[brt %s] %s" % (tracking_number, "No Redirect Found"),
                                 RED,
                             )
-                            time.sleep(3)
+                            input("Press enter to exit...")
                             return
 
                     except (
@@ -625,10 +625,11 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
                         print_task(
                             "[brt %s] %s" % (tracking_number, "Connection Error"), RED
                         )
-                        time.sleep(2)
+                        time.sleep(4)
                         return
         except requests.exceptions.ConnectionError:
             print_task("[brt %s] %s" % (tracking_number, "Connection Error"), RED)
+            time.sleep(4)
 
     else:
         brt_tracking_redirect(
@@ -642,78 +643,6 @@ def brt(tracking_number, OrderZip, name, phone, address, city, state, zip, email
             zip,
             email,
         )
-
-
-def ups(
-    company, tracking_number, OrderZip, name, phone, address, city, state, zip, email
-):
-    headers = {
-        "authority": "www.ups.com",
-        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-        "cache-control": "no-cache",
-        "pragma": "no-cache",
-        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "document",
-        "sec-fetch-mode": "navigate",
-        "sec-fetch-site": "same-origin",
-        "sec-fetch-user": "?1",
-        "sec-gpc": "1",
-        "upgrade-insecure-requests": "1",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-    }
-
-    params = {
-        "loc": "it_IT",
-        "tracknum": "1Z30R0336869572495",
-        "requester": "ST/trackdetails/trackdetails",
-    }
-    session = requests.Session()
-    response = session.get("https://www.ups.com/track", params=params, headers=headers)
-
-    xxsrfoken = response.cookies.get_dict()["X-XSRF-TOKEN-ST"]
-
-    headers = {
-        "authority": "www.ups.com",
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-        "cache-control": "no-cache",
-        "content-type": "application/json",
-        "origin": "https://www.ups.com",
-        "pragma": "no-cache",
-        "referer": "https://www.ups.com/track?loc=it_IT&tracknum=1Z30R0336869572495&requester=ST%2Ftracksummary%2Ftrackdetails",
-        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "sec-gpc": "1",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-        "x-xsrf-token": xxsrfoken,
-    }
-
-    params = {
-        "loc": "it_IT",
-    }
-
-    json_data = {
-        "Locale": "it_IT",
-        "TrackNumberType": "TRACK_NUM_TYPE_INFO_NOTICE",
-        "TrackingNumber": [
-            "ayload" "true",
-        ],
-    }
-
-    response = session.post(
-        "https://www.ups.com/track/api/Track/GetStatus",
-        params=params,
-        headers=headers,
-        json=json_data,
-    )
-    print(response.text)
 
 
 def redirect_handler(
@@ -748,8 +677,8 @@ def redirect_handler(
     #     ups_handler(tracking_number, order_zip, name, phone, address, city, state, zip_code, email)
     else:
         print_task("Company not supported", RED)
-        time.sleep(3)
-        os._exit(1)
+        input("Press enter to exit...")
+        return
 
 
 REDIRECT_PATH = "Uzumaki/redirect"

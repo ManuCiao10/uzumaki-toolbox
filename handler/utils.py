@@ -99,7 +99,7 @@ def checking():
 
     if not os.path.exists("Uzumaki/restock/credentials.json"):
         with open("Uzumaki/restock/credentials.json", "w") as f:
-            json.dump(credentials, f,indent=2)
+            json.dump(credentials, f, indent=2)
             print_task("credentials.json created", GREEN)
 
     # ----tracker----#
@@ -138,6 +138,7 @@ def checking():
             f.close()
 
     # ----scraper----#
+
     if not os.path.exists("Uzumaki/scraper/newBalance.csv"):
         with open("Uzumaki/scraper/newBalance.csv", "w") as f:
             f.write("orderNumber,postalCode,orderLastname")
@@ -244,8 +245,8 @@ def bye():
     Prints a goodbye message and exits the program.
     """
     print_task("bye bye...", RED)
-    time.sleep(3)
-    os._exit(1)
+    input("Press Enter to exit...")
+    return
 
 
 country_prefix = {

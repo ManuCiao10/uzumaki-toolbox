@@ -41,8 +41,8 @@ def nike(tracking_number, email):
             "[nike %s] error: %s" % (tracking_number, "error connecting to nike..."),
             RED,
         )
-        time.sleep(3)
-        os._exit(1)
+        input("Press Enter to exit...")
+        return
 
     headers = {
         "authority": "api.nike.com",
@@ -90,8 +90,8 @@ def nike(tracking_number, email):
                         "[nike %s] error: %s" % (tracking_number, "Order Not Found..."),
                         RED,
                     )
-                    time.sleep(SLEEP_TIME)
-                    os._exit(1)
+                    input("Press Enter to exit...")
+                    return
             except:
                 pass
 
@@ -101,8 +101,8 @@ def nike(tracking_number, email):
                 % (tracking_number, "invalid or unavailable order..."),
                 RED,
             )
-            time.sleep(3)
-            os._exit(1)
+            input("Press Enter to exit...")
+            return
 
         print_task("[nike %s] successful got order..." % tracking_number, GREEN)
 
@@ -122,9 +122,12 @@ def nike(tracking_number, email):
         city = data.get("shipFrom").get("address").get("city")
         country = data.get("shipFrom").get("address").get("country")
         zip = data.get("shipFrom").get("address").get("zipCode")
-        tracklink = (
-            data.get("group")[0].get("actions").get("trackShipment").get("webLink")
-        )
+        try:
+            tracklink = (
+                data.get("group")[0].get("actions").get("trackShipment").get("webLink")
+            )
+        except:
+            tracklink = "https://www.nike.com/"
 
         webhook_nike(
             str(price),

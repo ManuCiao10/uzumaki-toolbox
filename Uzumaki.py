@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
 
 # ups redirect => opt bot
-
+# fix gecode address with number
 
 # scraper SKU nike
 # zalando account checker

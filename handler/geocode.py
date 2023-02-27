@@ -1,85 +1,57 @@
 from handler.utils import *
 import time
 import os
-import requests
-from bs4 import BeautifulSoup
 import csv
 import threading
+from io import BytesIO
+from zipfile import ZipFile
+import urllib.request
+
+def geocodeRunVersion(zipcode):
+
+    try:
+        url = urllib.request.urlopen("https://data.openaddresses.io/runs/1042889/it/countrywide.zip")
+    except:
+        print_task("[geocode %s] error: %s" % (zipcode, "error getting data..."), RED)
+        input("Press Enter to exit...")
+        return
+
+    try:
+        with ZipFile(BytesIO(url.read())) as my_zip_file:
+            print_task("[geocode %s] successful got session..." % zipcode, PURPLE)
+
+            for contained_file in my_zip_file.namelist():
+                for line in my_zip_file.open(contained_file).readlines():
+                    if "," + zipcode + "," in str(line):
+                        print_task("[geocode %s] %s" % (zipcode, line), GREEN)
+
+                        number = str(line).split(",")[2]
+                        street = str(line).split(",")[3]
+                        city = str(line).split(",")[5]
+                        region = str(line).split(",")[7]
+                        with open("Uzumaki/geocode/result.csv", "a") as f:
+                            if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
+                                writer = csv.writer(f)
+                                writer.writerow(["address", "number", "city", "region","zip_zode"])
+                            writer = csv.writer(f)
+                            writer.writerow([street, number, city.lower(), region.lower(), zipcode])
+
+        print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
+        input("Press Enter to exit...")
+        return
 
 
-def geocodeRun(zip_zode):
-    headers = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-        "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
-        "Cache-Control": "no-cache",
-        "Connection": "keep-alive",
-        "Pragma": "no-cache",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1",
-        "Sec-GPC": "1",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-    }
+    except urllib.error.HTTPError:
+        print_task("[geocode %s] http error" % zipcode, RED)
+        input("Press Enter to exit...")
+        return
+    
+    except:
+        print_task("[geocode %s] unexpected error" % zipcode, RED)
+        input("Press Enter to exit...")
+        return
+    
 
-    query_page = 1
-    while query_page <= 100:
-        params = {
-            "k": zip_zode,
-            "s": query_page,
-        }
-
-        session = requests.Session()
-        resp = session.get(
-            "https://zip-codes.nonsolocap.it/cap", params=params, headers=headers
-        )
-
-        if resp.status_code == 200:
-            if "did not match any documents." in resp.text:
-                print_task(
-                    "[geocode %s] %s" % (zip_zode, "did not match any documents."), RED
-                )
-                os._exit(1)
-
-            if query_page == 1:
-                print_task("[geocode %s] successful got session..." % zip_zode, PURPLE)
-
-            soup = BeautifulSoup(resp.text, "html.parser")
-
-            for td in soup.find_all("td", class_="d-none d-sm-table-cell ha"):
-                address = td.text
-
-                for td in soup.find_all("td", class_="d-none d-sm-table-cell"):
-                    try:
-                        int(td.text)
-                    except ValueError:
-                        city = td.text
-
-                for td in soup.find_all(
-                    "td", class_="d-none d-lg-table-cell text-nowrap"
-                ):
-                    region = td.text
-
-                print_task(
-                    "[geocode %s] %s, %s, %s" % (zip_zode, address, city, region), GREEN
-                )
-
-                with open("Uzumaki/geocode/result.csv", "a") as f:
-                    if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
-                        writer = csv.writer(f)
-                        writer.writerow(["zip_zode", "address", "city", "region"])
-                    writer = csv.writer(f)
-                    writer.writerow([zip_zode, address, city, region])
-
-            query_page += 10
-
-        else:
-            print_task("[geocode %s] error %s" % (zip_zode, resp.status_code), RED)
-            time.sleep(2)
 
 
 def geocode():
@@ -110,9 +82,10 @@ def geocode():
             for row in reader:
                 zip_zode = row[0].lower().strip()
 
-                threading.Thread(target=geocodeRun, args=(zip_zode,)).start()
+                threading.Thread(target=geocodeRunVersion, args=(zip_zode,)).start()
 
     except FileNotFoundError:
         print_task("Uzumaki/geocode/geocoding.csv not found", RED)
         time.sleep(2)
         os._exit(1)
+
