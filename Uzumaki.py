@@ -48,7 +48,6 @@ if __name__ == "__main__":
     main()
 
 
-# auto update
 # ups redirect => opt bot
 
 # scraper SKU nike
