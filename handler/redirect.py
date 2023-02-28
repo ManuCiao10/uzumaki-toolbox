@@ -185,7 +185,7 @@ def brt_tracking_redirect(
             "https://www.mybrt.it/it/mybrt/my-parcels/incoming?parcelNumber="
             + tracking_number
         )
-        print(response.text)
+
         if "request submitted successfully" in response.text.lower():
             print_task("[brt %s] %s" % (tracking_number, "Successfull redirect"), GREEN)
             redirect_webhook_brt(

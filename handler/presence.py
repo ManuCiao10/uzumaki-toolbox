@@ -16,7 +16,7 @@ def reachPresence(username):
 
     try:
         RPC.update(
-            details=username + " - V.0.0.23",
+            details=username + " - V.0.0.25",
             large_image="logo",
             large_text="Uzumaki",
             start=start_time,

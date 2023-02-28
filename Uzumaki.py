@@ -8,7 +8,7 @@ from handler.scraperOrder import scraperOrder
 from handler.presence import reachPresence
 from handler.restock import restockPayout
 
-import time
+
 import colorama
 
 
@@ -28,8 +28,9 @@ def handler_option(option):
         OPTIONS[option]()
     except KeyError:
         print_task("invalid option", RED)
-        time.sleep(3)
-        os._exit(1)
+        input("press enter to exit...")
+        return
+        
 
 
 def main():
@@ -49,8 +50,5 @@ if __name__ == "__main__":
 
 
 # ups redirect => opt bot
-
 # scraper SKU nike
-# zalando account checker
-# price checker goat stock
-# revolut Business
+

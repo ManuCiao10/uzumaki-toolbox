@@ -154,6 +154,7 @@ def jig_start(
             print_task("writing info in result.csv", GREEN)
 
     input("press enter to exit...")
+    
 
 
 def jigger():

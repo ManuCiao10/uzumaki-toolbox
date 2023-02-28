@@ -51,7 +51,7 @@ def update():
 
         try:
             if platform.system() == "Darwin":
-                version = version.split("_")[1][:-1]
+                version = version.split("_")[1]
             elif platform.system() == "Windows":
                 version = version.split("_")[1][:-4]
         except:
@@ -79,7 +79,7 @@ def update():
             response.raise_for_status()
             try:
                 if platform.system() == "Darwin":
-                    with open("Uzumaki_" + hyper_version + ".", "wb") as f:
+                    with open("Uzumaki_" + hyper_version , "wb") as f:
                         f.write(response.content)
                 elif platform.system() == "Windows":
                     with open("Uzumaki_" + hyper_version + ".exe", "wb") as f:
@@ -93,7 +93,7 @@ def update():
 
             try:
                 if platform.system() == "Darwin":
-                    os.remove("Uzumaki_" + version + ".")
+                    os.remove("Uzumaki_" + version )
                 elif platform.system() == "Windows":
                     os.remove("Uzumaki_" + version + ".exe")
             except:
