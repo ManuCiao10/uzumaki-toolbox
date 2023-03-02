@@ -48,10 +48,9 @@ def brt_tracking_checker(tracking, zip_code):
 
         if "errori riscontrati" in response.text.lower():
             print_task(f"[brt {tracking}] Shipment not found...", RED)
-            time.sleep(3)
-            input("press enter to exit...")
+            time.sleep(4)
             return
-        
+
         if "non è possibile fornire indicazioni di consegna" in response.text.lower():
             print_task(f"[brt {tracking}] Shipment not redirectable...", RED)
             time.sleep(3)
@@ -185,7 +184,7 @@ def brt_tracking_checker(tracking, zip_code):
                         "[brt %s] %s" % (tracking, "Error getting BRT number"),
                         RED,
                     )
-                    input("Press enter to exit...")
+                    time.sleep(5)
                     return
 
                 print_task(
@@ -247,14 +246,17 @@ def brt_tracking_checker(tracking, zip_code):
             except Exception as e:
                 print_task(f"[brt {tracking}] error filling the form", RED)
                 print_task(f"[brt {tracking}] {e}", RED)
-                input("press enter to exit...")
+                time.sleep(5)
                 return
 
     except Exception as e:
         print_task(f"[brt {tracking}] error checking tracking info", RED)
         print_task(f"[brt {tracking}] {e}", RED)
-        input("press enter to exit...")
+        time.sleep(5)
         return
+
+    print_task(f"[brt {tracking}] finished", GREEN)
+    time.sleep(5)
 
 
 def handle_brt_request_success(

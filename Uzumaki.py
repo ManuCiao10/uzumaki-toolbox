@@ -7,6 +7,7 @@ from handler.jigger import jigger
 from handler.scraperOrder import scraperOrder
 from handler.presence import reachPresence
 from handler.restock import restockPayout
+from handler.unsubscriber import unsubscriber
 
 
 import colorama
@@ -19,6 +20,7 @@ OPTIONS = {
     "04": jigger,
     "05": scraperOrder,
     "06": restockPayout,
+    "07": unsubscriber,
     "00": bye,
 }
 
@@ -48,5 +50,5 @@ if __name__ == "__main__":
     main()
 
 
+# Email Unsubscriber
 # ups redirect => opt bot
-# scraper SKU nike

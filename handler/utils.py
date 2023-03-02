@@ -53,6 +53,7 @@ def banner(username):
     print(f"\t{Fore.RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
     print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
+    print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
     option = input("\t> choose: ")
@@ -77,11 +78,12 @@ def checking():
         "Uzumaki/jigger",
         "Uzumaki/scraper",
         "Uzumaki/restock",
+        "Uzumaki/unsubscriber",
     ]
 
     for directory in directories:
         if not os.path.exists(directory):
-            print_task(directory + "created", GREEN)
+            print_task(directory + " created", GREEN)
             os.makedirs(directory)
 
     # ----settings.json----#
@@ -181,6 +183,17 @@ def checking():
             print_task("jig.csv reated", GREEN)
             f.close()
 
+    # unsubscriber
+    unsubscriber = {
+        "userGmail": "",
+        "passwordGmail": "",
+    }
+
+    if not os.path.exists("Uzumaki/unsubscriber/unsubscriber.json"):
+        with open("Uzumaki/unsubscriber/unsubscriber.json", "w") as f:
+            json.dump(unsubscriber, f, indent=2)
+            print_task("unsubscriber.json created", GREEN)
+
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")
@@ -260,6 +273,12 @@ def bye():
     input("Press Enter to exit...")
     return
 
+def validate(credentials):
+    required_fields = ["userGmail", "passwordGmail"]
+    for field in required_fields:
+        if credentials.get(field, "").strip() == "":
+            return False
+    return True
 
 country_prefix = {
     "Afghanistan": "+93",
