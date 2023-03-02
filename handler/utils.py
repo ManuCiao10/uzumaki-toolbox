@@ -133,12 +133,20 @@ def checking():
 
     # ----redirect----#
 
-    if not os.path.exists("Uzumaki/redirect/brt.csv"):
-        with open("Uzumaki/redirect/brt.csv", "w") as f:
-            f.write(
-                "tracking_number,OrderZipcode,name,phone,address,city,state(FI),zip,email"
-            )
-            print_task("brt.csv created", GREEN)
+    # ----BRT----#
+    if not os.path.exists("Uzumaki/redirect/brt_checker.csv"):
+        with open("Uzumaki/redirect/brt_checker.csv", "w") as f:
+            f.write("tracking_number,OrderZipcode")
+            print_task("brt_checker.csv created", GREEN)
+            f.close()
+
+        if os.path.exists("Uzumaki/redirect/brt.csv"):
+            os.remove("Uzumaki/redirect/brt.csv")
+
+    if not os.path.exists("Uzumaki/redirect/brt_redirect.csv"):
+        with open("Uzumaki/redirect/brt_redirect.csv", "w") as f:
+            f.write("tracking_number,name,phone,address,city,state(FI),zip,email")
+            print_task("brt_redirect.csv created", GREEN)
             f.close()
 
     # ----scraper----#

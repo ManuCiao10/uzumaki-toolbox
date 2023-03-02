@@ -30,7 +30,6 @@ def handler_option(option):
         print_task("invalid option", RED)
         input("press enter to exit...")
         return
-        
 
 
 def main():
@@ -51,4 +50,3 @@ if __name__ == "__main__":
 
 # ups redirect => opt bot
 # scraper SKU nike
-

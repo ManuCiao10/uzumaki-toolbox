@@ -19,7 +19,7 @@ def redirect_webhook_brt(
         "content": " ",
         "embeds": [
             {
-                "title": "Tracking Number",
+                "title": tracking_number,
                 "url": url_,
                 "color": 3128760,
                 "description": "> Successfully redirect your parcel!",
@@ -31,13 +31,13 @@ def redirect_webhook_brt(
                         "value": tracking_number,
                         "inline": False,
                     },
-                    {"name": "Name", "value": name, "inline": True},
-                    {"name": "Phone", "value": phone, "inline": True},
-                    {"name": "Address", "value": address, "inline": True},
-                    {"name": "City", "value": city, "inline": True},
-                    {"name": "State", "value": state, "inline": True},
-                    {"name": "Zip", "value": zip, "inline": True},
-                    {"name": "Email", "value": email, "inline": True},
+                    {"name": "Name", "value": "||" + name + "||", "inline": True},
+                    {"name": "Phone", "value": "||" + phone + "||", "inline": True},
+                    {"name": "Address", "value": "||" + address + "||", "inline": True},
+                    {"name": "City", "value": "||" + city + "||", "inline": True},
+                    {"name": "State", "value": "||" + state + "||", "inline": True},
+                    {"name": "Zip", "value": "||" + zip + "||", "inline": True},
+                    {"name": "Email", "value": "||" + email + "||", "inline": False},
                 ],
             }
         ],
@@ -48,6 +48,61 @@ def redirect_webhook_brt(
     )
     try:
         result.raise_for_status()
+        print_task(f"[brt {tracking_number}] successfully sent webhook", YELLOW)
+    except requests.exceptions.HTTPError as err:
+        print(err)
+
+
+def checker_brt_discord(
+    tracking,
+    brt_tracking_response,
+    redictable,
+    zip_code,
+    order_number,
+):
+    settings = load_settings()
+    webhook = settings["webhook"]
+
+    description = "> You can't redirect your parcel, pleease wait."
+
+    if redictable == "Yes":
+        description = "> You can redirect your parcel!"
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": order_number,
+                "url": brt_tracking_response,
+                "color": 3128760,
+                "description": description,
+                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
+                "fields": [
+                    {"name": "Company", "value": "BRT", "inline": True},
+                    {
+                        "name": "Tracking Number",
+                        "value": "||" + tracking + "||",
+                        "inline": False,
+                    },
+                    {
+                        "name": "Zip Code",
+                        "value": "||" + zip_code + "||",
+                        "inline": True,
+                    },
+                    {"name": "Redirectable", "value": redictable, "inline": False},
+                ],
+            }
+        ],
+    }
+
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
+    try:
+        result.raise_for_status()
+        print_task(f"[brt {order_number}] successfully sent webhook", YELLOW)
     except requests.exceptions.HTTPError as err:
         print(err)
 

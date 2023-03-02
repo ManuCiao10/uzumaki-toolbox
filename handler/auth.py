@@ -68,7 +68,7 @@ def update():
 
         if version != hyper_version:
             print_task("New update available!", GREEN)
-            
+
             id = getID(data)
 
             response = requests.get(
@@ -79,7 +79,7 @@ def update():
             response.raise_for_status()
             try:
                 if platform.system() == "Darwin":
-                    with open("Uzumaki_" + hyper_version , "wb") as f:
+                    with open("Uzumaki_" + hyper_version, "wb") as f:
                         f.write(response.content)
                 elif platform.system() == "Windows":
                     with open("Uzumaki_" + hyper_version + ".exe", "wb") as f:
@@ -88,12 +88,12 @@ def update():
                 print_task("Failed to download update!", RED)
                 input("Press Enter to exit...")
                 return
-            
+
             print_task("Successfully downloaded update!", GREEN)
 
             try:
                 if platform.system() == "Darwin":
-                    os.remove("Uzumaki_" + version )
+                    os.remove("Uzumaki_" + version)
                 elif platform.system() == "Windows":
                     os.remove("Uzumaki_" + version + ".exe")
             except:
@@ -101,7 +101,6 @@ def update():
 
             input("Press Enter to exit...")
             os._exit(1)
-
 
     except:
         print_task("Failed to check for updates!", RED)
