@@ -1,4 +1,4 @@
-# • JD Sports 
+# • JD Sports
 # • Size?
 # • Footpatrol
 # • Wellgosh
@@ -16,9 +16,11 @@
 import imaplib
 import os
 import json
+
 from handler.utils import *
-import threading
 from internal.kith import kith_handler
+from internal.zalando import zalando_handler
+
 
 def unsubscriber():
     try:
@@ -28,7 +30,6 @@ def unsubscriber():
         input("Press Enter to exit...")
         return
 
-    print_task("starting unsubscriber...", PURPLE)
     # Get credentials from file
     try:
         with open("unsubscriber.json", "r") as f:
@@ -58,19 +59,36 @@ def unsubscriber():
         print_task("error connecting to email", RED)
         input("Press Enter to exit...")
         return
-    
-    #threading that handles all the websites modules
+
+    os.system("cls" if os.name == "nt" else "clear")
+
+    print(RED + BANNER + RESET)
+
+    # Define the companies and their corresponding names
+    companies = {
+        "01": "Kith",
+        "02": "Zalando prive",
+    }
+
+    # Define the handlers for each company
+    handlers = {
+        "01": kith_handler,
+        "02": zalando_handler,
+        # "03": size_handler,
+        # "04": zalando_handler,
+    }
+
+    # Print the list of companies
+    for key, value in companies.items():
+        print(f"{TAB}{RED}{key}{TAB}{WHITE}{value}{RESET}")
+
+    print("\n")
+    option = input(f"{TAB}{WHITE}> Select a website: {RESET}")
+
+    # Call the appropriate handler for the selected company
     try:
-        threading.Thread(target=kith_handler, args=(my_mail,)).start()
-        threading.Thread(target=jd_handler, args=(my_mail,)).start()
-    except:
-        print_task("Error starting tasks", RED)
-        input("Press enter to exit...")
+        handlers[option](my_mail)
+    except KeyError:
+        print_task("Invalid company", RED)
+        input("Press Enter to exit...")
         return
-
-def jd_handler(my_mail: imaplib.IMAP4_SSL):
-    print_task("starting jd unsubscriber...", CYAN)
-
-    jd_email = "news@email-jdsports.com"
-
-

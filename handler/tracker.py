@@ -8,18 +8,6 @@ import os
 import csv
 import threading
 
-# def companyHandler(fileName, tracking_number, email):
-#     if fileName == "ups.csv":
-#         ups(tracking_number)
-#     elif fileName == "brt.csv":
-#         brt(tracking_number)
-#     elif fileName == "sda.csv":
-#         sda(tracking_number)
-#     elif fileName == "nike.csv":
-#         nike(tracking_number, email)
-#     else:
-#         print_task("invalid company", RED)
-
 
 def companyHandler(fileName, tracking_number, email):
     company_mapping = {

@@ -4,6 +4,7 @@ import re
 import threading
 import requests
 
+
 def kith_handler(my_mail: imaplib.IMAP4_SSL):
     print_task("starting kith unsubscriber...", CYAN)
 
@@ -39,12 +40,12 @@ def kith_handler(my_mail: imaplib.IMAP4_SSL):
                 input("Press enter to exit...")
                 return
 
-        
-def kith(email : str):
+
+def kith(email: str):
     url = "https://manage.kmail-lists.com/subscriptions/unsubscribe?a=VP3E36"
 
     print_task("successfully got email {}".format(email), PURPLE)
-    
+
     headers = {
         "Accept": "*/*",
         "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
