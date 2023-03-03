@@ -170,7 +170,7 @@ def checking():
     if not os.path.exists("Uzumaki/geocode/geocoding.csv"):
         with open("Uzumaki/geocode/geocoding.csv", "w") as f:
             print_task("geocoding.csv created", GREEN)
-            f.write("zip_code")
+            f.write("country,zip_code")
             f.close()
 
     # ----Csv jig----#
