@@ -25,15 +25,6 @@ OPTIONS = {
 }
 
 
-def handler_option(option):
-    try:
-        OPTIONS[option]()
-    except KeyError:
-        print_task("invalid option", RED)
-        input("press enter to exit...")
-        return
-
-
 def main():
     colorama.init(wrap=True)
 
@@ -42,13 +33,18 @@ def main():
     username = auth()
     reachPresence(username)
 
-    option = banner(username)
-    handler_option(option)
+    while True:
+        option = banner(username)
+
+        try:
+            OPTIONS[option]()
+        except KeyError:
+            print_task("invalid option", RED)
+            time.sleep(2)
 
 
 if __name__ == "__main__":
     main()
 
 
-# Email Unsubscriber
 # ups redirect => opt bot

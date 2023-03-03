@@ -4,11 +4,9 @@
 # • Wellgosh
 # • Hipstore
 # • Kickz
-# • Kith EU
 # • Stress
 # • Footshop
 # • VEVE
-# • Zalando
 # • Snipes
 # • END
 # • Starcow
@@ -20,6 +18,7 @@ import json
 from handler.utils import *
 from internal.kith import kith_handler
 from internal.zalando import zalando_handler
+from internal.snipes import snipes_handler
 
 
 def unsubscriber():
@@ -68,13 +67,14 @@ def unsubscriber():
     companies = {
         "01": "Kith",
         "02": "Zalando prive",
+        "03": "Snipes",
     }
 
     # Define the handlers for each company
     handlers = {
         "01": kith_handler,
         "02": zalando_handler,
-        # "03": size_handler,
+        "03": snipes_handler,
         # "04": zalando_handler,
     }
 

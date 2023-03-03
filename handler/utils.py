@@ -39,6 +39,8 @@ BANNER = (
 
 
 def banner(username):
+    os.system("cls" if os.name == "nt" else "clear")
+
     print(Fore.RED + BANNER + Style.RESET_ALL)
 
     print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
