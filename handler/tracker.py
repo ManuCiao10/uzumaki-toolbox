@@ -37,12 +37,13 @@ def tracker(username):
     for the given company."""
 
     while True:
-
         os.system("cls" if os.name == "nt" else "clear")
 
         print(f"{RED}{BANNER}{RESET}")
 
-        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+        print(
+            f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n"
+        )
 
         os.chdir(os.path.join("Uzumaki", "tracker"))
         files = os.listdir()

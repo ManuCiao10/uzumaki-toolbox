@@ -77,7 +77,7 @@ def geocode(username):
     print(f"{RED}{BANNER}{RESET}")
 
     print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
-    
+
     print_task("starting geocoding...", CYAN)
 
     try:

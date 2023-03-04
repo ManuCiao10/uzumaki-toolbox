@@ -5,6 +5,7 @@ import threading
 import requests
 from bs4 import BeautifulSoup
 from handler.webhook import webhook_newBalance, webhook_courir
+import time
 
 
 def newBalance(orderNumber, postalCode, orderLastname):
@@ -173,7 +174,9 @@ def scraperOrder(username):
 
         print(f"{RED}{BANNER}{RESET}")
 
-        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+        print(
+            f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n"
+        )
 
         os.chdir("Uzumaki/scraper")
         files = os.listdir()

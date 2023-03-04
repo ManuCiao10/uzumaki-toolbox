@@ -19,6 +19,7 @@ from handler.utils import *
 from internal.kith import kith_handler
 from internal.zalando import zalando_handler
 from internal.snipes import snipes_handler
+import time
 
 
 def unsubscriber(username):
@@ -79,7 +80,9 @@ def unsubscriber(username):
 
         print(f"{RED}{BANNER}{RESET}")
 
-        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+        print(
+            f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n"
+        )
 
         for key, value in companies.items():
             print(f"{TAB}{RED}{key}{TAB}{WHITE}{value}{RESET}")

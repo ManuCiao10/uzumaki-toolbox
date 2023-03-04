@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import csv
 import threading
 
+
 REDIRECT_PATH = "Uzumaki/redirect"
 
 
@@ -502,7 +503,9 @@ def redirect(username):
 
         print(RED + BANNER + RESET)
 
-        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+        print(
+            f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n"
+        )
 
         # Use with statement to open file and change directory
         with os.scandir(REDIRECT_PATH) as dir_entries:
@@ -513,7 +516,7 @@ def redirect(username):
                     files_dict[str(index)] = entry.name
 
         print("\n")
-    
+
         option = input(TAB + "> choose: ")
 
         try:

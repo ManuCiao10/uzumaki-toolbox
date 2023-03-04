@@ -1,5 +1,4 @@
 import os
-import time
 import datetime
 import json
 from colorama import init, Fore, Back, Style
@@ -16,7 +15,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.26"
+VERSION = "0.0.27"
 
 init()
 
@@ -44,7 +43,6 @@ def banner(username):
     print(Fore.RED + BANNER + Style.RESET_ALL)
 
     print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
-    
 
     print(
         f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"

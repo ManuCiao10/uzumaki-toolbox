@@ -11,7 +11,7 @@ from handler.unsubscriber import unsubscriber
 
 
 import colorama
-
+import time
 
 OPTIONS = {
     "01": redirect,
@@ -33,9 +33,7 @@ def main():
     username = auth()
     reachPresence(username)
 
-
     while True:
-        
         option = banner(username)
 
         try:

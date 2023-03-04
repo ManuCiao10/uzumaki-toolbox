@@ -157,13 +157,14 @@ def jig_start(
 
 
 def jigger(username):
-
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 
         print(RED + BANNER + RESET)
 
-        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+        print(
+            f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n"
+        )
 
         os.chdir("Uzumaki/jigger")
         files = os.listdir()

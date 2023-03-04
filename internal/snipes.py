@@ -27,7 +27,7 @@ def snipes_handler(my_mail: imaplib.IMAP4_SSL):
 
         data = re.findall(pattern, data[0][1].decode("utf-8"))
         url = None
-        
+
         for i in data:
             if "api/unsubscribe/" in i:
                 url = i
