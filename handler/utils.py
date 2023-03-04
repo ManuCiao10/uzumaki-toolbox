@@ -44,6 +44,7 @@ def banner(username):
     print(Fore.RED + BANNER + Style.RESET_ALL)
 
     print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+    
 
     print(
         f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"
@@ -169,11 +170,14 @@ def checking():
 
     # ----geocode----#
 
-    if not os.path.exists("Uzumaki/geocode/geocoding.csv"):
-        with open("Uzumaki/geocode/geocoding.csv", "w") as f:
-            print_task("geocoding.csv created", GREEN)
+    if not os.path.exists("Uzumaki/geocode/geocode.csv"):
+        with open("Uzumaki/geocode/geocode.csv", "w") as f:
+            print_task("geocode.csv created", GREEN)
             f.write("country,zip_code")
             f.close()
+
+        if os.path.exists("Uzumaki/geocode/geocoding.csv"):
+            os.remove("Uzumaki/geocode/geocoding.csv")
 
     # ----Csv jig----#
 
@@ -267,11 +271,11 @@ def load_settings():
     return settings
 
 
-def bye():
+def bye(username):
     """
     Prints a goodbye message and exits the program.
     """
-    print_task("bye bye...", RED)
+    print_task(f"bye bye {username}...", RED)
     input("Press Enter to exit...")
     return
 

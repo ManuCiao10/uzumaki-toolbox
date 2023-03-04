@@ -167,32 +167,34 @@ def courir(email, zipCode):
         time.sleep(5)
 
 
-def scraperOrder():
-    print("ordescraperOrder")
-    os.system("cls" if os.name == "nt" else "clear")
+def scraperOrder(username):
+    while True:
+        os.system("cls" if os.name == "nt" else "clear")
 
-    print(RED + BANNER + RESET)
+        print(f"{RED}{BANNER}{RESET}")
 
-    os.chdir("Uzumaki/scraper")
-    files = os.listdir()
-    os.chdir("../..")
+        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    files_dict = {}
+        os.chdir("Uzumaki/scraper")
+        files = os.listdir()
+        os.chdir("../..")
 
-    for index, file in enumerate(files):
-        print_file(str(index) + ". " + file)
+        files_dict = {}
 
-        files_dict[str(index)] = file
+        for index, file in enumerate(files):
+            print_file(str(index) + ". " + file)
 
-    print("\n")
-    option = input(TAB + "> choose: ")
+            files_dict[str(index)] = file
 
-    try:
-        file = files_dict[option]
-    except KeyError:
-        print_task("invalid option", RED)
-        time.sleep(3)
-        os._exit(1)
+        print("\n")
+        option = input(TAB + "> choose: ")
+
+        try:
+            file = files_dict[option]
+            break
+        except KeyError:
+            print_task("invalid option", RED)
+            time.sleep(2)
 
     with open("Uzumaki/scraper/" + file, "r") as f:
         reader = csv.reader(f)

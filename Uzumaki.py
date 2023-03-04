@@ -33,11 +33,14 @@ def main():
     username = auth()
     reachPresence(username)
 
+
     while True:
+        
         option = banner(username)
 
         try:
-            OPTIONS[option]()
+            OPTIONS[option](username)
+            break
         except KeyError:
             print_task("invalid option", RED)
             time.sleep(2)

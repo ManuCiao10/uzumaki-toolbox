@@ -496,28 +496,32 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
         return
 
 
-def redirect():
-    os.system("cls" if os.name == "nt" else "clear")
+def redirect(username):
+    while True:
+        os.system("cls" if os.name == "nt" else "clear")
 
-    print(RED + BANNER + RESET)
+        print(RED + BANNER + RESET)
 
-    # Use with statement to open file and change directory
-    with os.scandir(REDIRECT_PATH) as dir_entries:
-        files_dict = {}
-        for index, entry in enumerate(dir_entries):
-            if entry.is_file():
-                print_file(f"{index}. {entry.name}")
-                files_dict[str(index)] = entry.name
+        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    print("\n")
-    option = input(TAB + "> choose: ")
+        # Use with statement to open file and change directory
+        with os.scandir(REDIRECT_PATH) as dir_entries:
+            files_dict = {}
+            for index, entry in enumerate(dir_entries):
+                if entry.is_file():
+                    print_file(f"{index}. {entry.name}")
+                    files_dict[str(index)] = entry.name
 
-    try:
-        file = files_dict[option]
-    except KeyError:
-        print_task("invalid option", RED)
-        time.sleep(3)
-        os._exit(1)
+        print("\n")
+    
+        option = input(TAB + "> choose: ")
+
+        try:
+            file = files_dict[option]
+            break
+        except KeyError:
+            print_task("invalid option", RED)
+            time.sleep(2)
 
     # Use with statement to open file
     with open(os.path.join(REDIRECT_PATH, file), "r") as f:

@@ -31,35 +31,39 @@ def companyHandler(fileName, tracking_number, email):
             return
 
 
-def tracker():
+def tracker(username):
     """Displays a list of tracking files and prompts the user to select one.
     For each row in the selected file, launches a new thread to handle the tracking
     for the given company."""
 
-    os.system("cls" if os.name == "nt" else "clear")
+    while True:
 
-    print(f"{RED}{BANNER}{RESET}")
+        os.system("cls" if os.name == "nt" else "clear")
 
-    os.chdir(os.path.join("Uzumaki", "tracker"))
-    files = os.listdir()
-    os.chdir(os.path.join("..", ".."))
+        print(f"{RED}{BANNER}{RESET}")
 
-    files_dict = {}
+        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    for index, file in enumerate(files):
-        print_file(f"{index}. {file}")
+        os.chdir(os.path.join("Uzumaki", "tracker"))
+        files = os.listdir()
+        os.chdir(os.path.join("..", ".."))
 
-        files_dict[str(index)] = file
+        files_dict = {}
 
-    print("\n")
-    option = input(f"{TAB}> choose: ")
+        for index, file in enumerate(files):
+            print_file(f"{index}. {file}")
 
-    try:
-        file = files_dict[option]
-    except KeyError:
-        print_task("invalid option", RED)
-        time.sleep(3)
-        return
+            files_dict[str(index)] = file
+
+        print("\n")
+        option = input(f"{TAB}> choose: ")
+
+        try:
+            file = files_dict[option]
+            break
+        except KeyError:
+            print_task("invalid option", RED)
+            time.sleep(2)
 
     with open(os.path.join("Uzumaki", "tracker", file), "r") as f:
         reader = csv.reader(f)

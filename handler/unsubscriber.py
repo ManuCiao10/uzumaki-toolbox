@@ -21,7 +21,7 @@ from internal.zalando import zalando_handler
 from internal.snipes import snipes_handler
 
 
-def unsubscriber():
+def unsubscriber(username):
     try:
         os.chdir("Uzumaki/unsubscriber")
     except:
@@ -59,10 +59,6 @@ def unsubscriber():
         input("Press Enter to exit...")
         return
 
-    os.system("cls" if os.name == "nt" else "clear")
-
-    print(RED + BANNER + RESET)
-
     # Define the companies and their corresponding names
     companies = {
         "01": "Kith",
@@ -78,17 +74,23 @@ def unsubscriber():
         # "04": zalando_handler,
     }
 
-    # Print the list of companies
-    for key, value in companies.items():
-        print(f"{TAB}{RED}{key}{TAB}{WHITE}{value}{RESET}")
+    while True:
+        os.system("cls" if os.name == "nt" else "clear")
 
-    print("\n")
-    option = input(f"{TAB}{WHITE}> Select a website: {RESET}")
+        print(f"{RED}{BANNER}{RESET}")
 
-    # Call the appropriate handler for the selected company
-    try:
-        handlers[option](my_mail)
-    except KeyError:
-        print_task("Invalid company", RED)
-        input("Press Enter to exit...")
-        return
+        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+
+        for key, value in companies.items():
+            print(f"{TAB}{RED}{key}{TAB}{WHITE}{value}{RESET}")
+
+        print("\n")
+        option = input(f"{TAB}{WHITE}> Select a website: {RESET}")
+
+        # Call the appropriate handler for the selected company
+        try:
+            handlers[option](my_mail)
+            break
+        except KeyError:
+            print_task("Invalid company", RED)
+            time.sleep(2)

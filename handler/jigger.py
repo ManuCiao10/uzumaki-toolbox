@@ -156,34 +156,38 @@ def jig_start(
     input("press enter to exit...")
 
 
-def jigger():
-    os.system("cls" if os.name == "nt" else "clear")
+def jigger(username):
 
-    print(RED + BANNER + RESET)
+    while True:
+        os.system("cls" if os.name == "nt" else "clear")
 
-    os.chdir("Uzumaki/jigger")
-    files = os.listdir()
-    os.chdir("../..")
+        print(RED + BANNER + RESET)
 
-    files = [file for file in files if file != ".DS_Store"]
-    files = [file for file in files if file != "result.csv"]
+        print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    files_dict = {}
+        os.chdir("Uzumaki/jigger")
+        files = os.listdir()
+        os.chdir("../..")
 
-    for index, file in enumerate(files):
-        print_file(str(index) + ". " + file)
+        files = [file for file in files if file != ".DS_Store"]
+        files = [file for file in files if file != "result.csv"]
 
-        files_dict[str(index)] = file
+        files_dict = {}
 
-    print("\n")
-    option = input(TAB + "> choose: ")
+        for index, file in enumerate(files):
+            print_file(str(index) + ". " + file)
 
-    try:
-        file = files_dict[option]
-    except KeyError:
-        print_task("invalid option", RED)
-        time.sleep(3)
-        os._exit(1)
+            files_dict[str(index)] = file
+
+        print("\n")
+        option = input(TAB + "> choose: ")
+
+        try:
+            file = files_dict[option]
+            break
+        except KeyError:
+            print_task("invalid option", RED)
+            time.sleep(2)
 
     with open("Uzumaki/jigger/" + file, "r") as f:
         reader = csv.reader(f)

@@ -71,24 +71,30 @@ def geocodeRunItaly(zipcode):
         return
 
 
-def geocode():
+def geocode(username):
+    os.system("cls" if os.name == "nt" else "clear")
+
+    print(f"{RED}{BANNER}{RESET}")
+
+    print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+    
     print_task("starting geocoding...", CYAN)
 
     try:
-        with open("Uzumaki/geocode/geocoding.csv", "r") as f:
+        with open("Uzumaki/geocode/geocode.csv", "r") as f:
             reader = csv.reader(f)
 
             try:
                 next(reader)
             except StopIteration:
                 print_task("file is empty", RED)
-                time.sleep(2)
+                time.sleep(3)
                 os._exit(1)
 
             try:
                 row = next(reader)
             except StopIteration:
-                print_task("please fill Uzumaki/geocode/geocoding.csv", RED)
+                print_task("please fill Uzumaki/geocode/geocode.csv", RED)
                 input("Press Enter to exit...")
                 os._exit(1)
 
@@ -105,7 +111,7 @@ def geocode():
                 ).start()
 
     except FileNotFoundError:
-        print_task("Uzumaki/geocode/geocoding.csv not found", RED)
+        print_task("Uzumaki/geocode/geocode.csv not found", RED)
         input("Press Enter to exit...")
         return
 
