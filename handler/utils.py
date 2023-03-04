@@ -55,6 +55,7 @@ def banner(username):
     print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
+    print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
     option = input("\t> choose: ")
@@ -80,6 +81,7 @@ def checking():
         "Uzumaki/scraper",
         "Uzumaki/restock",
         "Uzumaki/unsubscriber",
+        "Uzumaki/zalando",
     ]
 
     for directory in directories:
@@ -184,7 +186,7 @@ def checking():
             f.write(
                 "First Name,Second name,Mobile Number,Address,HouseNumber,country(italy)"
             )
-            print_task("jig.csv reated", GREEN)
+            print_task("jig.csv created", GREEN)
             f.close()
 
     # unsubscriber
@@ -197,6 +199,14 @@ def checking():
         with open("Uzumaki/unsubscriber/unsubscriber.json", "w") as f:
             json.dump(unsubscriber, f, indent=2)
             print_task("unsubscriber.json created", GREEN)
+
+    # ----zalando----#
+
+    if not os.path.exists("Uzumaki/zalando/accounts.csv"):
+        with open("Uzumaki/zalando/accounts.csv", "w") as f:
+            f.write("Email,Password")
+            print_task("accounts.csv created", GREEN)
+            f.close()
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)

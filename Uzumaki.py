@@ -8,6 +8,7 @@ from handler.scraperOrder import scraperOrder
 from handler.presence import reachPresence
 from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
+from handler.zalando import zalandoHandler
 
 
 import colorama
@@ -21,6 +22,7 @@ OPTIONS = {
     "05": scraperOrder,
     "06": restockPayout,
     "07": unsubscriber,
+    "08": zalandoHandler,
     "00": bye,
 }
 
@@ -49,3 +51,7 @@ if __name__ == "__main__":
 
 
 # ups redirect => opt bot
+# restock and goat scraper
+# zalando account checker
+# gls redirect
+# nike scraper with pid
