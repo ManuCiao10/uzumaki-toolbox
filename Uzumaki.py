@@ -30,10 +30,11 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    update()
-    checking()
-    username = auth()
-    reachPresence(username)
+    # update()
+    # checking()
+    # username = auth()
+    # reachPresence(username)
+    username = "dev"
 
     while True:
         option = banner(username)
@@ -50,8 +51,10 @@ if __name__ == "__main__":
     main()
 
 
+# add logs
 # ups redirect => opt bot
 # restock and goat scraper
 # zalando account checker
 # gls redirect
 # nike scraper with pid
+# zalando scraper
