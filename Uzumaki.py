@@ -9,6 +9,7 @@ from handler.presence import reachPresence
 from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
 from handler.zalando import zalandoHandler
+from handler.upsRedirect import ups
 
 
 import colorama
@@ -23,6 +24,7 @@ OPTIONS = {
     "06": restockPayout,
     "07": unsubscriber,
     "08": zalandoHandler,
+    "09": ups,
     "00": bye,
 }
 

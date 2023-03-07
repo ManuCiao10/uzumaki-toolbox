@@ -55,7 +55,8 @@ def banner(username):
     print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
-    print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker")
+    print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker[LOCKED]")
+    print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
     option = input("\t> choose: ")
