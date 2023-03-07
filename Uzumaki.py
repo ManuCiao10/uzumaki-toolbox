@@ -23,7 +23,7 @@ OPTIONS = {
     "05": scraperOrder,
     "06": restockPayout,
     "07": unsubscriber,
-    "08": zalandoHandler,
+    # "08": zalandoHandler,
     "09": ups,
     "00": bye,
 }
@@ -32,15 +32,13 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # update()
-    # checking()
-    # username = auth()
-    # reachPresence(username)
-    username = "dev"
+    update()
+    checking()
+    username = auth()
+    reachPresence(username)
 
     while True:
         option = banner(username)
-
         try:
             OPTIONS[option](username)
             break

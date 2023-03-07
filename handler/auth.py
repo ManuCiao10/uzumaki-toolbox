@@ -9,7 +9,7 @@ api_key = "***REMOVED***"
 
 def update():
     cookies = {
-        "authorization": "edjOnQx1qVIcRZnhwrqxK",
+        "authorization": "IIh6JiffkgjVSPmBjXHKl",
     }
 
     headers = {
@@ -42,7 +42,7 @@ def update():
 
     if response.status_code != 200:
         print_task("Failed to check for updates!", RED)
-        input("Press Enter to exit...")
+        input("Press Enter to continue...")
         return
 
     try:
@@ -77,6 +77,7 @@ def update():
                 headers=headers,
             )
             response.raise_for_status()
+
             try:
                 if platform.system() == "Darwin":
                     with open("Uzumaki_" + hyper_version, "wb") as f:
@@ -104,7 +105,7 @@ def update():
 
     except:
         print_task("Failed to check for updates!", RED)
-        input("Press Enter to exit...")
+        input("Press Enter to continue...")
         return
 
 
