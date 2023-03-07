@@ -51,7 +51,6 @@ if __name__ == "__main__":
     main()
 
 
-# add logs
 # ups redirect => opt bot
 # restock and goat scraper
 # zalando account checker

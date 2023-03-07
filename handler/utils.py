@@ -2,6 +2,9 @@ import os
 import datetime
 import json
 from colorama import init, Fore, Back, Style
+import logging
+import logging
+from logtail import LogtailHandler
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -190,7 +193,6 @@ def checking():
             print_task("jig.csv created", GREEN)
             f.close()
 
-    # unsubscriber
     unsubscriber = {
         "userGmail": "",
         "passwordGmail": "",
@@ -230,6 +232,25 @@ def uzumaki():
     return "[Uzumaki %s] " % VERSION
 
 
+def logsTailer(msg, color):
+    """
+    Logs a message with a color code and a timestamp.
+
+    """
+    try:
+        handler = LogtailHandler(source_token="***REMOVED***")
+
+        logger = logging.getLogger(__name__)
+        logger.handlers = []
+
+        logger.setLevel(logging.DEBUG)
+        logger.addHandler(handler)
+
+        logger.info(color + uzumaki() + time_task() + msg.upper() + RESET)
+    except:
+        pass
+
+
 def print_task(msg, color):
     """
     Prints a message with a color code and a timestamp.
@@ -238,7 +259,10 @@ def print_task(msg, color):
         msg (str): The message to print.
         color (str): The ANSI color code to use.
     """
+
     print(color + uzumaki() + time_task() + msg.upper() + RESET)
+
+    logsTailer(msg.upper(), color)
 
 
 def print_file(file_name):
