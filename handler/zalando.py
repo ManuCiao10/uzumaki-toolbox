@@ -72,12 +72,12 @@ class zalando(threading.Thread):
         print_task(f"getting session for {self.email}:{self.password}", PURPLE)
         session = tls_client.Session(client_identifier="chrome_110")
 
-        proxy = "localhost:8080"
+        # proxy = "localhost:8080"
 
-        session.proxies = {
-            "http": "http://" + proxy,
-            "https": "https://" + proxy,
-        }
+        # session.proxies = {
+        #     "http": "http://" + proxy,
+        #     "https": "https://" + proxy,
+        # }
 
         headers = {
             "authority": "accounts.zalando.com",

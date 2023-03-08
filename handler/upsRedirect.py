@@ -1,7 +1,33 @@
-from twilio.rest import Client
-from twilio.base.exceptions import TwilioRestException
+from pyVoIP.VoIP import VoIPPhone, InvalidStateError, CallState
+import time
+import wave
 from handler.utils import *
-from twilio.twiml.voice_response import VoiceResponse
+
+
+def answer(call):
+    try:
+        f = wave.open("announcment.wav", "rb")
+        frames = f.getnframes()
+        data = f.readframes(frames)
+        f.close()
+
+        call.answer()
+        call.write_audio(
+            data
+        )  # This writes the audio data to the transmit buffer, this must be bytes.
+
+        stop = time.time() + (
+            frames / 8000
+        )  # frames/8000 is the length of the audio in seconds. 8000 is the hertz of PCMU.
+
+        while time.time() <= stop and call.state == CallState.ANSWERED:
+            time.sleep(0.1)
+        call.hangup()
+    except InvalidStateError:
+        pass
+    except:
+        print_task("Failed to initiate the session", RED)
+        call.hangup()
 
 
 def ups(username):
@@ -11,26 +37,22 @@ def ups(username):
 
     print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    account_sid = "***REMOVED***"
-    ups_number = "+390230303039"
-    manuel = "+393662299421"
+    username = "5406532021"
+    password = "Es9P8t2Z"
+    myIP = ""
+    domain = "sip.messagenet.it"
+    port = 5061
 
-    auth_token = "351727e4a71c83b2c28cfcf42690566c"
-    print_task("getting session", PURPLE)
+    phone = VoIPPhone(
+        server=domain,
+        port=port,
+        username=username,
+        password=password,
+        myIP=myIP,
+        callCallback=answer,
+    )
 
-    try:
-        client = Client(account_sid, auth_token)
-        call = client.calls.create(
-            from_="+15673392063",
-            to=manuel,
-            url="https://handler.twilio.com/twiml/EHfbef825852f2e3c2a682522ca467cf64",
-            record=True,
-        )
-
-    except TwilioRestException as err:
-        print_task("error getting session", RED)
-        input("Press Enter to exit...")
-        return
-
-    print_task("call registered", GREEN)
-    print_task("call id: " + call.sid, GREEN)
+    phone.start()
+    input("Press enter to exit...")
+    phone.stop()
+    return

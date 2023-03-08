@@ -131,7 +131,6 @@ def geocodeRunSpain(zipcode):
             print_task(
                 "[geocode %s] error: %s" % (zipcode, "error getting data..."), RED
             )
-            pass
 
         try:
             with ZipFile(BytesIO(url.read())) as my_zip_file:
@@ -173,11 +172,9 @@ def geocodeRunSpain(zipcode):
 
         except urllib.error.HTTPError:
             print_task("[geocode %s] http error" % zipcode, RED)
-            pass
 
         except:
             print_task("[geocode %s] unexpected error" % zipcode, RED)
-            pass
 
     print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
     input("Press Enter to exit...")

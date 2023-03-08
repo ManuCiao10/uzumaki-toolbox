@@ -163,7 +163,7 @@ def courir(email, zipCode):
     except json.decoder.JSONDecodeError as e:
         print_task(f"order not found {email} {zipCode}", RED)
         time.sleep(3)
-    except Exception as e:
+    except Exception:
         print_task(f"unknown error {email} {zipCode}", RED)
         time.sleep(5)
 

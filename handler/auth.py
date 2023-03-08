@@ -57,9 +57,8 @@ def update():
             for i in hyper_version:
                 if i.get("type") == "exe":
                     hyper_version = i.get("filename")
+                    hyper_version = hyper_version.split("_")[1][:-4]
                     break
-
-            hyper_version = hyper_version.split("_")[1][:-4]
 
             if version != hyper_version:
                 print_task("New update available!", GREEN)
@@ -80,6 +79,7 @@ def update():
 
                 input("Press Enter to exit...")
                 os._exit(1)
+
         except:
             print_task("Failed to check for updates!", RED)
             input("Press Enter to continue...")

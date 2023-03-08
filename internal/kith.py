@@ -83,7 +83,6 @@ def kith(email: str):
         )
     except:
         print_task("error unsubscribing {}".format(email), RED)
-        pass
 
     if url == response.url:
         print_task("successfully unsubscribed {}".format(email), GREEN)

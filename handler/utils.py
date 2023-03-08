@@ -6,7 +6,6 @@ from colorama import init, Fore, Back, Style
 import logging
 import logging
 from logtail import LogtailHandler
-import platform
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -60,8 +59,9 @@ def banner(username):
     print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
+    print(f"\t{Fore.RED} 08 {Fore.WHITE}Redirect\tRedirect packages (Gls) [LOCKED]")
     # print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker [LOCKED]")
-    # print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
+    print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
     option = input("\t> choose: ")
@@ -87,6 +87,7 @@ def checking():
         "Uzumaki/scraper",
         "Uzumaki/restock",
         "Uzumaki/unsubscriber",
+        "Uzumaki/gls",
         # "Uzumaki/zalando",
     ]
 
@@ -213,6 +214,13 @@ def checking():
     #         print_task("accounts.csv created", GREEN)
     #         f.close()
 
+    # ----glsRedirect----#
+
+    if not os.path.exists("Uzumaki/gls/gls.json"):
+        with open("Uzumaki/gls/gls.json", "w") as f:
+            json.dump(unsubscriber, f, indent=2)
+            print_task("gls.json created", GREEN)
+
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")
@@ -330,8 +338,30 @@ country_prefix = {
 }
 
 
-def setTitle(title):
+def setTitle():
+    """
+    Sets the title of the console window.
+    """
+
+    title = "Uzumaki | Uzumaki Version: " + VERSION
     if os.name == "nt":
-        ctypes.windll.kernel32.SetConsoleTitleW(
-            title + " | Uzumaki Version: " + VERSION
-        )
+        ctypes.windll.kernel32.SetConsoleTitleW(title)
+
+
+def updateTitle(succes, fail):
+    """
+    Updates the title of the console window.
+    """
+
+    title = (
+        "Uzumaki | Uzumaki Version: "
+        + VERSION
+        + " | "
+        + "Success: "
+        + str(succes)
+        + " | "
+        + "Failure: "
+        + str(fail)
+    )
+    if os.name == "nt":
+        ctypes.windll.kernel32.SetConsoleTitleW(title)

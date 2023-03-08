@@ -8,7 +8,10 @@ from handler.scraperOrder import scraperOrder
 from handler.presence import reachPresence
 from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
+from handler.gls import glsRedirect
 
+# from handler.zalando import zalandoHandler
+from handler.upsRedirect import ups
 import colorama
 import time
 
@@ -20,9 +23,10 @@ OPTIONS = {
     "05": scraperOrder,
     "06": restockPayout,
     "07": unsubscriber,
-    # "08": zalandoHandler,
-    # "09": ups,
+    "08": glsRedirect,
+    "09": ups,
     "00": bye,
+    # "08": zalandoHandler,
 }
 
 
@@ -33,7 +37,7 @@ def main():
     checking()
     username = auth()
     reachPresence(username)
-    setTitle("Uzumaki")
+    setTitle()
 
     while True:
         option = banner(username)
@@ -41,16 +45,19 @@ def main():
             OPTIONS[option](username)
             break
         except KeyError:
-            print_task("invalid option", RED)
+            print_task("invalid option (Example: 02)", RED)
             time.sleep(2)
 
 
 if __name__ == "__main__":
     main()
 
-# ups redirect => opt bot
-# restock and goat stockx scraper
+
+# --------TOOL-----------
+# ups redirect => call bot
 # zalando account checker
-# gls redirect
+# gls redirect by reading the email
+
+# --------DISCORD-TOOL-----------
 # nike scraper with pid
-# zalando scraper
+# restock and goat stockx scraper

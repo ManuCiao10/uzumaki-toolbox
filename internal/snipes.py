@@ -72,7 +72,6 @@ def snipes(url: str):
         )
     except:
         print_task(f"error unsubscribing...", RED)
-        pass
 
     try:
         data = response.json()
