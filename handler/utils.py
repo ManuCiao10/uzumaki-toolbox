@@ -1,3 +1,4 @@
+import ctypes
 import os
 import datetime
 import json
@@ -5,6 +6,7 @@ from colorama import init, Fore, Back, Style
 import logging
 import logging
 from logtail import LogtailHandler
+import platform
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -59,7 +61,7 @@ def banner(username):
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
     # print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker [LOCKED]")
-    print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
+    # print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
     option = input("\t> choose: ")
@@ -85,7 +87,7 @@ def checking():
         "Uzumaki/scraper",
         "Uzumaki/restock",
         "Uzumaki/unsubscriber",
-        "Uzumaki/zalando",
+        # "Uzumaki/zalando",
     ]
 
     for directory in directories:
@@ -205,11 +207,11 @@ def checking():
 
     # ----zalando----#
 
-    if not os.path.exists("Uzumaki/zalando/accounts.csv"):
-        with open("Uzumaki/zalando/accounts.csv", "w") as f:
-            f.write("Email,Password")
-            print_task("accounts.csv created", GREEN)
-            f.close()
+    # if not os.path.exists("Uzumaki/zalando/accounts.csv"):
+    #     with open("Uzumaki/zalando/accounts.csv", "w") as f:
+    #         f.write("Email,Password")
+    #         print_task("accounts.csv created", GREEN)
+    #         f.close()
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
@@ -291,13 +293,13 @@ def load_settings():
 
     except FileNotFoundError:
         print_task("settings.json not found", RED)
-        print_task("please check your folder", RED)
+        print_task("check your folder", RED)
         input("Press Enter to exit...")
         return
 
     except json.decoder.JSONDecodeError:
         print_task("settings.json is corrupted", RED)
-        print_task("please check your folder", RED)
+        print_task("check your folder", RED)
         input("Press Enter to exit...")
         return
 
@@ -326,3 +328,10 @@ country_prefix = {
     "Italy": "+39",
     "Spain": "+34",
 }
+
+
+def setTitle(title):
+    if os.name == "nt":
+        ctypes.windll.kernel32.SetConsoleTitleW(
+            title + " | Uzumaki Version: " + VERSION
+        )

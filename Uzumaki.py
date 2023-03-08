@@ -8,9 +8,6 @@ from handler.scraperOrder import scraperOrder
 from handler.presence import reachPresence
 from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
-from handler.zalando import zalandoHandler
-from handler.upsRedirect import ups
-
 
 import colorama
 import time
@@ -24,7 +21,7 @@ OPTIONS = {
     "06": restockPayout,
     "07": unsubscriber,
     # "08": zalandoHandler,
-    "09": ups,
+    # "09": ups,
     "00": bye,
 }
 
@@ -36,6 +33,7 @@ def main():
     checking()
     username = auth()
     reachPresence(username)
+    setTitle("Uzumaki")
 
     while True:
         option = banner(username)
@@ -50,9 +48,8 @@ def main():
 if __name__ == "__main__":
     main()
 
-
 # ups redirect => opt bot
-# restock and goat scraper
+# restock and goat stockx scraper
 # zalando account checker
 # gls redirect
 # nike scraper with pid
