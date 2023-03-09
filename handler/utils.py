@@ -236,9 +236,9 @@ def checking():
             f.write("name,surname,phone,address,city,zip,country(IT),email")
             print_task("ups.csv created", GREEN)
 
-    if not os.path.exists("Uzumaki/pickup/cc.csv"):
-        with open("Uzumaki/pickup/cc.csv", "w") as f:
-            f.write("")
+    if not os.path.exists("Uzumaki/pickup/billing.csv"):
+        with open("Uzumaki/pickup/billing.csv", "w") as f:
+            f.write("CardNumber,Month,Year,CVV")
             print_task("ups.csv created", GREEN)
 
     if firstRun:

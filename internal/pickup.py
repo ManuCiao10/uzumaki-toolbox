@@ -344,7 +344,9 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
         "x-upscpc-rest-api-token": rest_api_token,
         "x-upscpc-rest-app-id": app_id,
     }
-
+    #visa ==> cardType: "02_06" hargeTypeCode: "06"
+    #mastercard ==> cardType: "02_04"  hargeTypeCode: "04"
+    paymentMediaTypeCode = "02"
     json_data = {
         "@type": "Card",
         "options": {
@@ -361,7 +363,7 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
             "iobb": "",
             "validateAddress": False,
         },
-        "paymentMediaTypeCode": "02",
+        "paymentMediaTypeCode": paymentMediaTypeCode,
         "chargeTypeCode": "06",
         "validateAVS": False,
         "billingAddress": {
@@ -385,14 +387,26 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
         "sdiSystemCode": "",
         "taxIdTypeCode": "0005",
     }
+    try:
+        response = session.post(
+            f"https://wwwapps.ups.com/cpcws/api/v2/payments/{transaction_id}/store",
+            headers=headers,
+            json=json_data,
+        )
+        data = response.json()
+    except Exception as e:
+        print_task("Error checkout: " + str(e), RED)
+        time.sleep(3)
+        return
 
-    response = session.post(
-        f"https://wwwapps.ups.com/cpcws/api/v2/payments/{transaction_id}/store",
-        headers=headers,
-        json=json_data,
-    )
-    print(response.url)
-    print(response.text)
+    try:
+        if data["status"] == 400:
+            message = data["processingError"]["message"]
+            print_task("Error checkout: " + message, RED)
+            time.sleep(3)
+            return
+    except:
+        pass
 
 
 def schedule(row: list, session: requests.Session):
