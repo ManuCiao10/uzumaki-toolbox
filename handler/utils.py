@@ -236,6 +236,11 @@ def checking():
             f.write("name,surname,phone,address,city,zip,country(IT),email")
             print_task("ups.csv created", GREEN)
 
+    if not os.path.exists("Uzumaki/pickup/cc.csv"):
+        with open("Uzumaki/pickup/cc.csv", "w") as f:
+            f.write("")
+            print_task("ups.csv created", GREEN)
+
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")

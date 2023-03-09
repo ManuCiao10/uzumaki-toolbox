@@ -38,9 +38,10 @@ def main():
     update()
     checking()
     processRunning()
-    username = auth()
-    reachPresence(username)
+    # username = auth()
+    # reachPresence(username)
     setTitle()
+    username = "dev"
 
     while True:
         option = banner(username)
