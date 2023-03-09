@@ -233,7 +233,7 @@ def checking():
     # ----upsPickup----#
     if not os.path.exists("Uzumaki/pickup/ups.csv"):
         with open("Uzumaki/pickup/ups.csv", "w") as f:
-            f.write("name,surname,phone,address,city,state,zip")
+            f.write("name,surname,phone,address,city,zip,country(IT),email")
             print_task("ups.csv created", GREEN)
 
     if firstRun:
@@ -352,6 +352,7 @@ country_prefix = {
     "Spain": "+34",
 }
 
+
 def setTitlePickup():
     """
     Sets the title of the console window.
@@ -360,6 +361,7 @@ def setTitlePickup():
     title = "Uzumaki | Uzumaki Version: " + VERSION + " | Pickup Mode"
     if os.name == "nt":
         ctypes.windll.kernel32.SetConsoleTitleW(title)
+
 
 def setTitle():
     """
