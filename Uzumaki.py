@@ -48,7 +48,7 @@ def main():
             OPTIONS[option](username)
             break
         except KeyError:
-            print_task("invalid option (Example: 02)", RED)
+            print_task("invalid option ", RED)
             time.sleep(2)
 
 

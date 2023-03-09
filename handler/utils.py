@@ -20,7 +20,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.27"
+VERSION = "0.0.28"
 
 init()
 
@@ -63,9 +63,8 @@ def banner(username):
     print(f"\t{Fore.RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
     # print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker [LOCKED]")
     # print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
-    # schedule a pickup
     print(f"\t{Fore.RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup (ups)")
-    print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
+    print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
     return option
@@ -232,10 +231,10 @@ def checking():
             f.close()
 
     # ----upsPickup----#
-    if not os.path.exists("Uzumaki/pickup/pickup_ups.csv"):
-        with open("Uzumaki/pickup/pickup_ups.csv", "w") as f:
+    if not os.path.exists("Uzumaki/pickup/ups.csv"):
+        with open("Uzumaki/pickup/ups.csv", "w") as f:
             f.write("name,surname,phone,address,city,state,zip")
-            print_task("pickup_ups.csv created", GREEN)
+            print_task("ups.csv created", GREEN)
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
@@ -353,6 +352,14 @@ country_prefix = {
     "Spain": "+34",
 }
 
+def setTitlePickup():
+    """
+    Sets the title of the console window.
+    """
+
+    title = "Uzumaki | Uzumaki Version: " + VERSION + " | Pickup Mode"
+    if os.name == "nt":
+        ctypes.windll.kernel32.SetConsoleTitleW(title)
 
 def setTitle():
     """
