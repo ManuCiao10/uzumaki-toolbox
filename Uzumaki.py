@@ -9,9 +9,8 @@ from handler.presence import reachPresence
 from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
 from handler.gls import glsRedirect
-
-# from handler.zalando import zalandoHandler
 from handler.upsRedirect import ups
+
 import colorama
 import time
 
@@ -24,9 +23,9 @@ OPTIONS = {
     "06": restockPayout,
     "07": unsubscriber,
     "08": glsRedirect,
-    "09": ups,
     "00": bye,
     # "08": zalandoHandler,
+    # "09": ups,
 }
 
 

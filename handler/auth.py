@@ -10,6 +10,8 @@ api_key = "***REMOVED***"
 
 def update():
     if platform.system() == "Windows":
+        print_task("checking for updates...", PURPLE)
+
         cookies = {
             "authorization": "IIh6JiffkgjVSPmBjXHKl",
         }

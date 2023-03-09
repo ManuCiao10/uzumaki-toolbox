@@ -61,7 +61,7 @@ def banner(username):
     print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
     print(f"\t{Fore.RED} 08 {Fore.WHITE}Redirect\tRedirect packages (Gls) [LOCKED]")
     # print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker [LOCKED]")
-    print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
+    # print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
     option = input("\t> choose: ")
@@ -220,6 +220,12 @@ def checking():
         with open("Uzumaki/gls/gls.json", "w") as f:
             json.dump(unsubscriber, f, indent=2)
             print_task("gls.json created", GREEN)
+
+    if not os.path.exists("Uzumaki/gls/gls.csv"):
+        with open("Uzumaki/gls/gls.csv", "w") as f:
+            f.write("name,surname,phone,address,city,state,zip")
+            print_task("gls.csv created", GREEN)
+            f.close()
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
