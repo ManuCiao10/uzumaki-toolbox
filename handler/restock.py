@@ -6,6 +6,7 @@ import imaplib
 import email
 from restocks.client import Client
 import csv
+from internal.security import processRunning
 
 
 def create_csv(restocks_sales, wise_mails):
@@ -100,6 +101,7 @@ def validate_credentials(credentials):
 
 
 def restockPayout(username):
+    processRunning()
     os.chdir("Uzumaki/restock")
 
     os.system("cls" if os.name == "nt" else "clear")

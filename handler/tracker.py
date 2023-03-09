@@ -7,6 +7,7 @@ import time
 import os
 import csv
 import threading
+from internal.security import processRunning
 
 
 def companyHandler(fileName, tracking_number, email):
@@ -32,6 +33,7 @@ def companyHandler(fileName, tracking_number, email):
 
 
 def tracker(username):
+    processRunning()
     """Displays a list of tracking files and prompts the user to select one.
     For each row in the selected file, launches a new thread to handle the tracking
     for the given company."""

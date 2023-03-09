@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import threading
+from internal.security import processRunning
 
 
 REDIRECT_PATH = "Uzumaki/redirect"
@@ -498,6 +499,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
 
 
 def redirect(username):
+    processRunning()
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 

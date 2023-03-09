@@ -3,6 +3,7 @@ import imaplib
 import re
 import threading
 import requests
+from internal.security import processRunning
 
 
 def get_gls_mails(user, password):
@@ -42,6 +43,7 @@ def get_gls_mails(user, password):
 
 
 def glsRedirect(username):
+    processRunning()
     print_task("gls redirect is locked", RED)
     input("Press Enter to exit...")
     os._exit(1)

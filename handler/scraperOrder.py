@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from handler.webhook import webhook_newBalance, webhook_courir
 import time
+from internal.security import processRunning
 
 
 def newBalance(orderNumber, postalCode, orderLastname):
@@ -169,6 +170,7 @@ def courir(email, zipCode):
 
 
 def scraperOrder(username):
+    processRunning()
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 

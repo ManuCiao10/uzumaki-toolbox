@@ -9,7 +9,9 @@ from handler.presence import reachPresence
 from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
 from handler.gls import glsRedirect
-from handler.upsRedirect import ups
+
+from internal.security import processRunning
+from internal.pickup import pickup
 
 import colorama
 import time
@@ -23,6 +25,7 @@ OPTIONS = {
     "06": restockPayout,
     "07": unsubscriber,
     "08": glsRedirect,
+    "09": pickup,
     "00": bye,
     # "08": zalandoHandler,
     # "09": ups,
@@ -34,6 +37,7 @@ def main():
 
     update()
     checking()
+    processRunning()
     username = auth()
     reachPresence(username)
     setTitle()
@@ -52,9 +56,13 @@ if __name__ == "__main__":
     main()
 
 
-# --------TOOL-----------
+# --------TO-IMPLEMENT-----------
 # ups redirect => call bot
 # zalando account checker
+# dhl tracker using their API
+# ups programma un ritiro
+
+# --------TO-FIX-----------
 # gls redirect by reading the email
 
 # --------DISCORD-TOOL-----------

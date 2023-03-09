@@ -6,6 +6,7 @@ from colorama import init, Fore, Back, Style
 import logging
 import logging
 from logtail import LogtailHandler
+import time
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -52,16 +53,18 @@ def banner(username):
         f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"
     )
 
-    print(f"\t{Fore.RED} 01 {Fore.WHITE}Redirect\tRedirect packages (Brt)")
+    print(f"\t{Fore.RED} 01 {Fore.WHITE}Brt\t\tRedirect packages ")
     print(f"\t{Fore.RED} 02 {Fore.WHITE}Tracker\tOrder Tracker (Ups Brt Sda Nike)")
     print(f"\t{Fore.RED} 03 {Fore.WHITE}Geocode\tGeocode address")
     print(f"\t{Fore.RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
     print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
-    print(f"\t{Fore.RED} 08 {Fore.WHITE}Redirect\tRedirect packages (Gls) [LOCKED]")
+    print(f"\t{Fore.RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
     # print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker [LOCKED]")
     # print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
+    # schedule a pickup
+    print(f"\t{Fore.RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup (ups)")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki Tools\n")
 
     option = input("\t> choose: ")
@@ -88,6 +91,7 @@ def checking():
         "Uzumaki/restock",
         "Uzumaki/unsubscriber",
         "Uzumaki/gls",
+        "Uzumaki/pickup"
         # "Uzumaki/zalando",
     ]
 
@@ -227,6 +231,12 @@ def checking():
             print_task("gls.csv created", GREEN)
             f.close()
 
+    # ----upsPickup----#
+    if not os.path.exists("Uzumaki/pickup/pickup_ups.csv"):
+        with open("Uzumaki/pickup/pickup_ups.csv", "w") as f:
+            f.write("name,surname,phone,address,city,state,zip")
+            print_task("pickup_ups.csv created", GREEN)
+
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")
@@ -325,7 +335,7 @@ def bye(username):
     Prints a goodbye message and exits the program.
     """
     print_task(f"bye bye {username}...", RED)
-    input("Press Enter to exit...")
+    time.sleep(2)
     return
 
 

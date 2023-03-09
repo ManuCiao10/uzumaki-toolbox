@@ -6,6 +6,7 @@ import random
 import time
 import names
 import numpy as np
+from internal.security import processRunning
 
 road_dictionary = {
     "Italy": "Via",
@@ -157,6 +158,7 @@ def jig_start(
 
 
 def jigger(username):
+    processRunning()
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 

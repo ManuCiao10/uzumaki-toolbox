@@ -6,6 +6,7 @@ import threading
 from io import BytesIO
 from zipfile import ZipFile
 import urllib.request
+from internal.security import processRunning
 
 
 def geocodeRunItaly(zipcode):
@@ -72,6 +73,7 @@ def geocodeRunItaly(zipcode):
 
 
 def geocode(username):
+    processRunning()
     os.system("cls" if os.name == "nt" else "clear")
 
     print(f"{RED}{BANNER}{RESET}")

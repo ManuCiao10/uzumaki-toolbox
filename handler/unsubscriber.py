@@ -1,16 +1,3 @@
-# • JD Sports
-# • Size?
-# • Footpatrol
-# • Wellgosh
-# • Hipstore
-# • Kickz
-# • Stress
-# • Footshop
-# • VEVE
-# • Snipes
-# • END
-# • Starcow
-
 import imaplib
 import os
 import json
@@ -20,9 +7,11 @@ from internal.kith import kith_handler
 from internal.zalando import zalando_handler
 from internal.snipes import snipes_handler
 import time
+from internal.security import processRunning
 
 
 def unsubscriber(username):
+    processRunning()
     try:
         os.chdir("Uzumaki/unsubscriber")
     except:
