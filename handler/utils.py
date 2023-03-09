@@ -72,6 +72,7 @@ def banner(username):
 
 def checking():
     firstRun = False
+    print_task("checking folders...", PURPLE)
 
     # ----Uzumaki----#
     if not os.path.exists("Uzumaki"):
@@ -233,14 +234,13 @@ def checking():
     # ----upsPickup----#
     if not os.path.exists("Uzumaki/pickup/ups.csv"):
         with open("Uzumaki/pickup/ups.csv", "w") as f:
-            f.write("name,surname,phone,address,city,zip,country(IT),email")
+            f.write(
+                "name,surname,phone,address,city,zip,email,CardNumber,Month,Year,CVV"
+            )
             print_task("ups.csv created", GREEN)
+            f.close()
 
-    if not os.path.exists("Uzumaki/pickup/billing.csv"):
-        with open("Uzumaki/pickup/billing.csv", "w") as f:
-            f.write("CardNumber,Month,Year,CVV")
-            print_task("ups.csv created", GREEN)
-
+    time.sleep(1)
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")

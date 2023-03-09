@@ -5,6 +5,7 @@ import threading
 import requests
 from bs4 import BeautifulSoup
 import tls_client
+from codicefiscale import codicefiscale
 
 params = {
     "loc": "it_IT",
@@ -98,81 +99,80 @@ dict_loc = {
 
 
 def getToken(session: requests.Session, app_id: str, token: str, transaction_id: str):
-
     headers = {
-    'authority': 'wwwapps.ups.com',
-    'accept': 'application/json;charset=utf-8',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json;charset=UTF-8',
-    'origin': 'https://wwwapps.ups.com',
-    'pragma': 'no-cache',
-    'referer': 'https://wwwapps.ups.com/pickup/processinfo?loc=it_IT',
-    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"macOS"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-origin',
-    'sec-gpc': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-    'x-upscpc-rest-api-token': token,
-    'x-upscpc-rest-app-id': app_id,
-}
+        "authority": "wwwapps.ups.com",
+        "accept": "application/json;charset=utf-8",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "cache-control": "no-cache",
+        "content-type": "application/json;charset=UTF-8",
+        "origin": "https://wwwapps.ups.com",
+        "pragma": "no-cache",
+        "referer": "https://wwwapps.ups.com/pickup/processinfo?loc=it_IT",
+        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "sec-gpc": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+        "x-upscpc-rest-api-token": token,
+        "x-upscpc-rest-app-id": app_id,
+    }
 
     params = {
-    'transId': transaction_id,
-}
+        "transId": transaction_id,
+    }
 
     json_data = {
-    'appId': app_id,
-    'autoSavePayment': False,
-    'showProfileRadio': False,
-    'collectAddress': False,
-    'validateAvs': False,
-    'autoValidate': True,
-    'newUPSAccount': False,
-    'newPaymentCard': True,
-    'newPayPalAccount': True,
-    'newHPP': True,
-    'existingUPSAccount': False,
-    'existingPaymentCard': False,
-    'existingPayPalAccount': False,
-    'existingHPP': False,
-    'numPackages': 0,
-    'status': 0,
-    'uiType': 1,
-    'tAccount': '',
-    'iobb': '',
-    'ipAddress': '',
-    'locale': 'it_IT',
-    'token': token,
-    'accountKey': '',
-    'accountNumber': '',
-    'rifAppId': '',
-    'rifPrefix': '',
-    'serviceLevelCode': '',
-    'trackingNumber': '',
-    'country': 'IT',
-    'contextCountry': '',
-    'profileCountry': '',
-    'transactionId': transaction_id,
-    'transactionSource': '',
-    'userId': '',
-    'showDefaultFlag': False,
-    'returnTo': 'https://wwwapps.ups.com/pickup/processcpcpayment?loc=it_IT',
-    'redirectTo': '',
-    'cardTypeListFlag': 2,
-    'useFloorLimits': True,
-    'showBillingName': False,
-    'showShipFrom': True,
-    'useBillingAddress': False,
-    'repop': False,
-    'requiresRedirect': False,
-    'showVatId': False,
-    'showCashOption': True,
-    'newCash': True,
-}
+        "appId": app_id,
+        "autoSavePayment": False,
+        "showProfileRadio": False,
+        "collectAddress": False,
+        "validateAvs": False,
+        "autoValidate": True,
+        "newUPSAccount": False,
+        "newPaymentCard": True,
+        "newPayPalAccount": True,
+        "newHPP": True,
+        "existingUPSAccount": False,
+        "existingPaymentCard": False,
+        "existingPayPalAccount": False,
+        "existingHPP": False,
+        "numPackages": 0,
+        "status": 0,
+        "uiType": 1,
+        "tAccount": "",
+        "iobb": "",
+        "ipAddress": "",
+        "locale": "it_IT",
+        "token": token,
+        "accountKey": "",
+        "accountNumber": "",
+        "rifAppId": "",
+        "rifPrefix": "",
+        "serviceLevelCode": "",
+        "trackingNumber": "",
+        "country": "IT",
+        "contextCountry": "",
+        "profileCountry": "",
+        "transactionId": transaction_id,
+        "transactionSource": "",
+        "userId": "",
+        "showDefaultFlag": False,
+        "returnTo": "https://wwwapps.ups.com/pickup/processcpcpayment?loc=it_IT",
+        "redirectTo": "",
+        "cardTypeListFlag": 2,
+        "useFloorLimits": True,
+        "showBillingName": False,
+        "showShipFrom": True,
+        "useBillingAddress": False,
+        "repop": False,
+        "requiresRedirect": False,
+        "showVatId": False,
+        "showCashOption": True,
+        "newCash": True,
+    }
 
     try:
         response = session.post(
@@ -184,7 +184,7 @@ def getToken(session: requests.Session, app_id: str, token: str, transaction_id:
         data = response.json()
         token = data["token"]
     except Exception as e:
-        print_task("error getting token", RED)
+        print_task("error getting token" + str(e), RED)
         time.sleep(3)
         os._exit(1)
 
@@ -192,21 +192,28 @@ def getToken(session: requests.Session, app_id: str, token: str, transaction_id:
 
 
 def checkout(session: requests.Session, row: list, dropoffdate: str):
+    print_task("Starting booking...", PURPLE)
+
     name = row[0].strip()
     surname = row[1].strip()
     phone = row[2].strip()
     address = row[3].strip()
     city = row[4].strip()
     zip_code = row[5].strip()
-    country = row[6].strip()
-    email = row[7].strip()
+    email = row[6].strip()
+    credit_card = row[7].strip()
+    month = row[8].strip()
+    year = row[9].strip()
+    cvv = row[10].strip()
+
+    if month[0] == "0":
+        month = month[1]
 
     headers = {
         "authority": "wwwapps.ups.com",
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
         "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
         "cache-control": "no-cache",
-        # 'cookie': 'com.ups.pickup.cb.sData=15aca0690da64883a2e42738c6ab5fdf:xTVCseg/VRsHQv5Nwl1NAJXtGRw7WnXPp7b6Zl/6FMc=; bm_sz=7CB471EA39F68D5E740FF2723CB65745~YAAQgTRoaH+NKb6GAQAANPpdxBOsNmh/9RNYBc717hfbelE1XyqbtSOyneLvwQxpiCyNptLR27VGh74OiZJH2fIUyEjgMhcalv3Gj4E9v77hqeeAsbt01FsWFxr2jG0642TLd9htbRKXFsGRjaZ59EFqL6uEb3YgTLuCsiG2pV+ZOYbXXkCOOrDmhMqhbF75hRfIevqYqj/enL8W/HQETGsqwCASVHNuEojFj0YNqf9ZAgxMK3FPUrVBeUkay61u2roPF5QngAOLr++wmsZWxWx+HfvJIEXzHjwNTSQLP3k=~4339769~3747908; PIM-SESSION-ID=e9kDwp7iEzl9fBxS; com.ups.com_ups_GDOL.sData=99f51414df7d49b3b16c3591c669f54e:tDvKqc06ILw7Y0hob3CZPmwy8dQs/q5+lxnlq0alhgU=; sharedsession=4f874a9c-a142-47c1-8728-f85df1e1e5bc:w; s_fid=60E726A4E6DEA787-341517BABFA85A09; s_vnum=1680300000126%26vn%3D1; s_invisit=true; dayssincevisit_s=First%20Visit; s_cc=true; s_vi=[CS]v1|3204A825D6934D70-60000B0FC195765C[CE]; CONSENTMGR=consent:true%7Cts:1678332400820%7Cc1:1%7Cc3:0%7Cc5:1%7Cc6:1%7Cc7:0%7Cc8:1%7Cc9:1; GPC_cookie_corrected=true, ts:1678332400820,c3: 0,c7: 0; ups_language_preference=it_IT; _abck=0DD47936455CC42A2AB14DF31AB65E3B~0~YAAQgTRoaGDQKb6GAQAAlf3QxAmGr7w3tv9LdQ6FdZ5lrwDAMrhCRy5Pdv/7F4qQh9tBwrY3mpVdGIn8iOLsDLqERChBc3RkXxvKBepPa+Hq9KGsGUPEob+eHfZdUQ0TU7c4Tzg11604QD/eND5gtf+gNB8tCAXzYc7seHcBNDx/2QOtLuR63S08gkXPDDlDqprH1OwuuaDGYgJGrlN+xQM6YGLvoq/IzL6EGOtsacrPvEgwEOJTOx8xuuMPssM6ykR5rWL7M8/YZInfnc91gKB8J0ZvFlXGb+zS4IWRB26YjdBKNxHJ0nAsrpuQPaqG/U/UdtCVzIOIf5+187vJN0D1Gq58Od3qksN6RGNbOzT9SFpYtKVDFJvk5PV9JxFNkNc2dX4uYm8/zToY6jVKFCjp/NEN~-1~-1~1678342788; ak_bmsc=2EB40EAD13475EBDE58E4EB59301E1EB~000000000000000000000000000000~YAAQgTRoaGHQKb6GAQAAv//QxBP4wj8XU9G/WHthaM089ITyQ89aedTBpcCKxXv5YmOvCQFkxknZ41GJQ89hUx2Df03PJXf9JefM01UXLj9xTlUHnhp0Qy5T4EIiX1VIZx3XXG6v3pasz99svmsnNaA0t9MvSFHXUf14fCIrjXkYWY3Omuxyu+dZw4dV98OxDhAedq7rZv6LX2BplxUBDFz9l4M3rpMtv/3xwYRnJDyDhe6J7lKhprQp3p6p/++8X/qozAD57hINOLYk+nh0JMLiVZjWlfezlgd9wIIxMtwqtzN90yjpGyR6Oubfv2RRZcC0cd4hBeSVg1uxk4FfhzISzcuazt9gLdyoooJoah3wCuFmLC8W/DFnZsimDvWcrTKenEr3MBM5cAV6ZG9v6cxIQc9Nrw6EavumR2tDo2kGNaL1KL/SHCT84Gww0njsG2NlCWgT2OoVYjJJwJZr7dPNgsJh44EPlLscrzimqxbCTBOu3uGgmw==; AKA_A2=A; utag_main=v_id:0186c45dfc1a00016a91badd772b04075003106d0093c$_sn:3$_se:4$_ss:0$_st:1678341312886$dc_visit:3$vapi_domain:ups.com$_prevpageid:shipping%2FIntPickup%2Fpic(1sch).html%3Bexp-1678343113298$_prevpage:wwwapps%3Ait%3Ait%3Apickup%3Aschedule%3Bexp-1678343113297$ses_id:1678339275871%3Bexp-session$_pn:4%3Bexp-session$fs_sample_user:false%3Bexp-session$dc_event:4%3Bexp-session; s_nr=1678339556710-New; dayssincevisit=1678339556711',
         "origin": "https://wwwapps.ups.com",
         "pragma": "no-cache",
         "referer": "https://wwwapps.ups.com/pickup/schedule?loc=it_IT",
@@ -221,6 +228,7 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
     }
+
     standard_service = "007#001"
     weight = "2"
     numberOfPackages = "1"
@@ -344,8 +352,14 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
         "x-upscpc-rest-api-token": rest_api_token,
         "x-upscpc-rest-app-id": app_id,
     }
-    #visa ==> cardType: "02_06" hargeTypeCode: "06"
-    #mastercard ==> cardType: "02_04"  hargeTypeCode: "04"
+
+    if credit_card[0] == "4":
+        hargeTypeCode = "06"
+    else:
+        hargeTypeCode = "04"
+
+    tax_id = codicefiscale.encode(surname=surname, name=name, sex='M', birthdate='03/04/1985', birthplace=city)
+
     paymentMediaTypeCode = "02"
     json_data = {
         "@type": "Card",
@@ -364,25 +378,25 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
             "validateAddress": False,
         },
         "paymentMediaTypeCode": paymentMediaTypeCode,
-        "chargeTypeCode": "06",
+        "chargeTypeCode": hargeTypeCode,
         "validateAVS": False,
         "billingAddress": {
-            "firstName": "emanuele",
-            "lastName": "ardinghi",
-            "addressLine1": "via orcagna 66",
+            "firstName": name,
+            "lastName": surname,
+            "addressLine1": address,
             "addressLine2": "",
             "addressLine3": "",
-            "city": "firenze",
-            "state": "Agrigento",
+            "city": city,
+            "state": city,
             "country": "IT",
-            "postalCode": "50121",
+            "postalCode": zip_code,
         },
-        "cardNumber": "5354564980010000",
-        "cardType": "02_06",
-        "cvv": "199",
-        "expiryMonth": 2,
-        "expiryYear": 2026,
-        "taxId": "RDNMNL02T07D612C",
+        "cardNumber": credit_card,
+        "cardType": f"{paymentMediaTypeCode}_{hargeTypeCode}",
+        "cvv": cvv,
+        "expiryMonth": month,
+        "expiryYear": year,
+        "taxId": tax_id,
         "pecEmailAddress": "",
         "sdiSystemCode": "",
         "taxIdTypeCode": "0005",
@@ -408,9 +422,11 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
     except:
         pass
 
+    print(data)
+
 
 def schedule(row: list, session: requests.Session):
-    print_task("Scheduling pickup...", PURPLE)
+    print_task("Scheduling pickup...", YELLOW)
 
     name = row[0].strip()
     surname = row[1].strip()
@@ -418,11 +434,8 @@ def schedule(row: list, session: requests.Session):
     address = row[3].strip()
     city = row[4].strip()
     zip_code = row[5].strip()
-    country = row[6].strip()
-    email = row[7].strip()
-
-    loc = dict_loc[country.upper()]
-
+    email = row[6].strip()
+    
     headers = {
         "authority": "wwwapps.ups.com",
         "accept": "application/json, text/javascript, */*; q=0.01",
@@ -467,6 +480,11 @@ def schedule(row: list, session: requests.Session):
 
     except json.JSONDecodeError:
         print_task("JSONDecodeError", RED)
+        time.sleep(3)
+        return
+    
+    except KeyError:
+        print_task("Keyerror check your address", RED)
         time.sleep(3)
         return
 
@@ -566,20 +584,34 @@ def schedule(row: list, session: requests.Session):
     except KeyError:
         pass
 
-    if data["valid"] == True:
-        print_task("Starting booking...", PURPLE)
-        return checkout(session, row, dropoffdate)
-    else:
+    if data["valid"] != True:
         print_task("Unknown error", RED)
         time.sleep(3)
         return
+    
+    return checkout(session, row, dropoffdate)
 
 
 def session(row: list):
-    country = row[6].strip()
 
     session = tls_client.Session(client_identifier="chrome_105")
     print_task("Getting session...", PURPLE)
+
+    try:
+        len_month = len(row[8].strip())
+        if len_month != 2:
+            print_task("month must be 2 digits", RED)
+            time.sleep(3)
+            return
+    except:
+        pass
+    
+    try:
+        len_year = len(row[9].strip())
+        if len_year != 4:
+            row[9] = "20" + row[9]
+    except:
+        pass
 
     headers = {
         "authority": "wwwapps.ups.com",
@@ -598,33 +630,11 @@ def session(row: list):
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
     }
-    try:
-        loc_len = len(country)
-        if loc_len != 2:
-            print_task(f"{country} country must be 2 characters", RED)
-            time.sleep(3)
-            return
-    except TypeError:
-        print_task(f"{country} country must be 2 characters", RED)
-        time.sleep(3)
-        return
-
-    try:
-        loc = dict_loc[country.upper()]
-    except KeyError:
-        print_task(f"{country.upper()} country not supported", RED)
-        time.sleep(3)
-        return
-
-    params = {
-        "loc": loc,
-    }
 
     try:
         response = session.get(
             "https://wwwapps.ups.com/pickup/schedule", params=params, headers=headers
         )
-
     except requests.exceptions.ConnectionError:
         print_task("Connection Error", RED)
         time.sleep(3)
@@ -639,13 +649,13 @@ def session(row: list):
         print_task("Error getting session", RED)
         time.sleep(3)
         return
-
-    if "Inserimento dei dati sul ritiro" in response.text:
-        return schedule(row, session)
-    else:
-        print_task("Error getting session", RED)
+    
+    if "Inserimento dei dati sul ritiro" not in response.text:
+        print_task("Error getting session response[2]", RED)
         time.sleep(3)
         return
+
+    return schedule(row, session)
 
 
 # remember to change ==>dropoffdate

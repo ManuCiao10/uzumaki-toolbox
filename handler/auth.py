@@ -77,7 +77,7 @@ def update():
                     with open("Uzumaki_" + hyper_version + ".exe", "wb") as f:
                         f.write(response.content)
 
-                print_task("Successfully downloaded update!", GREEN)
+                print_task("Successfully downloaded update, check" + os.getcwd(), GREEN)
 
                 input("Press Enter to exit...")
                 os._exit(1)
