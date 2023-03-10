@@ -21,7 +21,7 @@ def redirect_webhook_brt(
             {
                 "title": tracking_number,
                 "url": url_,
-                "color": 3128760,
+                "color": 12298642,
                 "description": "> Successfully redirect your parcel!",
                 "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
@@ -76,7 +76,7 @@ def checker_brt_discord(
             {
                 "title": order_number,
                 "url": brt_tracking_response,
-                "color": 3128760,
+                "color": 12298642,
                 "description": description,
                 "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
@@ -126,7 +126,7 @@ def send_webhook_sda(tracking_number, date, city, status):
             {
                 "title": "Tracking Number",
                 "url": url,
-                "color": 3128760,
+                "color": 12298642,
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
                     {"name": "Company", "value": "SDA", "inline": True},
@@ -168,7 +168,7 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
             {
                 "title": "Tracking Number",
                 "url": url,
-                "color": 3128760,
+                "color": 12298642,
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
                     {"name": "Company", "value": "BRT", "inline": True},
@@ -190,20 +190,16 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
         print(err)
 
 
-def send_webhook(company, dataInfo):
-    # https://www.mathsisfun.com/hexadecimal-decimal-colors.html
+def send_webhook(dataInfo):
 
     settings = load_settings()
     webhook = settings["webhook"]
-
-    url: str = ""
-
-    if company == "ups":
-        url = (
-            "https://www.ups.com/track?loc=en_IT&tracknum="
-            + dataInfo["tracking_number"]
-            + "&requester=ST/trackdetails"
-        )
+    
+    url = (
+        "https://www.ups.com/track?loc=en_IT&tracknum="
+        + dataInfo["tracking_number"]
+        + "&requester=ST/trackdetails"
+    )
 
     data = {
         "username": "Uzumaki™",
@@ -213,11 +209,11 @@ def send_webhook(company, dataInfo):
             {
                 "title": "Tracking Number",
                 "url": url,
-                "color": 3128760,
+                "color": 12298642,
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "thumbnail": {"url": UPS_LOGO},
                 "fields": [
-                    {"name": "Company", "value": company, "inline": True},
+                    {"name": "Company", "value": "UPS", "inline": True},
                     {
                         "name": "Tracking Number",
                         "value": dataInfo["tracking_number"],
@@ -229,23 +225,21 @@ def send_webhook(company, dataInfo):
                         "inline": True,
                     },
                     {
-                        "name": "Text",
-                        "value": dataInfo["simplified_text"],
+                        "name": "Date",
+                        "value": dataInfo["delivered_date"],
                         "inline": True,
                     },
                     {
-                        "name": "Street Address",
-                        "value": dataInfo["street_address1"],
+                        "name": "Time",
+                        "value": dataInfo["time_stamp"],
                         "inline": True,
                     },
-                    {"name": "City", "value": dataInfo["city"], "inline": True},
-                    {"name": "Country", "value": dataInfo["country"], "inline": True},
-                    {"name": "Zip Code", "value": dataInfo["zip_code"], "inline": True},
                     {
-                        "name": "Name",
-                        "value": dataInfo["attention_name"],
+                        "name": "Branch",
+                        "value": dataInfo["location"],
                         "inline": True,
                     },
+
                 ],
             }
         ],
@@ -255,8 +249,9 @@ def send_webhook(company, dataInfo):
     )
     try:
         result.raise_for_status()
+        print_task(f"[ups {dataInfo['tracking_number']}] successfully sent webhook", GREEN)
     except requests.exceptions.HTTPError as err:
-        print(err)
+        print_task(f"[ups {dataInfo['tracking_number']}] error sending webhook", RED)
 
 
 def webhook_nike(
@@ -283,7 +278,7 @@ def webhook_nike(
             {
                 "title": "Tracking Number",
                 "url": tracklink,
-                "color": 3128760,
+                "color": 12298642,
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "thumbnail": {"url": url_image},
                 "fields": [
@@ -340,7 +335,7 @@ def webhook_newBalance(
         "embeds": [
             {
                 "title": title,
-                "color": 3128760,
+                "color": 12298642,
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "thumbnail": {"url": image},
                 "fields": [
@@ -379,7 +374,7 @@ def webhook_courir(orderNumber, image, status, title, email, zipCode, trackingLi
         "embeds": [
             {
                 "title": title,
-                "color": 3128760,
+                "color": 12298642,
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "thumbnail": {"url": image},
                 "fields": [

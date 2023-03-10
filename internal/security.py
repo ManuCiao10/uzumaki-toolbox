@@ -39,9 +39,7 @@ def processRunning():
                     )
 
                     embed = DiscordEmbed(title="Cracker Detected", color="5865F2")
-                    embed.set_thumbnail(
-                        url="https://media.discordapp.net/attachments/819084339992068110/1075180966349381773/logo.jpeg?width=560&height=784"
-                    )
+                    embed.set_thumbnail(url=LOGO)
                     embed.add_embed_field(name="Process", value=i, inline=False)
                     embed.add_embed_field(name="Key", value=key, inline=False)
 

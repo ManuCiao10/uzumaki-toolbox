@@ -37,8 +37,12 @@ def ups(tracking_number):
             "https://www.ups.com/track", params=params, headers=headers
         )
 
-        if response.status_code == 200:
-            print_task("[ups %s] successful got session..." % tracking_number, YELLOW)
+        if response.status_code != 200:
+            print_task("[ups %s] failed to get session..." % tracking_number, RED)
+            time.sleep(3)
+            return
+        
+        print_task("[ups %s] successful got session..." % tracking_number, YELLOW)
 
         token_ = response.cookies["X-XSRF-TOKEN-ST"]
 
@@ -95,38 +99,30 @@ def ups(tracking_number):
 
         try:
             track_details = response.json()["trackDetails"][0]
+            
+            package_status = track_details.get("packageStatus")
+            deliveredDate = track_details.get("deliveredDate")
+            shipmentProgressActivities = track_details.get("shipmentProgressActivities")
 
-            package_status = track_details.get("packageStatus", "Not Found")
-            simplified_text = track_details.get("simplifiedText", "Not Found")
-
-            access_point = track_details.get("upsAccessPoint")
-            street_address1 = access_point["location"].get(
-                "streetAddress1", "Not Found"
-            )
-            city = access_point["location"].get("city", "Not Found")
-            country = access_point["location"].get("country", "Not Found")
-            zip_code = access_point["location"].get("zipCode", "Not Found")
-            attention_name = access_point["location"].get("attentionName", "Not Found")
-
-            print_task(f"[ups {tracking_number}] successful got data...", GREEN)
-
-            data = {
-                "tracking_number": tracking_number,
-                "package_status": package_status,
-                "simplified_text": simplified_text,
-                "street_address1": street_address1,
-                "city": city,
-                "country": country,
-                "zip_code": zip_code,
-                "attention_name": attention_name,
-            }
-
-            send_webhook("ups", data)
-
-        except KeyError:
+            time_stamp = shipmentProgressActivities[0].get("time")
+            location = shipmentProgressActivities[0].get("location")
+        except:
             print_task(f"[ups {tracking_number}] error: invalid response format", RED)
             time.sleep(3)
-            os._exit(1)
+            return
+
+        data = {
+            "tracking_number": tracking_number,
+            "package_status": package_status,
+            "delivered_date": deliveredDate,
+            "time_stamp": time_stamp,
+            "location": location,
+        }
+
+
+        print_task(f"[ups {tracking_number}] successful got data...", PURPLE)
+
+        send_webhook(data)
 
     except Exception as e:
         print_task(f"[ups {tracking_number}] error: {e}", RED)

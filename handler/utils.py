@@ -24,7 +24,7 @@ VERSION = "0.0.28"
 
 init()
 
-LOGO = "https://media.discordapp.net/attachments/819084339992068110/1075180966349381773/logo.jpeg"
+LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083492784146743416/Screenshot_2023-03-09_at_21.53.23.png"
 BANNER = (
     f"""
       .---.        .-----------
