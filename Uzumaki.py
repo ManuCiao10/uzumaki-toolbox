@@ -1,7 +1,7 @@
 from handler.utils import *
 from handler.redirect import redirect
 from handler.geocode import geocode
-from handler.tracker import tracker
+from tracker.tracker import tracker
 from handler.auth import auth, update
 from handler.jigger import jigger
 from handler.scraperOrder import scraperOrder
@@ -41,6 +41,7 @@ def main():
     username = auth()
     reachPresence(username)
     setTitle()
+    # username = "dev"
 
     while True:
         option = banner(username)
@@ -59,8 +60,8 @@ if __name__ == "__main__":
 # --------TO-IMPLEMENT-----------
 # ups redirect => call bot
 # zalando account checker
-# dhl tracker using their API
-# ups programma un ritiro
+# dpd - seur - postNl
+# redo all the guide
 
 # --------TO-FIX-----------
 # gls redirect by reading the email

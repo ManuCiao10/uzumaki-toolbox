@@ -84,7 +84,7 @@ def update():
 
         except:
             print_task("Failed to check for updates!", RED)
-            input("Press Enter to continue...")
+            time.sleep(3)
             return
 
 

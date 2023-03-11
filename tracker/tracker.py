@@ -1,8 +1,10 @@
 from handler.utils import *
-from handler.ups import ups
-from handler.brt import brt
-from handler.sda import sda
-from handler.nike import nike
+from tracker.ups import ups
+from tracker.brt import brt
+from tracker.sda import sda
+from tracker.nike import nike
+from tracker.dhl import dhl
+from tracker.gls import gls
 import time
 import os
 import csv
@@ -15,6 +17,8 @@ def companyHandler(fileName, tracking_number, email):
         "ups.csv": ups,
         "brt.csv": brt,
         "sda.csv": sda,
+        "dhl.csv": dhl,
+        "gls.csv": gls,
     }
 
     nike_mapping = {

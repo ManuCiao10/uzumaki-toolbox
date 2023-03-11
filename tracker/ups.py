@@ -41,7 +41,7 @@ def ups(tracking_number):
             print_task("[ups %s] failed to get session..." % tracking_number, RED)
             time.sleep(3)
             return
-        
+
         print_task("[ups %s] successful got session..." % tracking_number, YELLOW)
 
         token_ = response.cookies["X-XSRF-TOKEN-ST"]
@@ -99,7 +99,7 @@ def ups(tracking_number):
 
         try:
             track_details = response.json()["trackDetails"][0]
-            
+
             package_status = track_details.get("packageStatus")
             deliveredDate = track_details.get("deliveredDate")
             shipmentProgressActivities = track_details.get("shipmentProgressActivities")
@@ -118,7 +118,6 @@ def ups(tracking_number):
             "time_stamp": time_stamp,
             "location": location,
         }
-
 
         print_task(f"[ups {tracking_number}] successful got data...", PURPLE)
 

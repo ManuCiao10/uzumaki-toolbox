@@ -3,15 +3,23 @@ import requests
 import json
 
 UPS_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1078449797121445920/ups-social-share-logo-removebg-preview.png"
+DHL_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083557169905020929/pngwing.com.png"
+BRT_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1078000541155721329/BRT_logo_cropped.png"
+SDA_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083558464946716672/italy-courier-sda-dhl-express-poste-italiane-png-favpng-2nGkExNKQDVAFX0NTSkdbkYRZ-removebg-preview.png"
+GLS_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083595173352702093/GLS_Logo_2021.svg.png"
 
 
-def redirect_webhook_brt(
-    company, tracking_number, name, phone, address, city, state, zip, url, email
+def gls_webhook(
+    tracking_number,
+    shipper,
+    receiver,
+    status,
+    location,
+    date,
+    time,
 ):
     settings = load_settings()
     webhook = settings["webhook"]
-
-    url_ = url
 
     data = {
         "username": "Uzumaki™",
@@ -20,8 +28,91 @@ def redirect_webhook_brt(
         "embeds": [
             {
                 "title": tracking_number,
-                "url": url_,
+                "url": f"https://gls-group.com/IT/it/servizi-online/ricerca-spedizioni.html?match={tracking_number}&type=NAT",
                 "color": 12298642,
+                "description": "> " + status,
+                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": GLS_LOGO},
+                "fields": [
+                    {"name": "Shipper", "value": shipper, "inline": True},
+                    {"name": "Receiver", "value": receiver, "inline": True},
+                    {"name": "Location", "value": location, "inline": False},
+                    {"name": "Date", "value": date, "inline": True},
+                    {"name": "Time", "value": time, "inline": True},
+                ],
+            }
+        ],
+    }
+
+    try:
+        requests.post(
+            webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+        )
+        print_task(f"[gls {tracking_number}] sent webhook", GREEN)
+    except Exception as e:
+        print_task(f"[gls {tracking_number}] {e}", RED)
+        time.sleep(3)
+        return
+
+
+def dhl_webhook(
+    tracking_number, service, origin, destination, status, text, weight, unit, location
+):
+    settings = load_settings()
+    webhook = settings["webhook"]
+    box = str(weight) + " " + str(unit)
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": tracking_number,
+                "url": "https://www.dhl.com/en/express/tracking.html?AWB="
+                + tracking_number,
+                "color": 12298642,
+                "description": "> " + text,
+                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": DHL_LOGO},
+                "fields": [
+                    {"name": "Status", "value": status, "inline": True},
+                    {"name": "Service", "value": service, "inline": True},
+                    {"name": "Origin", "value": origin, "inline": True},
+                    {"name": "Destination", "value": destination, "inline": True},
+                    {"name": "Weight", "value": box, "inline": True},
+                    {"name": "Location", "value": location, "inline": True},
+                ],
+            }
+        ],
+    }
+
+    result = requests.post(
+        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    )
+    try:
+        result.raise_for_status()
+        print_task(f"[dhl {tracking_number}] sent webhook", GREEN)
+    except requests.exceptions.HTTPError as err:
+        print(err)
+
+
+def redirect_webhook_brt(
+    company, tracking_number, name, phone, address, city, state, zip, url, email
+):
+    settings = load_settings()
+    webhook = settings["webhook"]
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": tracking_number,
+                "url": url,
+                "color": 12298642,
+                "thumbnail": {"url": BRT_LOGO},
                 "description": "> Successfully redirect your parcel!",
                 "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
@@ -78,6 +169,7 @@ def checker_brt_discord(
                 "url": brt_tracking_response,
                 "color": 12298642,
                 "description": description,
+                "thumbnail": {"url": BRT_LOGO},
                 "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
                     {"name": "Company", "value": "BRT", "inline": True},
@@ -111,8 +203,6 @@ def send_webhook_sda(tracking_number, date, city, status):
     settings = load_settings()
     webhook = settings["webhook"]
 
-    url: str = ""
-
     url = (
         "https://www.sda.it/wps/portal/Servizi_online/dettaglio-spedizione?locale=it&tracing.letteraVettura="
         + tracking_number
@@ -127,6 +217,7 @@ def send_webhook_sda(tracking_number, date, city, status):
                 "title": "Tracking Number",
                 "url": url,
                 "color": 12298642,
+                "thumbnail": {"url": SDA_LOGO},
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
                     {"name": "Company", "value": "SDA", "inline": True},
@@ -152,13 +243,10 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
     settings = load_settings()
     webhook = settings["webhook"]
 
-    url: str = ""
-
-    if company == "brt":
-        url = (
-            "https://www.mybrt.it/it/mybrt/my-parcels/search?lang=en&parcelNumber="
-            + tracking_number
-        )
+    url = (
+        "https://www.mybrt.it/it/mybrt/my-parcels/search?lang=en&parcelNumber="
+        + tracking_number
+    )
 
     data = {
         "username": "Uzumaki™",
@@ -169,9 +257,10 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
                 "title": "Tracking Number",
                 "url": url,
                 "color": 12298642,
+                "thumbnail": {"url": BRT_LOGO},
                 "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
                 "fields": [
-                    {"name": "Company", "value": "BRT", "inline": True},
+                    {"name": "Company", "value": company.upper(), "inline": True},
                     {"name": "Status", "value": status, "inline": True},
                     {"name": "Date", "value": date, "inline": True},
                     {"name": "Time", "value": time, "inline": True},
@@ -191,10 +280,9 @@ def send_webhook_brt(company, tracking_number, date, time, location, status):
 
 
 def send_webhook(dataInfo):
-
     settings = load_settings()
     webhook = settings["webhook"]
-    
+
     url = (
         "https://www.ups.com/track?loc=en_IT&tracknum="
         + dataInfo["tracking_number"]
@@ -239,7 +327,6 @@ def send_webhook(dataInfo):
                         "value": dataInfo["location"],
                         "inline": True,
                     },
-
                 ],
             }
         ],
@@ -249,7 +336,9 @@ def send_webhook(dataInfo):
     )
     try:
         result.raise_for_status()
-        print_task(f"[ups {dataInfo['tracking_number']}] successfully sent webhook", GREEN)
+        print_task(
+            f"[ups {dataInfo['tracking_number']}] successfully sent webhook", GREEN
+        )
     except requests.exceptions.HTTPError as err:
         print_task(f"[ups {dataInfo['tracking_number']}] error sending webhook", RED)
 
@@ -364,6 +453,7 @@ def webhook_newBalance(
 def webhook_courir(orderNumber, image, status, title, email, zipCode, trackingLink):
     settings = load_settings()
     webhook = settings["webhook"]
+
     if trackingLink != None:
         status = "[" + status + "]" + "(" + trackingLink + ")"
 

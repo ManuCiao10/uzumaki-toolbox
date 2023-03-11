@@ -417,97 +417,96 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
     except:
         pass
 
-
     headers = {
-    'authority': 'wwwapps.ups.com',
-    'accept': 'application/json, text/javascript, */*; q=0.01',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'cache-control': 'no-cache',
-    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'origin': 'https://wwwapps.ups.com',
-    'pragma': 'no-cache',
-    'referer': 'https://wwwapps.ups.com/pickup/processinfo?loc=it_IT',
-    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"macOS"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-origin',
-    'sec-gpc': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-    'x-requested-with': 'XMLHttpRequest',
-}
+        "authority": "wwwapps.ups.com",
+        "accept": "application/json, text/javascript, */*; q=0.01",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "cache-control": "no-cache",
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "origin": "https://wwwapps.ups.com",
+        "pragma": "no-cache",
+        "referer": "https://wwwapps.ups.com/pickup/processinfo?loc=it_IT",
+        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "sec-gpc": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+        "x-requested-with": "XMLHttpRequest",
+    }
 
     payload_cc = {
-    'loc': 'it_IT',
-    'op': 'NEXT',
-    'billingindicator': hargeTypeCode,
-    'paymentYourUPSAccountNumber': '',
-    'paymentUPSPostalCode': '',
-    'paymentThirdPartybillingIndicator': 'billThirdForPickupCharges',
-    'paymentThirdPartyAccountNumber': '',
-    'paymentReceiverCountry': 'IT',
-    'paymentThirdPartyCountry': 'IT',
-    'paymentThirdPartyPostalCode': '',
-    'paymentMethodValidated': 'true',
-    'paymentCard': '',
-    'otherPaymentType': 'Card',
-    'pre': 'cpcWidget',
-    'rapp': 'CPC',
-    'cct': f"{paymentMediaTypeCode}_{hargeTypeCode}",
-    'pmt': '2',
-    'apy': 'true',
-    'ptr': 'false',
-    'spm': '',
-    'dpm': '',
-    'epm': 'false',
-    'is3d': '',
-    'accountNumber': '',
-    'accountName': '',
-    'IT': 'IT',
-    'null': '',
-    'cpcWidgetCountryCashCountry': 'IT',
-    'cpcWidgetCountryCashPostalCode': '',
-    'cpcWidgetCountryCashCity': '',
-    'cpcWidgetCountryCashStates': '',
-    'ccn': credit_card,
-    'sccn': '',
-    'svc': month,
-    'exm': month,
-    'exy': year,
-    'eba': '',
-    'cba': '',
-    'sba': '',
-    'baid': '',
-    'pid': '',
-    'pem': '',
-    'ppan': '',
-    'cpcWidgetCountryCountry': 'IT',
-    'cpcWidgetCountryPostalCode': '',
-    'cpcWidgetCountryCity': '',
-    'cpcWidgetCountryStates': '',
-    'addressSelect': 'newAddress',
-    'cpcWidgetFirstName': name,
-    'cpcWidgetLastName': surname,
-    'cpcWidgetCountry': 'IT',
-    'cpcWidgetAddress1': address,
-    'cpcWidgetAddress2': '',
-    'cpcWidgetAddress3': '',
-    'cpcWidgetPostalCode': zip_code,
-    'cpcWidgetCity': city,
-    'cpcWidgetStates': city,
-    'taxIdTypeCode': '0005',
-    'taxId': tax_id,
-    'pecId': tax_id,
-    'sdiId': tax_id,
-    'tracknumlist': '',
-}
+        "loc": "it_IT",
+        "op": "NEXT",
+        "billingindicator": hargeTypeCode,
+        "paymentYourUPSAccountNumber": "",
+        "paymentUPSPostalCode": "",
+        "paymentThirdPartybillingIndicator": "billThirdForPickupCharges",
+        "paymentThirdPartyAccountNumber": "",
+        "paymentReceiverCountry": "IT",
+        "paymentThirdPartyCountry": "IT",
+        "paymentThirdPartyPostalCode": "",
+        "paymentMethodValidated": "true",
+        "paymentCard": "",
+        "otherPaymentType": "Card",
+        "pre": "cpcWidget",
+        "rapp": "CPC",
+        "cct": f"{paymentMediaTypeCode}_{hargeTypeCode}",
+        "pmt": "2",
+        "apy": "true",
+        "ptr": "false",
+        "spm": "",
+        "dpm": "",
+        "epm": "false",
+        "is3d": "",
+        "accountNumber": "",
+        "accountName": "",
+        "IT": "IT",
+        "null": "",
+        "cpcWidgetCountryCashCountry": "IT",
+        "cpcWidgetCountryCashPostalCode": "",
+        "cpcWidgetCountryCashCity": "",
+        "cpcWidgetCountryCashStates": "",
+        "ccn": credit_card,
+        "sccn": "",
+        "svc": month,
+        "exm": month,
+        "exy": year,
+        "eba": "",
+        "cba": "",
+        "sba": "",
+        "baid": "",
+        "pid": "",
+        "pem": "",
+        "ppan": "",
+        "cpcWidgetCountryCountry": "IT",
+        "cpcWidgetCountryPostalCode": "",
+        "cpcWidgetCountryCity": "",
+        "cpcWidgetCountryStates": "",
+        "addressSelect": "newAddress",
+        "cpcWidgetFirstName": name,
+        "cpcWidgetLastName": surname,
+        "cpcWidgetCountry": "IT",
+        "cpcWidgetAddress1": address,
+        "cpcWidgetAddress2": "",
+        "cpcWidgetAddress3": "",
+        "cpcWidgetPostalCode": zip_code,
+        "cpcWidgetCity": city,
+        "cpcWidgetStates": city,
+        "taxIdTypeCode": "0005",
+        "taxId": tax_id,
+        "pecId": tax_id,
+        "sdiId": tax_id,
+        "tracknumlist": "",
+    }
 
     response = session.post(
-    'https://wwwapps.ups.com/pickup/api/service/validate/payment',
-    headers=headers,
-    data=payload_cc,
-)
+        "https://wwwapps.ups.com/pickup/api/service/validate/payment",
+        headers=headers,
+        data=payload_cc,
+    )
 
     data_ = response.json()
     if data_["valid"] != True:
@@ -516,100 +515,104 @@ def checkout(session: requests.Session, row: list, dropoffdate: str):
         return
 
     headers = {
-    'authority': 'wwwapps.ups.com',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'cache-control': 'no-cache',
-    'origin': 'https://wwwapps.ups.com',
-    'pragma': 'no-cache',
-    'referer': 'https://wwwapps.ups.com/pickup/processinfo?loc=it_IT',
-    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"macOS"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-user': '?1',
-    'sec-gpc': '1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-}
-
-
-    response = session.post('https://wwwapps.ups.com/pickup/processpaymentdetail', headers=headers, data=payload_cc)
-
-    if "Nome referente:" in response.text:
-        print("OK")
-    else:
-        print("ERROR")
-        return 
-    
-    headers = {
-    'authority': 'wwwapps.ups.com',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'cache-control': 'no-cache',
-    'origin': 'https://wwwapps.ups.com',
-    'pragma': 'no-cache',
-    'referer': 'https://wwwapps.ups.com/pickup/processpaymentdetail',
-    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"macOS"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-user': '?1',
-    'sec-gpc': '1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-}
-
-    ciao = {
-    'loc': 'it_IT',
-    'IP_schType': 'ns',
-}
-
-    data = {
-    'loc': 'it_IT',
-    'initiatingPage': 'verification',
-    'email1opt': 'true',
-    'addToAddressBook': 'false',
-    'email2opt': 'true',
-    'SUBMIT_BUTTON': 'Avanti',
-}
+        "authority": "wwwapps.ups.com",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "cache-control": "no-cache",
+        "origin": "https://wwwapps.ups.com",
+        "pragma": "no-cache",
+        "referer": "https://wwwapps.ups.com/pickup/processinfo?loc=it_IT",
+        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-user": "?1",
+        "sec-gpc": "1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    }
 
     response = session.post(
-    'https://wwwapps.ups.com/pickup/processverification',
-    params=ciao,
-    headers=headers,
-    data=data,
-)
+        "https://wwwapps.ups.com/pickup/processpaymentdetail",
+        headers=headers,
+        data=payload_cc,
+    )
+
+    if "Nome referente:" not in response.text:
+        print_task("Error checkout: " + response.text, RED)
+        time.sleep(3)
+        return
 
     headers = {
-    'authority': 'www.ups.com',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'cache-control': 'no-cache',
-    'pragma': 'no-cache',
-    'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"macOS"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-site',
-    'sec-fetch-user': '?1',
-    'sec-gpc': '1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-}
+        "authority": "wwwapps.ups.com",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "cache-control": "no-cache",
+        "origin": "https://wwwapps.ups.com",
+        "pragma": "no-cache",
+        "referer": "https://wwwapps.ups.com/pickup/processpaymentdetail",
+        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-user": "?1",
+        "sec-gpc": "1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    }
 
-    ciao3 = {
-    'type': '3d',
-    'transactionId': transaction_id,
-    'returnTo': 'https://wwwapps.ups.com/pickup/processcpcpayment?loc=it_IT',
-}
+    pay = {
+        "loc": "it_IT",
+        "IP_schType": "ns",
+    }
 
-    response = session.get('https://www.ups.com/cpcws/redirect', params=ciao3, headers=headers)
+    data = {
+        "loc": "it_IT",
+        "initiatingPage": "verification",
+        "email1opt": "true",
+        "addToAddressBook": "false",
+        "email2opt": "true",
+        "SUBMIT_BUTTON": "Avanti",
+    }
+
+    response = session.post(
+        "https://wwwapps.ups.com/pickup/processverification",
+        params=pay,
+        headers=headers,
+        data=data,
+    )
+
+    headers = {
+        "authority": "www.ups.com",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "cache-control": "no-cache",
+        "pragma": "no-cache",
+        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-user": "?1",
+        "sec-gpc": "1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    }
+
+    check = {
+        "type": "3d",
+        "transactionId": transaction_id,
+        "returnTo": "https://wwwapps.ups.com/pickup/processcpcpayment?loc=it_IT",
+    }
+
+    response = session.get(
+        "https://www.ups.com/cpcws/redirect", params=check, headers=headers
+    )
 
     print_task("Payment submitted!", GREEN)
 

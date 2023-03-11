@@ -20,7 +20,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.28"
+VERSION = "0.0.29"
 
 init()
 
@@ -54,7 +54,7 @@ def banner(username):
     )
 
     print(f"\t{Fore.RED} 01 {Fore.WHITE}Brt\t\tRedirect packages ")
-    print(f"\t{Fore.RED} 02 {Fore.WHITE}Tracker\tOrder Tracker (Ups Brt Sda Nike)")
+    print(f"\t{Fore.RED} 02 {Fore.WHITE}Tracker\tOrder Tracker")
     print(f"\t{Fore.RED} 03 {Fore.WHITE}Geocode\tGeocode address")
     print(f"\t{Fore.RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
     print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
@@ -145,6 +145,18 @@ def checking():
         with open("Uzumaki/tracker/sda.csv", "w") as f:
             f.write("tracking_number")
             print_task("sda.csv created", GREEN)
+            f.close()
+
+    if not os.path.exists("Uzumaki/tracker/dhl.csv"):
+        with open("Uzumaki/tracker/dhl.csv", "w") as f:
+            f.write("tracking_number")
+            print_task("dhl.csv created", GREEN)
+            f.close()
+
+    if not os.path.exists("Uzumaki/tracker/gls.csv"):
+        with open("Uzumaki/tracker/gls.csv", "w") as f:
+            f.write("tracking_number")
+            print_task("gls.csv created", GREEN)
             f.close()
 
     # ----redirect----#
@@ -240,7 +252,6 @@ def checking():
             print_task("ups.csv created", GREEN)
             f.close()
 
-    time.sleep(1)
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")
