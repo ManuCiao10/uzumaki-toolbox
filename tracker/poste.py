@@ -4,6 +4,7 @@ from handler.webhook import poste_webhook
 import time
 from datetime import datetime
 
+
 def poste(tracking_number, zip_code):
     print_task(f"[poste {tracking_number}] getting order...", YELLOW)
 
@@ -50,7 +51,7 @@ def poste(tracking_number, zip_code):
         print_task(f"[poste {tracking_number}] {e}", RED)
         time.sleep(3)
         return
-    
+
     try:
         colli = resp["colli"][f"{tracking_number}"]
         effectiveDate = colli["effectiveDate"]
@@ -67,7 +68,7 @@ def poste(tracking_number, zip_code):
         town = colli["deliveryAddress"]["address"]["town"]
         country = colli["deliveryAddress"]["address"]["country"]
         status = colli["statusPhase"]["message"]
-        
+
         poste_webhook(
             tracking_number,
             zip_code,

@@ -36,7 +36,7 @@ def main():
     colorama.init(wrap=True)
 
     # update()
-    checking()
+    # checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
@@ -58,9 +58,11 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
+# fix ups pickup
+# add dhl pick-up
 # ups redirect => call bot
 # zalando account checker
-# seur - postNl
+# seur
 
 # --------TO-FIX-----------
 # gls redirect by reading the email

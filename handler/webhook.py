@@ -398,7 +398,9 @@ def send_webhook(dataInfo):
         ],
     }
     result = requests.post(
-        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+        webhook,
+        data=json.dumps(data),
+        headers={"Content-Type": "application/json"},
     )
     try:
         result.raise_for_status()

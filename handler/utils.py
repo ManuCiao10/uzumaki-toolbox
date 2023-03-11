@@ -248,13 +248,13 @@ def checking():
             f.close()
 
     # ----upsPickup----#
-    if not os.path.exists("Uzumaki/pickup/ups.csv"):
-        with open("Uzumaki/pickup/ups.csv", "w") as f:
-            f.write(
-                "name,surname,phone,address,city,zip,email,CardNumber,Month,Year,CVV"
-            )
-            print_task("ups.csv created", GREEN)
-            f.close()
+    if not os.path.exists("Uzumaki/pickup/pickup_ups.csv"):
+        with open("Uzumaki/pickup/pickup_ups.csv", "w") as f:
+            f.write("name,surname,phone,address,city,zip,country(it),email")
+            print_task("pickup_ups.csv created", GREEN)
+
+        if os.path.exists("Uzumaki/pickup/ups.csv"):
+            os.remove("Uzumaki/pickup/ups.csv")
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
