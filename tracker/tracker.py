@@ -5,6 +5,7 @@ from tracker.sda import sda
 from tracker.nike import nike
 from tracker.dhl import dhl
 from tracker.gls import gls
+from tracker.poste import poste
 import time
 import os
 import csv
@@ -23,6 +24,7 @@ def companyHandler(fileName, tracking_number, email):
 
     nike_mapping = {
         "nike.csv": nike,
+        "poste_nl.csv": poste,
     }
 
     try:

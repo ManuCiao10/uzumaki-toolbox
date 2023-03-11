@@ -7,6 +7,72 @@ DHL_LOGO = "https://media.discordapp.net/attachments/819084339992068110/10835571
 BRT_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1078000541155721329/BRT_logo_cropped.png"
 SDA_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083558464946716672/italy-courier-sda-dhl-express-poste-italiane-png-favpng-2nGkExNKQDVAFX0NTSkdbkYRZ-removebg-preview.png"
 GLS_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083595173352702093/GLS_Logo_2021.svg.png"
+POSTE_NL_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1084179730112188446/1200px-PostNL_logo.png"
+
+
+def poste_webhook(
+    tracking_number,
+    zip_code,
+    effectiveDate,
+    sender,
+    deliveryAddress,
+    street,
+    houseNumber,
+    postalCode,
+    town,
+    country,
+    status,
+):
+    settings = load_settings()
+    webhook = settings["webhook"]
+
+    tracking = f"https://jouw.postnl.nl/track-and-trace/{tracking_number}-NL-{zip_code}"
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": tracking_number,
+                "url": tracking,
+                "color": 12298642,
+                "description": "> " + status,
+                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": POSTE_NL_LOGO},
+                "fields": [
+                    {"name": "Shipper", "value": sender, "inline": False},
+                    {
+                        "name": "Receiver",
+                        "value": "||" + deliveryAddress + "||",
+                        "inline": True,
+                    },
+                    {"name": "Street", "value": "||" + street + "||", "inline": True},
+                    {
+                        "name": "House Number",
+                        "value": "||" + houseNumber + "||",
+                        "inline": True,
+                    },
+                    {
+                        "name": "Postal Code",
+                        "value": "||" + postalCode + "||",
+                        "inline": True,
+                    },
+                    {"name": "Town", "value": "||" + town + "||", "inline": True},
+                    {"name": "Country", "value": "||" + country + "||", "inline": True},
+                    {"name": "Date", "value": effectiveDate, "inline": False},
+                ],
+            }
+        ],
+    }
+
+    try:
+        requests.post(
+            webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+        )
+        print_task(f"[poste {tracking_number}] sent to webhook", GREEN)
+    except Exception as e:
+        print_task(f"Error: {e}", RED)
 
 
 def gls_webhook(

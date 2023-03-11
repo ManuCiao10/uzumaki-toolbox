@@ -159,7 +159,11 @@ def checking():
             print_task("gls.csv created", GREEN)
             f.close()
 
-    # ----redirect----#
+    if not os.path.exists("Uzumaki/tracker/poste_nl.csv"):
+        with open("Uzumaki/tracker/poste_nl.csv", "w") as f:
+            f.write("tracking_number,zipcode")
+            print_task("poste_nl.csv created", GREEN)
+            f.close()
 
     # ----BRT----#
     if not os.path.exists("Uzumaki/redirect/brt_checker.csv"):

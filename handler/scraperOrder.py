@@ -143,19 +143,19 @@ def courir(email, zipCode):
 
             orderNumber = data["data"][0]["attributes"]["orderNumber"]
             image = data["included"][1]["attributes"]["thumbnail"]["src"]
-            utc_time = datetime.fromisoformat(data["data"][0]["attributes"]["orderedAt"])
+            utc_time = datetime.fromisoformat(
+                data["data"][0]["attributes"]["orderedAt"]
+            )
             orderedAt = utc_time.strftime("%H:%M:%S.%f")
             title = data["included"][1]["attributes"]["title"]
 
             # loop through included to get lineItems, start at the end of the list
             for i in reversed(data["included"]):
-
                 if i["type"] == "expectedDeliveries":
                     expectedDelivery = i["attributes"]["date"]
                     break
                 else:
                     expectedDelivery = "N/A"
-                
 
             for i in data["included"]:
                 if i["type"] == "trackers":
