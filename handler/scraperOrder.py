@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from handler.webhook import webhook_newBalance, webhook_courir
 import time
 from internal.security import processRunning
+from datetime import datetime
 
 
 def newBalance(orderNumber, postalCode, orderLastname):
@@ -138,35 +139,76 @@ def courir(email, zipCode):
             response.raise_for_status()
             data = response.json()
 
-            print_task(f"order found {email} {zipCode}", GREEN)
+            print_task(f"order found {email} {zipCode}", PURPLE)
 
             orderNumber = data["data"][0]["attributes"]["orderNumber"]
             image = data["included"][1]["attributes"]["thumbnail"]["src"]
-            status = data["included"][0]["attributes"]["statusCode"]
+            utc_time = datetime.fromisoformat(data["data"][0]["attributes"]["orderedAt"])
+            orderedAt = utc_time.strftime("%H:%M:%S.%f")
             title = data["included"][1]["attributes"]["title"]
 
-            try:
-                trackingLink = (
-                    data.get("included")[2].get("attributes").get("trackingLink")
-                )
-            except:
-                trackingLink = None
-            time.sleep(1)
+            # loop through included to get lineItems, start at the end of the list
+            for i in reversed(data["included"]):
+
+                if i["type"] == "expectedDeliveries":
+                    expectedDelivery = i["attributes"]["date"]
+                    break
+                else:
+                    expectedDelivery = "N/A"
+                
+
+            for i in data["included"]:
+                if i["type"] == "trackers":
+                    attributes = i["attributes"]
+                    status = attributes["deliveryStatusCode"]
+                    trackingLink = attributes["trackingLink"]
+                    trackingNumber = attributes["trackingNumber"]
+                    carrierCode = attributes["carrierCode"]
+                    break
+                else:
+                    status = "N/A"
+                    trackingLink = "N/A"
+                    trackingNumber = "N/A"
+                    carrierCode = "N/A"
+
+            if status == "N/A":
+                status = data["included"][0]["attributes"]["statusCode"]
 
             webhook_courir(
-                orderNumber, image, status, title, email, zipCode, trackingLink
+                email,
+                zipCode,
+                title,
+                orderNumber,
+                image,
+                orderedAt,
+                expectedDelivery,
+                status,
+                trackingLink,
+                trackingNumber,
+                carrierCode,
             )
 
-            time.sleep(4)
-    except requests.exceptions.HTTPError as e:
-        print_task(f"order not found {email} {zipCode}", RED)
+            with open(f"Uzumaki/scraper/courir_output.csv", "a") as f:
+                if os.stat(f"Uzumaki/scraper/courir_output.csv").st_size == 0:
+                    f.write(
+                        "status,email,zipCode,orderNumber,title,orderedAt,expectedDelivery,trackingLink,trackingNumber,carrierCode"
+                        + "\n"
+                    )
+                if orderNumber not in open(f"Uzumaki/scraper/courir_output.csv").read():
+                    f.write(
+                        f"{status},{email},{zipCode},{orderNumber},{title},{orderedAt},{expectedDelivery},{trackingLink},{trackingNumber},{carrierCode}"
+                        + "\n"
+                    )
+
+    except requests.exceptions.HTTPError:
+        print_task(f"HTTPError {email} {zipCode}", RED)
         time.sleep(3)
-    except json.decoder.JSONDecodeError as e:
-        print_task(f"order not found {email} {zipCode}", RED)
+    except json.decoder.JSONDecodeError:
+        print_task(f"JSONDecodeError {email} {zipCode}", RED)
         time.sleep(3)
-    except Exception:
-        print_task(f"unknown error {email} {zipCode}", RED)
-        time.sleep(5)
+    except Exception as e:
+        print_task(f"Error {email} {zipCode} {e}", RED)
+        time.sleep(3)
 
 
 def scraperOrder(username):
@@ -187,9 +229,9 @@ def scraperOrder(username):
         files_dict = {}
 
         for index, file in enumerate(files):
-            print_file(str(index) + ". " + file)
-
-            files_dict[str(index)] = file
+            if file != "courir_output.csv":
+                print_file(str(index) + ". " + file)
+                files_dict[str(index)] = file
 
         print("\n")
         option = input(TAB + "> choose: ")

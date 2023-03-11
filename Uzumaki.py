@@ -35,13 +35,13 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    update()
-    checking()
-    processRunning()
-    username = auth()
-    reachPresence(username)
-    setTitle()
-    # username = "dev"
+    # update()
+    # checking()
+    # processRunning()
+    # username = auth()
+    # reachPresence(username)
+    # setTitle()
+    username = "dev"
 
     while True:
         option = banner(username)
@@ -58,9 +58,10 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
+# add csv courir tracker
 # ups redirect => call bot
 # zalando account checker
-# dpd - seur - postNl
+# seur - postNl
 # redo all the guide
 
 # --------TO-FIX-----------

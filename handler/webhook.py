@@ -450,12 +450,24 @@ def webhook_newBalance(
         print(err)
 
 
-def webhook_courir(orderNumber, image, status, title, email, zipCode, trackingLink):
+def webhook_courir(
+    email,
+    zipCode,
+    title,
+    orderNumber,
+    image,
+    orderedAt,
+    expectedDelivery,
+    status,
+    trackingLink,
+    trackingNumber,
+    carrierCode,
+):
     settings = load_settings()
     webhook = settings["webhook"]
 
-    if trackingLink != None:
-        status = "[" + status + "]" + "(" + trackingLink + ")"
+    if trackingLink != "N/A":
+        status = "[" + status.upper() + "]" + "(" + trackingLink + ")"
 
     data = {
         "username": "Uzumaki™",
@@ -469,9 +481,29 @@ def webhook_courir(orderNumber, image, status, title, email, zipCode, trackingLi
                 "thumbnail": {"url": image},
                 "fields": [
                     {"name": "Status", "value": status, "inline": False},
-                    {"name": "Order Number", "value": orderNumber, "inline": True},
-                    {"name": "Email", "value": email, "inline": False},
-                    {"name": "Zip Code", "value": zipCode, "inline": True},
+                    {
+                        "name": "Order Number",
+                        "value": "||" + orderNumber + "||",
+                        "inline": True,
+                    },
+                    {"name": "Email", "value": "||" + email + "||", "inline": False},
+                    {
+                        "name": "Zip Code",
+                        "value": "||" + zipCode + "||",
+                        "inline": True,
+                    },
+                    {"name": "Ordered At", "value": orderedAt, "inline": True},
+                    {
+                        "name": "Expected Delivery",
+                        "value": expectedDelivery,
+                        "inline": False,
+                    },
+                    {
+                        "name": "Tracking Number",
+                        "value": "||" + trackingNumber + "||",
+                        "inline": True,
+                    },
+                    {"name": "Carrier Code", "value": carrierCode, "inline": True},
                 ],
             }
         ],
@@ -481,5 +513,6 @@ def webhook_courir(orderNumber, image, status, title, email, zipCode, trackingLi
     )
     try:
         result.raise_for_status()
+        print_task(f"[courir {orderNumber}] successfully sent webhook", GREEN)
     except requests.exceptions.HTTPError as err:
-        print(err)
+        print_task(f"[courir {orderNumber}] {err}", RED)
