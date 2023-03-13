@@ -1,4 +1,3 @@
-# scraper order New Balance
 from handler.utils import *
 import csv
 import threading
@@ -34,6 +33,7 @@ def newBalance(orderNumber, postalCode, orderLastname):
         "trackOrderPostalCode": postalCode,
         "trackOrderLastname": orderLastname,
     }
+
     url_request = "https://www.newbalance.it/track/"
 
     if orderNumber[:2] == "nk":
@@ -54,7 +54,7 @@ def newBalance(orderNumber, postalCode, orderLastname):
                 "order not found %s %s %s" % (orderNumber, postalCode, orderLastname),
                 RED,
             )
-            time.sleep(5)
+            time.sleep(2)
             return
 
         print_task(
@@ -102,8 +102,8 @@ def newBalance(orderNumber, postalCode, orderLastname):
         print_task(
             "order not found %s %s %s" % (orderNumber, postalCode, orderLastname), RED
         )
-        time.sleep(3)
-        os._exit(1)
+        time.sleep(2)
+        return
 
 
 API_ENDPOINT = "https://api.shipup.co/v1/orders/tracking_page_order"
@@ -213,6 +213,7 @@ def courir(email, zipCode):
 
 def scraperOrder(username):
     processRunning()
+    setTitleMode("scraper")
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 
@@ -241,7 +242,7 @@ def scraperOrder(username):
             break
         except KeyError:
             print_task("invalid option", RED)
-            time.sleep(2)
+            time.sleep(1)
 
     with open("Uzumaki/scraper/" + file, "r") as f:
         reader = csv.reader(f)

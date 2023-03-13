@@ -40,6 +40,7 @@ def companyHandler(fileName, tracking_number, email):
 
 def tracker(username):
     processRunning()
+    setTitleMode("tracker")
     """Displays a list of tracking files and prompts the user to select one.
     For each row in the selected file, launches a new thread to handle the tracking
     for the given company."""
@@ -72,7 +73,7 @@ def tracker(username):
             break
         except KeyError:
             print_task("invalid option", RED)
-            time.sleep(2)
+            time.sleep(1)
 
     with open(os.path.join("Uzumaki", "tracker", file), "r") as f:
         reader = csv.reader(f)

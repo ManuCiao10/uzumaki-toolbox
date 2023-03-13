@@ -12,6 +12,7 @@ from internal.security import processRunning
 
 def unsubscriber(username):
     processRunning()
+    setTitleMode("unsubscriber")
     try:
         os.chdir("Uzumaki/unsubscriber")
     except:
@@ -85,4 +86,4 @@ def unsubscriber(username):
             break
         except KeyError:
             print_task("Invalid company", RED)
-            time.sleep(2)
+            time.sleep(1)

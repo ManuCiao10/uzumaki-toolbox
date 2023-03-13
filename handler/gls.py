@@ -44,6 +44,7 @@ def get_gls_mails(user, password):
 
 def glsRedirect(username):
     processRunning()
+    setTitleMode("gls redirect")
     print_task("gls redirect is locked", RED)
     input("Press Enter to exit...")
     os._exit(1)

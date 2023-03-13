@@ -500,6 +500,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
 
 def redirect(username):
     processRunning()
+    setTitleMode("Redirect")
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 
@@ -526,7 +527,7 @@ def redirect(username):
             break
         except KeyError:
             print_task("invalid option", RED)
-            time.sleep(2)
+            time.sleep(1)
 
     # Use with statement to open file
     with open(os.path.join(REDIRECT_PATH, file), "r") as f:

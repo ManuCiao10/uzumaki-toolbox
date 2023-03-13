@@ -102,6 +102,7 @@ def validate_credentials(credentials):
 
 def restockPayout(username):
     processRunning()
+    setTitleMode("restock payout")
     os.chdir("Uzumaki/restock")
 
     os.system("cls" if os.name == "nt" else "clear")

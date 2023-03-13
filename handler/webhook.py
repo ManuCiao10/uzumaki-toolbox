@@ -501,10 +501,22 @@ def webhook_newBalance(
                     {"name": "Date", "value": date, "inline": True},
                     {"name": "Price", "value": price, "inline": True},
                     {"name": "Email", "value": email, "inline": False},
-                    {"name": "First Name", "value": firstName, "inline": True},
-                    {"name": "Second Name", "value": secondName, "inline": True},
-                    {"name": "Address", "value": addy, "inline": True},
-                    {"name": "Zip Code", "value": zipCode, "inline": True},
+                    {
+                        "name": "First Name",
+                        "value": "||" + firstName + "||",
+                        "inline": True,
+                    },
+                    {
+                        "name": "Second Name",
+                        "value": "||" + secondName + "||",
+                        "inline": True,
+                    },
+                    {"name": "Address", "value": "||" + addy + "||", "inline": True},
+                    {
+                        "name": "Zip Code",
+                        "value": "||" + zipCode + "||",
+                        "inline": True,
+                    },
                 ],
             }
         ],
@@ -514,6 +526,7 @@ def webhook_newBalance(
     )
     try:
         result.raise_for_status()
+        print_task(f"[newBalance {orderNumber}] successfully sent webhook", GREEN)
     except requests.exceptions.HTTPError as err:
         print(err)
 

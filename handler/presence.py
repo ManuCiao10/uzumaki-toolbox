@@ -10,7 +10,6 @@ def reachPresence(username):
         RPC.connect()
     except:
         print("Discord not found")
-        # time.sleep(2)
 
     start_time = time.time()
 
@@ -23,4 +22,3 @@ def reachPresence(username):
         )
     except:
         print("Discord not found")
-        # time.sleep(2)

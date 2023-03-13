@@ -340,7 +340,7 @@ def session(row: list):
 
 def pickup(username):
     processRunning()
-    setTitlePickup()
+    setTitleMode("Pickup ups")
 
     os.system("cls" if os.name == "nt" else "clear")
 

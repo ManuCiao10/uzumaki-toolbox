@@ -159,6 +159,7 @@ def jig_start(
 
 def jigger(username):
     processRunning()
+    setTitleMode("jigger")
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 
@@ -190,7 +191,7 @@ def jigger(username):
             break
         except KeyError:
             print_task("invalid option", RED)
-            time.sleep(2)
+            time.sleep(1)
 
     with open("Uzumaki/jigger/" + file, "r") as f:
         reader = csv.reader(f)

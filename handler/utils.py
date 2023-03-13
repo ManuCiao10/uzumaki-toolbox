@@ -92,6 +92,7 @@ def checking():
         "Uzumaki/unsubscriber",
         "Uzumaki/gls",
         "Uzumaki/pickup"
+        "Uzumaki/wethenew"
         # "Uzumaki/zalando",
     ]
 
@@ -354,7 +355,7 @@ def bye(username):
     Prints a goodbye message and exits the program.
     """
     print_task(f"bye bye {username}...", RED)
-    time.sleep(2)
+    time.sleep(1)
     return
 
 
@@ -372,13 +373,12 @@ country_prefix = {
     "Spain": "+34",
 }
 
-
-def setTitlePickup():
+def setTitleMode(mode):
     """
     Sets the title of the console window.
     """
 
-    title = "Uzumaki | Uzumaki Version: " + VERSION + " | Pickup Mode"
+    title = "Uzumaki | Uzumaki Version: " + VERSION + " | " + mode
     if os.name == "nt":
         ctypes.windll.kernel32.SetConsoleTitleW(title)
 

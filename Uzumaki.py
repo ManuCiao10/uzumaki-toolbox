@@ -36,7 +36,7 @@ def main():
     colorama.init(wrap=True)
 
     # update()
-    # checking()
+    checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
@@ -50,7 +50,7 @@ def main():
             break
         except KeyError:
             print_task("invalid option ", RED)
-            time.sleep(2)
+            time.sleep(1)
 
 
 if __name__ == "__main__":
@@ -58,15 +58,19 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
+# ⚫ WETHENEW 
+# - Auto Accept & Refuse Offers
+# - Add Product to your Listing
+# - Download Shipping Label
+
+# add title to cli
 # fix ups pickup
-# add dhl pick-up
+
 # ups redirect => call bot
 # zalando account checker
-# seur
 
 # --------TO-FIX-----------
 # gls redirect by reading the email
 
 # --------DISCORD-TOOL-----------
-# nike scraper with pid
-# restock and goat stockx scraper
+# restock and goat stockx scraper ?
