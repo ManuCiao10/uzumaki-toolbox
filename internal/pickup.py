@@ -5,6 +5,7 @@ import threading
 import requests
 import tls_client
 
+
 def payment(session: tls_client.Session):
     # cookies = {
     #     "com.ups.pickup.cb.sData": "ddc9f477d3da496ab2a416e82f31b7fc:sMvXgD0s1ojIWYFELWlpMYYm0DH3p59mp2cBaea8M/0=",
@@ -253,7 +254,7 @@ def session(row: list):
         print_task("country must be 2 letters", RED)
         time.sleep(3)
         return
-    
+
     except Exception as e:
         print_task("Error: " + str(e), RED)
         time.sleep(3)
@@ -350,6 +351,7 @@ def pickup(username):
         print_task("Uzumaki/pickup/pickup_ups not found", RED)
         input("Press Enter to exit...")
         return
+
 
 country_dict = {
     "it": "en_IT",

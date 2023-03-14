@@ -188,7 +188,7 @@ def courir(email, zipCode):
                 carrierCode,
             )
 
-            with open(f"Uzumaki/scraper/courir_output.csv", "a") as f:
+            with open(f"Uzumaki/scraper/courir_output.csv", "a", newline="") as f:
                 if os.stat(f"Uzumaki/scraper/courir_output.csv").st_size == 0:
                     f.write(
                         "status,email,zipCode,orderNumber,title,orderedAt,expectedDelivery,trackingLink,trackingNumber,carrierCode"

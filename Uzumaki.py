@@ -36,8 +36,8 @@ def main():
     colorama.init(wrap=True)
 
     # update()
-    checking()
-    processRunning()
+    # checking()
+    # processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
@@ -58,12 +58,13 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
-# ⚫ WETHENEW 
+# ⚫ WETHENEW
 # - Auto Accept & Refuse Offers
 # - Add Product to your Listing
 # - Download Shipping Label
 
 # fix ups pickup
+# add monitor wtn
 
 # ups redirect => call bot
 # zalando account checker

@@ -62,7 +62,6 @@ def unsubscriber(username):
         "01": kith_handler,
         "02": zalando_handler,
         "03": snipes_handler,
-        # "04": zalando_handler,
     }
 
     while True:

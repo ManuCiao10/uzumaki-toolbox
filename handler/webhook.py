@@ -411,6 +411,7 @@ def send_webhook(dataInfo):
     except requests.exceptions.HTTPError as err:
         print_task(f"[ups {dataInfo['tracking_number']}] error sending webhook", RED)
 
+
 def webhook_nike(
     price: str,
     name: str,

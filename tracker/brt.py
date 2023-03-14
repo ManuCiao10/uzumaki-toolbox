@@ -1,11 +1,12 @@
 from handler.utils import *
 from handler.webhook import send_webhook_brt
-
+import csv
+import requests
+import time
 
 def brt(tracking_number):
     setTitleMode("tracker - brt")
-    import requests
-
+    
     session = requests.Session()
 
     headers = {
@@ -103,8 +104,8 @@ def brt(tracking_number):
                     "brt", tracking_number, cols[0], cols[1], cols[2], cols[3]
                 )
 
-                with open("Uzumaki/tracker/brt_result.csv", "a") as f:
-                    import csv
+                with open("Uzumaki/tracker/brt_result.csv", "a", newline="") as f:
+                    
 
                     writer = csv.writer(f)
                     writer.writerow(
@@ -117,12 +118,14 @@ def brt(tracking_number):
                     % (tracking_number, "invalid tracking number..."),
                     RED,
                 )
+                time.sleep(3)
                 return
 
         else:
             print_task(
                 "[brt %s] error: %s" % (tracking_number, response.status_code), RED
             )
+            time.sleep(3)
             return
     except Exception as e:
         print_task("[brt %s] error: %s" % (tracking_number, e), RED)

@@ -32,7 +32,7 @@ def geocodeRunItaly(zipcode):
                         street = str(line).split(",")[3]
                         city = str(line).split(",")[5]
                         region = str(line).split(",")[7]
-                        with open("Uzumaki/geocode/result.csv", "a") as f:
+                        with open("Uzumaki/geocode/result.csv", "a", newline="") as f:
                             if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
                                 writer = csv.writer(f)
                                 writer.writerow(
@@ -118,6 +118,73 @@ def geocode(username):
         input("Press Enter to exit...")
         return
 
+def geocodeRunUsa(zipcode):
+    urls = [
+        "https://data.openaddresses.io/openaddr-collected-us_northeast.zip",
+        "https://data.openaddresses.io/openaddr-collected-us_midwest.zip",
+        "https://data.openaddresses.io/openaddr-collected-us_south.zip",
+        "https://data.openaddresses.io/openaddr-collected-us_west.zip",
+    ]
+
+    for website in urls:
+        try:
+            url = urllib.request.urlopen(website)
+        except:
+            print_task(
+                "[geocode %s] error: %s" % (zipcode, "error getting data..."), RED
+            )
+
+        try:
+            with ZipFile(BytesIO(url.read())) as my_zip_file:
+                print_task("[geocode %s] successful got session..." % zipcode, PURPLE)
+
+                for contained_file in my_zip_file.namelist():
+                    for line in my_zip_file.open(contained_file).readlines():
+                        if "," + zipcode + "," in str(line):
+                            print_task("[geocode %s] %s" % (zipcode, line), GREEN)
+
+                            number = str(line).split(",")[2]
+                            street = str(line).split(",")[3]
+                            city = str(line).split(",")[5]
+                            region = str(line).split(",")[7]
+                            with open("Uzumaki/geocode/result.csv", "a", newline="") as f:
+                                if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
+                                    writer = csv.writer(f)
+                                    writer.writerow(
+                                        [
+                                            "address",
+                                            "number",
+                                            "city",
+                                            "region",
+                                            "zip_zode",
+                                            "country",
+                                        ]
+                                    )
+                                writer = csv.writer(f)
+                                writer.writerow(
+                                    [
+                                        street,
+                                        number,
+                                        city.lower(),
+                                        region.lower(),
+                                        zipcode,
+                                        "usa",
+                                    ]
+                                )
+
+            print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
+            input("Press Enter to exit...")
+            return
+
+        except urllib.error.HTTPError:
+            print_task("[geocode %s] http error" % zipcode, RED)
+            input("Press Enter to exit...")
+            return
+
+        except:
+            print_task("[geocode %s] unexpected error" % zipcode, RED)
+            input("Press Enter to exit...")
+            return
 
 def geocodeRunSpain(zipcode):
     urls = [
@@ -148,7 +215,7 @@ def geocodeRunSpain(zipcode):
                             street = str(line).split(",")[3]
                             city = str(line).split(",")[5]
                             region = str(line).split(",")[7]
-                            with open("Uzumaki/geocode/result.csv", "a") as f:
+                            with open("Uzumaki/geocode/result.csv", "a", newline="") as f:
                                 if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
                                     writer = csv.writer(f)
                                     writer.writerow(
@@ -187,12 +254,16 @@ def geocodeRunSpain(zipcode):
 def geocode_handler(country, zip_code):
     array_Italy = ["it", "ita", "italy", "italia"]
     array_Spain = ["es", "esp", "spain", "spagna"]
+    array_Usa = ["us", "usa", "united states", "stati uniti"]
 
     if country.strip().lower() in array_Italy:
         geocodeRunItaly(zip_code)
     elif country.strip().lower() in array_Spain:
         geocodeRunSpain(zip_code)
+    elif country.strip().lower() in array_Usa:
+        geocodeRunUsa(zip_code)
     else:
         print_task("[geocode %s] error: %s" % (zip_code, "country not supported"), RED)
         input("Press Enter to exit...")
         return
+

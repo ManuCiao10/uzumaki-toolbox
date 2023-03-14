@@ -371,6 +371,7 @@ country_prefix = {
     "Spain": "+34",
 }
 
+
 def setTitleMode(mode):
     """
     Sets the title of the console window.
