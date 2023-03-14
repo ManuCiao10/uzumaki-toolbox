@@ -4,6 +4,7 @@ import requests
 
 
 def dhl(tracking_number):
+    setTitleMode("tracker - dhl")
     print_task(f"[dhl {tracking_number}] getting order...", YELLOW)
 
     url = "https://api-eu.dhl.com/track/shipments"

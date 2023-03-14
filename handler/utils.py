@@ -20,7 +20,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.29"
+VERSION = "0.0.30"
 
 init()
 
@@ -57,13 +57,11 @@ def banner(username):
     print(f"\t{Fore.RED} 02 {Fore.WHITE}Tracker\tOrder Tracker")
     print(f"\t{Fore.RED} 03 {Fore.WHITE}Geocode\tGeocode address")
     print(f"\t{Fore.RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
-    print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Order (New Balance Courir)")
+    print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Orders")
     print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
     print(f"\t{Fore.RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
-    # print(f"\t{Fore.RED} 08 {Fore.WHITE}Zalando\tAccount Checker [LOCKED]")
-    # print(f"\t{Fore.RED} 09 {Fore.WHITE}Redirect\tRedirect packages (Ups)")
-    print(f"\t{Fore.RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup (ups)")
+    print(f"\t{Fore.RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup")
     print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
@@ -91,8 +89,8 @@ def checking():
         "Uzumaki/restock",
         "Uzumaki/unsubscriber",
         "Uzumaki/gls",
-        "Uzumaki/pickup"
-        "Uzumaki/wethenew"
+        "Uzumaki/pickup",
+        # "Uzumaki/wethenew",
         # "Uzumaki/zalando",
     ]
 

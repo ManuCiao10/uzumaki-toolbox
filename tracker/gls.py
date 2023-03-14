@@ -1,4 +1,4 @@
-from handler.utils import print_task, YELLOW, RED, PURPLE
+from handler.utils import print_task, YELLOW, RED, setTitleMode
 from handler.webhook import gls_webhook
 import requests
 import time
@@ -6,9 +6,11 @@ from bs4 import BeautifulSoup
 
 
 def gls(tracking_number):
+    
     """Handles GLS tracking."""
-
+    setTitleMode("tracker - gls")
     print_task(f"[gls {tracking_number}] getting order...", YELLOW)
+    
 
     headers = {
         "Accept": "application/json",

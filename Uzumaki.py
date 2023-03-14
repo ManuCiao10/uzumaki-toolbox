@@ -37,7 +37,7 @@ def main():
 
     # update()
     checking()
-    # processRunning()
+    processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
@@ -63,7 +63,6 @@ if __name__ == "__main__":
 # - Add Product to your Listing
 # - Download Shipping Label
 
-# add title to cli
 # fix ups pickup
 
 # ups redirect => call bot

@@ -11,7 +11,7 @@ SLEEP_TIME = 3
 
 def nike(tracking_number, email):
     assert email, print_task("email is required", RED) or time.sleep(3) or os._exit(1)
-
+    setTitleMode("tracker - nike")
     headers = {
         "authority": "www.nike.com",
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",

@@ -5,28 +5,14 @@ import threading
 import requests
 import tls_client
 
-
-country_dict = {
-    "it": "en_IT",
-    "es": "en_ES",
-}
-
-import random
-import string
-
-
-def payment(session: requests.Session):
-    # generate random session id 16 chars
-    session_id = "".join(
-        random.choice(string.ascii_letters + string.digits) for _ in range(16)
-    )
+def payment(session: tls_client.Session):
     # cookies = {
     #     "com.ups.pickup.cb.sData": "ddc9f477d3da496ab2a416e82f31b7fc:sMvXgD0s1ojIWYFELWlpMYYm0DH3p59mp2cBaea8M/0=",
     #     "sharedsession": "1730106f-a55f-4ff8-86a9-51044248540f:w",
     #     "ups_language_preference": "en_IT",
     #     "AKA_A2": "A",
     #     "bm_sz": "FE6D4DC1E492FB3ADB8025D80A0354C2~YAAQgTRoaK7okb6GAQAA0XqR0hNmimpjiUdae+jXO9V6idY3Zbus2RcxJSi9p04TYqCk4MAcscocsVr1HpIHy9zT9/2d0P2+5PY+RIHNSm6IEstsgT8v1wYk8WpSalM/x3bK9mKw/IzCdkk82H16EwndvsdQ9YENuQY1k+4nPzbtUR+mRFkRekpLz87K/dhTTD688aL8JNqPkIApU7TTq0uWKSXTizyPFK+SzG/kpMBBgoeLlllB2ceIxz+/NylX8aVOtCkNXMXLDuUsZ9U5y6D0/hVmwQB3uL2mQ9yyt7U=~4342084~4538679",
-    #     "PIM-SESSION-ID": session_id,
+    #     # "PIM-SESSION-ID": session_id,
     #     "_abck": "464E8396C1C205CDC96959B94060869C~0~YAAQgTRoaMvokb6GAQAAP3+R0gkEmmAXNsepUP9D9X3tSwHdobNNN3dY0uECGbzgUw+ad6aryvJTtr+pwavRXfAR0OQv/sYe+J/FeESkrmgICkXvNQBXtEFyYpNiUtJkXlkQjRKLIaC7wjasoq0q30iUcoI9Njoc5HBcADg7//MIJJo0s09fpMJb/ZtAjEzdAVITdNsWq+BiHKfdwgUMd0dsGYgEQVwQOoZXO4RYdfkQg/ZAtBU5YbPFD8tMMVohmvZlXENEIHh6y1rzcA9r1P1cUmC0agfUpT7DEQSmo19FzYnlOxcV8l6FcWzsQzPnRqOJDfw5n2X0x4si0/kwpEQA6Ym52/DAVpVzYjxRrRGuScVW/P00/G/DiZ32w+efBpD1mLxgcQI06r1Fw6CmW+4G3SYR~-1~-1~1678573511",
     #     "ak_bmsc": "4584D6539B066A9321B81D4FB02D786B~000000000000000000000000000000~YAAQgTRoaN3okb6GAQAALYGR0hPzuLnSR0K27XeXfdkiAyes0yvnOTx/oyo8Menk4WG7jqodTpPxKD1g3lts3RX5oj9u0rqE7kocjn0tlLrO80HKMHDsdLmZGO8KkJpIo5KUWSXP0iAIr555bmjtKijC8Lv6+Yrm0ZVLy4PZG8X/slGdyN5O4o/u0NVOjfF4xxBbfQ5KGsBWCTN1tCcwe+lNCrzUeAbSqAOSi+XsiC50YdzXx+1gkg6BccASQPjVeR7WxFxraOgUh+K3MUhtelZ1pvqjqug4YdF8rbsidN1lD+2ii307nY1uwRyxsXy41w7qJ6Y1bl4r9dvCb/yqHxSbtR4XC4PEWZGOirQryW7i6EcYvYjR3f3p815dMF3abzZvuk95wu826eT4aMeX3RWI7vzG8qD4aMRy0Crz9PtT4ecYMXlyJrfn591KsWiv0hOxq3rR+HL1lkgIf9tmrTxvuTjaIduK77CqSVLzsXi5C6JNoO7IpA==",
     #     "CONSENTMGR": "c1:0%7Cc3:0%7Cc5:0%7Cc6:0%7Cc7:0%7Cc8:0%7Cc9:1%7Cts:1678571379088%7Cconsent:true",
@@ -34,27 +20,8 @@ def payment(session: requests.Session):
     #     "utag_main": "v_id:0186d2917df90071d0c63c494a9402075003006d0093c$_sn:1$_se:8$_ss:0$_st:1678573775964$ses_id:1678569995774%3Bexp-session$_pn:8%3Bexp-session$fs_sample_user:false%3Bexp-session$dc_visit:1$dc_event:8%3Bexp-session$dc_region:eu-central-1%3Bexp-session",
     #     "RT": '"z=1&dm=ups.com&si=54a273ce-c7b5-4f23-a586-66c340c8811a&ss=lf4cnk6c&sl=w&tt=nwof&bcn=%2F%2F02179915.akstat.io%2F&ld=5rfdv&nu=4qf1pml7&cl=5v2u0&ul=5v2u4"',
     # }
-    session.cookies.set("PIM-SESSION-ID", session_id)
-    # "GPC_cookie_corrected": "true, ts:1678571379088,c3: 0,c7: 0,preferences",
-    session.cookies.set(
-        "GPC_cookie_corrected", "true, ts:1678571379088,c3: 0,c7: 0,preferences"
-    )
-    # "utag_main": "v_id:0186d2917df90071d0c63c494a9402075003006d0093c$_sn:1$_se:8$_ss:0$_st:1678573775964$ses_id:1678569995774%3Bexp-session$_pn:8%3Bexp-session$fs_sample_user:false%3Bexp-session$dc_visit:1$dc_event:8%3Bexp-session$dc_region:eu-central-1%3Bexp-session",
-    session.cookies.set(
-        "utag_main",
-        "v_id:0186d2917df90071d0c63c494a9402075003006d0093c$_sn:1$_se:8$_ss:0$_st:1678573775964$ses_id:1678569995774%3Bexp-session$_pn:8%3Bexp-session$fs_sample_user:false%3Bexp-session$dc_visit:1$dc_event:8%3Bexp-session$dc_region:eu-central-1%3Bexp-session",
-    )
-    # "RT": '"z=1&dm=ups.com&si=54a273ce-c7b5-4f23-a586-66c340c8811a&ss=lf4cnk6c&sl=w&tt=nwof&bcn=%2F%2F02179915.akstat.io%2F&ld=5rfdv&nu=4qf1pml7&cl=5v2u0&ul=5v2u4"',
-    session.cookies.set(
-        "RT",
-        '"z=1&dm=ups.com&si=54a273ce-c7b5-4f23-a586-66c340c8811a&ss=lf4cnk6c&sl=w&tt=nwof&bcn=%2F%2F02179915.akstat.io%2F&ld=5rfdv&nu=4qf1pml7&cl=5v2u0&ul=5v2u4"',
-    )
-    # "CONSENTMGR": "c1:0%7Cc3:0%7Cc5:0%7Cc6:0%7Cc7:0%7Cc8:0%7Cc9:1%7Cts:1678571379088%7Cconsent:true",
-    session.cookies.set(
-        "CONSENTMGR",
-        "c1:0%7Cc3:0%7Cc5:0%7Cc6:0%7Cc7:0%7Cc8:0%7Cc9:1%7Cts:1678571379088%7Cconsent:true",
-    )
-
+    print(session.cookies.get_dict())
+    return
     headers = {
         "authority": "wwwapps.ups.com",
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -108,7 +75,7 @@ def payment(session: requests.Session):
         print_task("Scheduled pickup!", GREEN)
 
 
-def schedule(row: list, session: requests.Session):
+def schedule(row: list, session: tls_client.Session):
     print_task("Scheduling pickup...", YELLOW)
 
     name = row[0].strip()
@@ -278,12 +245,17 @@ def session(row: list):
     print_task("Getting session...", PURPLE)
 
     try:
-        if len(row[6].lower()) > 2:
+        if len(row[6]) > 2:
             print_task("country must be 2 letters", RED)
             time.sleep(3)
             return
     except IndexError:
         print_task("country must be 2 letters", RED)
+        time.sleep(3)
+        return
+    
+    except Exception as e:
+        print_task("Error: " + str(e), RED)
         time.sleep(3)
         return
 
@@ -378,3 +350,8 @@ def pickup(username):
         print_task("Uzumaki/pickup/pickup_ups not found", RED)
         input("Press Enter to exit...")
         return
+
+country_dict = {
+    "it": "en_IT",
+    "es": "en_ES",
+}

@@ -1,8 +1,9 @@
-from handler.utils import print_task, YELLOW, RED, GREEN
+from handler.utils import *
 from handler.webhook import send_webhook_brt
 
 
 def brt(tracking_number):
+    setTitleMode("tracker - brt")
     import requests
 
     session = requests.Session()

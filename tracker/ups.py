@@ -4,6 +4,7 @@ import time
 
 
 def ups(tracking_number):
+    setTitleMode("tracker - ups")
     import requests
 
     session = requests.Session()

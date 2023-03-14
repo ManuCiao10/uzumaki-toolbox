@@ -2,10 +2,10 @@ import requests
 from handler.utils import *
 from handler.webhook import poste_webhook
 import time
-from datetime import datetime
 
 
 def poste(tracking_number, zip_code):
+    setTitleMode("tracker - poste")
     print_task(f"[poste {tracking_number}] getting order...", YELLOW)
 
     headers = {

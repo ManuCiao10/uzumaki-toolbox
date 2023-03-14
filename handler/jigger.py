@@ -80,19 +80,19 @@ def jig_start(
     except KeyError:
         road = "Street"
 
-    if First_Name != "random":
-        array_name.extend(generate_modifications(First_Name))
-        array_name.extend(generate_modifications(Second_name, prefix=First_Name[0]))
-    else:
-        First_Name = names.get_first_name()
-        array_name.append(First_Name)
+    # if First_Name != "random":
+    array_name.extend(generate_modifications(First_Name))
+    array_name.extend(generate_modifications(Second_name, prefix=First_Name[0]))
+    # else:
+    #     First_Name = names.get_first_name()
+    #     array_name.append(First_Name)
 
-    if Second_name != "random":
-        array_surname.extend(generate_modifications(Second_name))
-        array_surname.extend(generate_modifications(First_Name, prefix=Second_name[0]))
-    else:
-        Second_name = names.get_last_name()
-        array_surname.append(Second_name)
+    # if Second_name != "random":
+    array_surname.extend(generate_modifications(Second_name))
+    array_surname.extend(generate_modifications(First_Name, prefix=Second_name[0]))
+    # else:
+    #     Second_name = names.get_last_name()
+    #     array_surname.append(Second_name)
 
     prefix = country_prefix[Country]
 
@@ -155,6 +155,7 @@ def jig_start(
             print_task("writing info in result.csv", GREEN)
 
     input("press enter to exit...")
+    return
 
 
 def jigger(username):

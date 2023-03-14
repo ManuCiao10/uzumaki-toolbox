@@ -401,6 +401,7 @@ def send_webhook(dataInfo):
         webhook,
         data=json.dumps(data),
         headers={"Content-Type": "application/json"},
+        timeout=10,
     )
     try:
         result.raise_for_status()
@@ -409,7 +410,6 @@ def send_webhook(dataInfo):
         )
     except requests.exceptions.HTTPError as err:
         print_task(f"[ups {dataInfo['tracking_number']}] error sending webhook", RED)
-
 
 def webhook_nike(
     price: str,
