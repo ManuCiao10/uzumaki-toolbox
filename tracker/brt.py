@@ -4,9 +4,10 @@ import csv
 import requests
 import time
 
+
 def brt(tracking_number):
     setTitleMode("tracker - brt")
-    
+
     session = requests.Session()
 
     headers = {
@@ -105,8 +106,6 @@ def brt(tracking_number):
                 )
 
                 with open("Uzumaki/tracker/brt_result.csv", "a", newline="") as f:
-                    
-
                     writer = csv.writer(f)
                     writer.writerow(
                         [tracking_number, cols[0], cols[1], cols[2], cols[3]]

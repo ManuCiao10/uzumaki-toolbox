@@ -118,6 +118,7 @@ def geocode(username):
         input("Press Enter to exit...")
         return
 
+
 def geocodeRunUsa(zipcode):
     urls = [
         "https://data.openaddresses.io/openaddr-collected-us_northeast.zip",
@@ -147,7 +148,9 @@ def geocodeRunUsa(zipcode):
                             street = str(line).split(",")[3]
                             city = str(line).split(",")[5]
                             region = str(line).split(",")[7]
-                            with open("Uzumaki/geocode/result.csv", "a", newline="") as f:
+                            with open(
+                                "Uzumaki/geocode/result.csv", "a", newline=""
+                            ) as f:
                                 if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
                                     writer = csv.writer(f)
                                     writer.writerow(
@@ -186,6 +189,7 @@ def geocodeRunUsa(zipcode):
             input("Press Enter to exit...")
             return
 
+
 def geocodeRunSpain(zipcode):
     urls = [
         "https://data.openaddresses.io/runs/1049007/es/32628.zip",
@@ -215,7 +219,9 @@ def geocodeRunSpain(zipcode):
                             street = str(line).split(",")[3]
                             city = str(line).split(",")[5]
                             region = str(line).split(",")[7]
-                            with open("Uzumaki/geocode/result.csv", "a", newline="") as f:
+                            with open(
+                                "Uzumaki/geocode/result.csv", "a", newline=""
+                            ) as f:
                                 if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
                                     writer = csv.writer(f)
                                     writer.writerow(
@@ -266,4 +272,3 @@ def geocode_handler(country, zip_code):
         print_task("[geocode %s] error: %s" % (zip_code, "country not supported"), RED)
         input("Press Enter to exit...")
         return
-

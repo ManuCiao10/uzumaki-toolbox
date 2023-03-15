@@ -8,6 +8,62 @@ BRT_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1078000541
 SDA_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083558464946716672/italy-courier-sda-dhl-express-poste-italiane-png-favpng-2nGkExNKQDVAFX0NTSkdbkYRZ-removebg-preview.png"
 GLS_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083595173352702093/GLS_Logo_2021.svg.png"
 POSTE_NL_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1084179730112188446/1200px-PostNL_logo.png"
+CORREOS_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1085322661854466141/Correos-Symbol.png"
+
+
+def correos_webhook(
+    tracking_number,
+    type,
+    quatity,
+    date_delivery_sum,
+    summaryText,
+    extendedText,
+    eventDate,
+    eventTime,
+):
+    settings = load_settings()
+    webhook = settings["webhook"]
+
+    tracking = f"https://www.correos.es/es/es/herramientas/localizador/envios/detalle?tracking-number={tracking_number}"
+
+    data = {
+        "username": "Uzumaki™",
+        "avatar_url": LOGO,
+        "content": " ",
+        "embeds": [
+            {
+                "title": tracking_number,
+                "url": tracking,
+                "color": 12298642,
+                "description": "> " + extendedText,
+                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
+                "thumbnail": {"url": CORREOS_LOGO},
+                "fields": [
+                    {"name": "Type", "value": type, "inline": True},
+                    {"name": "Quantity", "value": quatity, "inline": True},
+                    {"name": "Summary", "value": summaryText, "inline": True},
+                    {"name": "Event Date", "value": eventDate, "inline": True},
+                    {"name": "Event Time", "value": eventTime, "inline": True},
+                    {
+                        "name": "Date Delivery",
+                        "value": date_delivery_sum,
+                        "inline": True,
+                    },
+                ],
+            }
+        ],
+    }
+
+    try:
+        requests.post(
+            webhook,
+            data=json.dumps(data),
+            headers={"Content-Type": "application/json"},
+            timeout=10,
+        )
+        print_task(f"[correos {tracking_number}] webhook sent", GREEN)
+    except Exception as e:
+        print_task(f"Error: {e}", RED)
 
 
 def poste_webhook(
@@ -68,7 +124,10 @@ def poste_webhook(
 
     try:
         requests.post(
-            webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+            webhook,
+            data=json.dumps(data),
+            headers={"Content-Type": "application/json"},
+            timeout=10,
         )
         print_task(f"[poste {tracking_number}] sent to webhook", GREEN)
     except Exception as e:
@@ -112,7 +171,10 @@ def gls_webhook(
 
     try:
         requests.post(
-            webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+            webhook,
+            data=json.dumps(data),
+            headers={"Content-Type": "application/json"},
+            timeout=10,
         )
         print_task(f"[gls {tracking_number}] sent webhook", GREEN)
     except Exception as e:

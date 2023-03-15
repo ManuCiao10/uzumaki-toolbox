@@ -20,7 +20,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.30"
+VERSION = "0.0.31"
 
 init()
 
@@ -45,24 +45,24 @@ BANNER = (
 def banner(username):
     os.system("cls" if os.name == "nt" else "clear")
 
-    print(Fore.RED + BANNER + Style.RESET_ALL)
+    print(RED + BANNER + Style.RESET_ALL)
 
-    print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+    print(f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Style.RESET_ALL}\n")
 
     print(
         f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"
     )
 
-    print(f"\t{Fore.RED} 01 {Fore.WHITE}Brt\t\tRedirect packages ")
-    print(f"\t{Fore.RED} 02 {Fore.WHITE}Tracker\tOrder Tracker")
-    print(f"\t{Fore.RED} 03 {Fore.WHITE}Geocode\tGeocode address")
-    print(f"\t{Fore.RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
-    print(f"\t{Fore.RED} 05 {Fore.WHITE}Scraper\tScraper Orders")
-    print(f"\t{Fore.RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
-    print(f"\t{Fore.RED} 07 {Fore.WHITE}Email\tUnsubscriber")
-    print(f"\t{Fore.RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
-    print(f"\t{Fore.RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup")
-    print(f"\t{Fore.RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
+    print(f"\t{RED} 01 {Fore.WHITE}Brt\t\tRedirect packages ")
+    print(f"\t{RED} 02 {Fore.WHITE}Tracker\tOrder Tracker")
+    print(f"\t{RED} 03 {Fore.WHITE}Geocode\tGeocode address")
+    print(f"\t{RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
+    print(f"\t{RED} 05 {Fore.WHITE}Scraper\tScraper Orders")
+    print(f"\t{RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
+    print(f"\t{RED} 07 {Fore.WHITE}Email\tUnsubscriber")
+    print(f"\t{RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
+    print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup")
+    print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
     return option
@@ -162,6 +162,12 @@ def checking():
         with open("Uzumaki/tracker/poste_nl.csv", "w") as f:
             f.write("tracking_number,zipcode")
             print_task("poste_nl.csv created", GREEN)
+            f.close()
+
+    if not os.path.exists("Uzumaki/tracker/correos.csv"):
+        with open("Uzumaki/tracker/correos.csv", "w") as f:
+            f.write("tracking_number")
+            print_task("correos.csv created", GREEN)
             f.close()
 
     # ----BRT----#
@@ -316,7 +322,7 @@ def print_file(file_name):
     Args:
         file_name (str): The name of the file to print.
     """
-    print(PURPLE + uzumaki() + time_task() + WHITE + file_name + RESET)
+    print(PURPLE + uzumaki() + time_task() + Fore.WHITE + file_name + RESET)
 
 
 def load_settings():

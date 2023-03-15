@@ -13,7 +13,7 @@ def update():
         print_task("checking for updates...", PURPLE)
 
         cookies = {
-            "authorization": "IIh6JiffkgjVSPmBjXHKl",
+            "authorization": "YiDX0QjGN17Ex2ApMVbyl",
         }
 
         headers = {
@@ -45,7 +45,7 @@ def update():
         )
 
         if response.status_code != 200:
-            print_task("Failed to check for updates!", RED)
+            print_task("Failed to get response for update", RED)
             time.sleep(3)
             return
 
@@ -83,8 +83,8 @@ def update():
                 os._exit(1)
 
         except:
-            print_task("Failed to check for updates!", RED)
-            time.sleep(3)
+            print_task("Failed to update", RED)
+            time.sleep(300)
             return
 
 

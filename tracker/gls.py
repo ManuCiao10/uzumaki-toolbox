@@ -2,11 +2,11 @@ from handler.utils import print_task, YELLOW, RED, setTitleMode
 from handler.webhook import gls_webhook
 import requests
 import time
-from bs4 import BeautifulSoup
 
 
 def gls(tracking_number):
     """Handles GLS tracking."""
+
     setTitleMode("tracker - gls")
     print_task(f"[gls {tracking_number}] getting order...", YELLOW)
 
@@ -58,12 +58,12 @@ def gls(tracking_number):
         status = data["tuStatus"][0]["history"][0]["evtDscr"]
         location = data["tuStatus"][0]["history"][0]["address"]["city"]
         date = data["tuStatus"][0]["history"][0]["date"]
-        time = data["tuStatus"][0]["history"][0]["time"]
+        time_ = data["tuStatus"][0]["history"][0]["time"]
     except Exception:
         status = ""
         location = ""
         date = ""
-        time = ""
+        time_ = ""
 
     gls_webhook(
         tracking_number,
@@ -72,5 +72,5 @@ def gls(tracking_number):
         status,
         location,
         date,
-        time,
+        time_,
     )

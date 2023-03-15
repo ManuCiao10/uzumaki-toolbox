@@ -35,9 +35,9 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # update()
-    # checking()
-    # processRunning()
+    update()
+    checking()
+    processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
@@ -58,19 +58,12 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
-# ⚫ WETHENEW
-# - Auto Accept & Refuse Offers
-# - Add Product to your Listing
-# - Download Shipping Label
-
+# macOs Version
 # fix ups pickup
-# add monitor wtn
-
-# ups redirect => call bot
-# zalando account checker
 
 # --------TO-FIX-----------
 # gls redirect by reading the email
 
 # --------DISCORD-TOOL-----------
 # restock and goat stockx scraper ?
+# zalando account checker

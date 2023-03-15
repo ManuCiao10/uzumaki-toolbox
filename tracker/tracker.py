@@ -6,6 +6,7 @@ from tracker.nike import nike
 from tracker.dhl import dhl
 from tracker.gls import gls
 from tracker.poste import poste
+from tracker.correos import correos
 import time
 import os
 import csv
@@ -20,6 +21,7 @@ def companyHandler(fileName, tracking_number, email):
         "sda.csv": sda,
         "dhl.csv": dhl,
         "gls.csv": gls,
+        "correos.csv": correos,
     }
 
     nike_mapping = {
