@@ -556,7 +556,8 @@ def webhook_newBalance(
 
     embed.add_embed_field(name="Date", value=date, inline=True)
     embed.add_embed_field(name="Price", value=price, inline=True)
-    embed.add_embed_field(name="Order Number", value="||" + orderNumber + "||", inline=True)
+    embed.add_embed_field(name="Style", value=style, inline=True)
+    embed.add_embed_field(name="Order Number", value="||" + orderNumber + "||", inline=False)
     embed.add_embed_field(name="Email", value="||" + email + "||", inline=False)
     embed.add_embed_field(name="First Name", value="||" + firstName + "||", inline=True)
     embed.add_embed_field(name="Second Name", value="||" + secondName + "||", inline=True)
@@ -589,55 +590,34 @@ def webhook_courir(
     carrierCode,
 ):
     settings = load_settings()
-    webhook = settings["webhook"]
+    webhook = DiscordWebhook(url=settings["webhook"], rate_limit_retry=True, username="Uzumaki™", avatar_url=LOGO)
 
-    if trackingLink != "N/A":
-        status = "[" + status.upper() + "]" + "(" + trackingLink + ")"
-
-    data = {
-        "username": "Uzumaki™",
-        "avatar_url": LOGO,
-        "content": " ",
-        "embeds": [
-            {
-                "title": title,
-                "color": 12298642,
-                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
-                "thumbnail": {"url": image},
-                "fields": [
-                    {"name": "Status", "value": status, "inline": False},
-                    {
-                        "name": "Order Number",
-                        "value": "||" + orderNumber + "||",
-                        "inline": True,
-                    },
-                    {"name": "Email", "value": "||" + email + "||", "inline": False},
-                    {
-                        "name": "Zip Code",
-                        "value": "||" + zipCode + "||",
-                        "inline": True,
-                    },
-                    {"name": "Ordered At", "value": orderedAt, "inline": True},
-                    {
-                        "name": "Expected Delivery",
-                        "value": expectedDelivery,
-                        "inline": False,
-                    },
-                    {
-                        "name": "Tracking Number",
-                        "value": "||" + trackingNumber + "||",
-                        "inline": True,
-                    },
-                    {"name": "Carrier Code", "value": carrierCode, "inline": True},
-                ],
-            }
-        ],
-    }
-    result = requests.post(
-        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    embed = DiscordEmbed(
+        title=title,
+        description="> " +  status.upper(),
+        color=12298642,
+        url=trackingLink,
     )
-    try:
-        result.raise_for_status()
-        print_task(f"[courir {orderNumber}] successfully sent webhook", GREEN)
-    except requests.exceptions.HTTPError as err:
-        print_task(f"[courir {orderNumber}] {err}", RED)
+
+    embed.set_thumbnail(url=image)
+
+    embed.add_embed_field(name="Order Number", value="||" + orderNumber + "||", inline=False)
+    embed.add_embed_field(name="Email", value="||" + email + "||", inline=False)
+    embed.add_embed_field(name="Tracking Number", value="||" + trackingNumber + "||", inline=False)
+    embed.add_embed_field(name="Zip Code", value="||" + zipCode + "||", inline=False)
+    embed.add_embed_field(name="Carrier Code", value=carrierCode, inline=True)
+    embed.add_embed_field(name="Ordered At", value=orderedAt, inline=True)
+    embed.add_embed_field(name="Expected Delivery", value=expectedDelivery, inline=False)
+
+    embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+    webhook.add_embed(embed)
+
+    response = webhook.execute()
+    if "<Response [405]>" in str(response):
+        print_task(
+            f"[courir {email}] error Webhook Incorrect", RED
+        )
+    else:
+        print_task(f"[courir {email}] successfully sent webhook", GREEN)
+

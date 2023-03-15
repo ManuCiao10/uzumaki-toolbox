@@ -134,7 +134,7 @@ def courir(email, zipCode):
             response.raise_for_status()
             data = response.json()
 
-            print_task(f"order found {email} {zipCode}", PURPLE)
+            print_task(f"[courir {email}] order found", PURPLE)
 
             orderNumber = data["data"][0]["attributes"]["orderNumber"]
             image = data["included"][1]["attributes"]["thumbnail"]["src"]
@@ -162,7 +162,7 @@ def courir(email, zipCode):
                     break
                 else:
                     status = "N/A"
-                    trackingLink = "N/A"
+                    trackingLink = "https://www.courir.com/en/track-my-orders"
                     trackingNumber = "N/A"
                     carrierCode = "N/A"
 
@@ -196,13 +196,13 @@ def courir(email, zipCode):
                     )
 
     except requests.exceptions.HTTPError:
-        print_task(f"HTTPError {email} {zipCode}", RED)
+        print_task(f"[courir {email}] HTTPError", RED)
         time.sleep(3)
     except json.decoder.JSONDecodeError:
-        print_task(f"JSONDecodeError {email} {zipCode}", RED)
+        print_task(f"[courir {email}] JSONDecodeError", RED)
         time.sleep(3)
     except Exception as e:
-        print_task(f"Error {email} {zipCode} {e}", RED)
+        print_task(f"[courir {email}] {e}", RED)
         time.sleep(3)
 
 
