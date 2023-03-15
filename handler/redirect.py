@@ -337,7 +337,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
         "sec-ch-ua-platform": '"macOS"',
     }
 
-    data = {
+    data_first_payload = {
         "refererBolla": "sped_det_show.htm",
         "referer": "sped_numspe_par.htm",
         "reqid": "",
@@ -352,7 +352,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
     response = session2.post(
         "https://vas.brt.it/vas/istruzioni_consegna_form.htm",
         headers=headers,
-        data=data,
+        data=data_first_payload,
     )
 
     if "Referente consegna" in response.text:
@@ -417,7 +417,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
         client_timestamp = int(time.time() * 1000)
         new_state = state.upper()
 
-        data: dict = {
+        data_payload: dict = {
             "newReferenteConsegna": name,
             "newTelefonoFisso": phone,
             "newEmail": email,
@@ -465,7 +465,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
             "https://vas.brt.it/vas/istruzioni_consegna_conferma.htm",
             cookies=cookies,
             headers=headers,
-            data=data,
+            data=data_payload,
         )
         url = (
             "https://www.mybrt.it/it/mybrt/my-parcels/incoming?parcelNumber=" + tracking
@@ -501,6 +501,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
 def redirect(username):
     processRunning()
     setTitleMode("Redirect")
+
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 

@@ -1,6 +1,7 @@
 from handler.utils import *
 import requests
 import json
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
 UPS_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1078449797121445920/ups-social-share-logo-removebg-preview.png"
 DHL_LOGO = "https://media.discordapp.net/attachments/819084339992068110/1083557169905020929/pngwing.com.png"
@@ -486,46 +487,44 @@ def webhook_nike(
     zip: str,
     tracklink: str,
     tracking_number: str,
+    email: str,
 ):
     settings = load_settings()
-    webhook = settings["webhook"]
 
-    data = {
-        "username": "Uzumaki™",
-        "avatar_url": LOGO,
-        "content": " ",
-        "embeds": [
-            {
-                "title": "Tracking Number",
-                "url": tracklink,
-                "color": 12298642,
-                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
-                "thumbnail": {"url": url_image},
-                "fields": [
-                    {"name": "Status", "value": lineItemStatus, "inline": False},
-                    {"name": "Price", "value": price + "€", "inline": True},
-                    {"name": "Name", "value": name, "inline": True},
-                    {"name": "Size", "value": size, "inline": True},
-                    {"name": "Address", "value": address, "inline": True},
-                    {"name": "City", "value": city, "inline": True},
-                    {"name": "Country", "value": country, "inline": True},
-                    {"name": "Zip", "value": zip, "inline": True},
-                    {
-                        "name": "Order Number",
-                        "value": tracking_number,
-                        "inline": True,
-                    },
-                ],
-            }
-        ],
-    }
-    result = requests.post(
-        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    
+    webhook = DiscordWebhook(url=settings["webhook"], rate_limit_retry=True, username="Uzumaki™", avatar_url=LOGO)
+
+    embed = DiscordEmbed(
+        title="Tracking Number",
+        description="> " +  lineItemStatus.upper(),
+        color=12298642,
+        url=tracklink,
+    
     )
-    try:
-        result.raise_for_status()
-    except requests.exceptions.HTTPError as err:
-        print(err)
+
+    embed.set_thumbnail(url=url_image)
+
+    embed.add_embed_field(name="Name", value=name, inline=False)
+    embed.add_embed_field(name="Price", value=price + "€", inline=True)
+    embed.add_embed_field(name="Size", value=size, inline=True)
+    embed.add_embed_field(name="Address", value="||" + address + "||", inline=False)
+    embed.add_embed_field(name="City", value="||" + city + "||", inline=True)
+    embed.add_embed_field(name="Country", value="||" + country + "||", inline=True)
+    embed.add_embed_field(name="Zip", value="||" + zip + "||", inline=True)
+    embed.add_embed_field(name="Order Number", value="||" + tracking_number + "||", inline=True)
+    embed.add_embed_field(name="Email", value="||" + email + "||", inline=False)
+
+    embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+    webhook.add_embed(embed)
+
+    response = webhook.execute()
+    if "<Response [405]>" in str(response):
+        print_task(
+            f"[nike {tracking_number}] error Webhook Incorrect", RED
+        )
+    else:
+        print_task(f"[nike {tracking_number}] successfully sent webhook", GREEN)
 
 
 def webhook_newBalance(
@@ -544,55 +543,37 @@ def webhook_newBalance(
     trackingLink,
 ):
     settings = load_settings()
-    webhook = settings["webhook"]
-    status_final = "[" + status + "]" + "(" + trackingLink + ")"
-    orderNumber = "||" + orderNumber + "||"
+    webhook = DiscordWebhook(url=settings["webhook"], rate_limit_retry=True, username="Uzumaki™", avatar_url=LOGO)
 
-    data = {
-        "username": "Uzumaki™",
-        "avatar_url": LOGO,
-        "content": " ",
-        "embeds": [
-            {
-                "title": title,
-                "color": 12298642,
-                "footer": {"text": "Powered by Uzumaki Tools", "icon_url": LOGO},
-                "thumbnail": {"url": image},
-                "fields": [
-                    {"name": "Status", "value": status_final, "inline": False},
-                    {"name": "Order Number", "value": orderNumber, "inline": True},
-                    {"name": "Date", "value": date, "inline": True},
-                    {"name": "Price", "value": price, "inline": True},
-                    {"name": "Email", "value": email, "inline": False},
-                    {
-                        "name": "First Name",
-                        "value": "||" + firstName + "||",
-                        "inline": True,
-                    },
-                    {
-                        "name": "Second Name",
-                        "value": "||" + secondName + "||",
-                        "inline": True,
-                    },
-                    {"name": "Address", "value": "||" + addy + "||", "inline": True},
-                    {
-                        "name": "Zip Code",
-                        "value": "||" + zipCode + "||",
-                        "inline": True,
-                    },
-                ],
-            }
-        ],
-    }
-    result = requests.post(
-        webhook, data=json.dumps(data), headers={"Content-Type": "application/json"}
+    embed = DiscordEmbed(
+        title=title,
+        description="> " +  status.upper(),
+        color=12298642,
+        url=trackingLink,
     )
-    try:
-        result.raise_for_status()
-        print_task(f"[newBalance {orderNumber}] successfully sent webhook", GREEN)
-    except requests.exceptions.HTTPError as err:
-        print(err)
 
+    embed.set_thumbnail(url=image)
+
+    embed.add_embed_field(name="Date", value=date, inline=True)
+    embed.add_embed_field(name="Price", value=price, inline=True)
+    embed.add_embed_field(name="Order Number", value="||" + orderNumber + "||", inline=True)
+    embed.add_embed_field(name="Email", value="||" + email + "||", inline=False)
+    embed.add_embed_field(name="First Name", value="||" + firstName + "||", inline=True)
+    embed.add_embed_field(name="Second Name", value="||" + secondName + "||", inline=True)
+    embed.add_embed_field(name="Address", value="||" + addy + "||", inline=True)
+    embed.add_embed_field(name="Zip Code", value="||" + zipCode + "||", inline=True)
+
+    embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+    webhook.add_embed(embed)
+
+    response = webhook.execute()
+    if "<Response [405]>" in str(response):
+        print_task(
+            f"[newBalance {orderNumber}] error Webhook Incorrect", RED
+        )
+    else:
+        print_task(f"[newBalance {orderNumber}] successfully sent webhook", GREEN)
 
 def webhook_courir(
     email,

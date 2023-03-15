@@ -11,6 +11,7 @@ SLEEP_TIME = 3
 
 def nike(tracking_number, email):
     assert email, print_task("email is required", RED) or time.sleep(3) or os._exit(1)
+    
     setTitleMode("tracker - nike")
     headers = {
         "authority": "www.nike.com",
@@ -104,7 +105,7 @@ def nike(tracking_number, email):
             input("Press Enter to exit...")
             return
 
-        print_task("[nike %s] successful got order..." % tracking_number, GREEN)
+        print_task("[nike %s] successful got order..." % tracking_number, YELLOW)
 
         price = data.get("transaction").get("orderTotal")
         name = data.get("group")[0].get("orderItems")[0].get("product").get("title")
@@ -141,6 +142,7 @@ def nike(tracking_number, email):
             str(zip),
             tracklink,
             tracking_number,
+            email,
         )
 
     except requests.exceptions.ConnectionError:

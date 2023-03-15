@@ -60,6 +60,7 @@ if __name__ == "__main__":
 # --------TO-IMPLEMENT-----------
 # macOs Version
 # fix ups pickup
+# fix rate limit
 
 # --------TO-FIX-----------
 # gls redirect by reading the email

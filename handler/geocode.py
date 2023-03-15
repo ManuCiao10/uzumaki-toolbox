@@ -142,7 +142,7 @@ def geocodeRunUsa(zipcode):
                 for contained_file in my_zip_file.namelist():
                     for line in my_zip_file.open(contained_file).readlines():
                         if "," + zipcode + "," in str(line):
-                            print_task("[geocode %s] %s" % (zipcode, line), GREEN)
+                            print_task(f"[geocode {zipcode}] {line}", GREEN)
 
                             number = str(line).split(",")[2]
                             street = str(line).split(",")[3]
@@ -213,7 +213,7 @@ def geocodeRunSpain(zipcode):
                 for contained_file in my_zip_file.namelist():
                     for line in my_zip_file.open(contained_file).readlines():
                         if "," + zipcode + "," in str(line):
-                            print_task("[geocode %s] %s" % (zipcode, line), GREEN)
+                            print_task(f"[geocode {zipcode}] {line}", GREEN)
 
                             number = str(line).split(",")[2]
                             street = str(line).split(",")[3]

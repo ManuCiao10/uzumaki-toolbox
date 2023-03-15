@@ -50,15 +50,12 @@ def newBalance(orderNumber, postalCode, orderLastname):
             date = soup.find("div", {"class": "col-8 col-lg-8"}).text
 
         except:
-            print_task(
-                "order not found %s %s %s" % (orderNumber, postalCode, orderLastname),
-                RED,
-            )
+            print_task(f"[newBalance {orderNumber}] error", RED)
             time.sleep(2)
             return
 
         print_task(
-            "order found %s %s %s" % (orderNumber, postalCode, orderLastname), GREEN
+            f"[newBalance {orderNumber}] order found", PURPLE
         )
 
         style = soup.find("p", {"class": "font-body-small mb-0"}).text
@@ -99,9 +96,7 @@ def newBalance(orderNumber, postalCode, orderLastname):
         )
 
     else:
-        print_task(
-            "order not found %s %s %s" % (orderNumber, postalCode, orderLastname), RED
-        )
+        print_task(f"[newBalance {orderNumber}] error", RED)
         time.sleep(2)
         return
 
