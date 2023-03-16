@@ -20,7 +20,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.31"
+VERSION = "0.0.33"
 
 init()
 
@@ -61,7 +61,8 @@ def banner(username):
     print(f"\t{RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{RED} 07 {Fore.WHITE}Email\tUnsubscriber")
     print(f"\t{RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
-    print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup")
+    print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup [LOCKED]")
+    print(f"\t{RED} 10 {Fore.WHITE}Payout\tRestock")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
@@ -90,8 +91,7 @@ def checking():
         "Uzumaki/unsubscriber",
         "Uzumaki/gls",
         "Uzumaki/pickup",
-        # "Uzumaki/wethenew",
-        # "Uzumaki/zalando",
+        # "Uzumaki/payout",
     ]
 
     for directory in directories:
@@ -231,14 +231,6 @@ def checking():
             json.dump(unsubscriber, f, indent=2)
             print_task("unsubscriber.json created", GREEN)
 
-    # ----zalando----#
-
-    # if not os.path.exists("Uzumaki/zalando/accounts.csv"):
-    #     with open("Uzumaki/zalando/accounts.csv", "w") as f:
-    #         f.write("Email,Password")
-    #         print_task("accounts.csv created", GREEN)
-    #         f.close()
-
     # ----glsRedirect----#
 
     if not os.path.exists("Uzumaki/gls/gls.json"):
@@ -260,6 +252,12 @@ def checking():
 
         if os.path.exists("Uzumaki/pickup/ups.csv"):
             os.remove("Uzumaki/pickup/ups.csv")
+
+    # # ----payout----#
+    # if not os.path.exists("Uzumaki/payout/restock.csv"):
+    #     with open("Uzumaki/payout/restock.csv", "w") as f:
+    #         f.write("sku/keyword")
+    #         print_task("restock.csv created", GREEN)
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)

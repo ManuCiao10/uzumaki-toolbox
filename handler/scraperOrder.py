@@ -54,9 +54,7 @@ def newBalance(orderNumber, postalCode, orderLastname):
             time.sleep(2)
             return
 
-        print_task(
-            f"[newBalance {orderNumber}] order found", PURPLE
-        )
+        print_task(f"[newBalance {orderNumber}] order found", PURPLE)
 
         style = soup.find("p", {"class": "font-body-small mb-0"}).text
         style = style.split(":")[1].strip()

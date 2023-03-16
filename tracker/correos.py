@@ -37,7 +37,7 @@ def correos(tracking_number):
         events = data["shipment"][0]["events"]
 
         # loop through events in reverse order
-        for event in reversed(events):
+        for event in events:
             eventDate = event["eventDate"]
             eventTime = event["eventTime"]
             summaryText = event["summaryText"]

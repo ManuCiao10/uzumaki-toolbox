@@ -23,48 +23,38 @@ def correos_webhook(
     eventTime,
 ):
     settings = load_settings()
-    webhook = settings["webhook"]
+    webhook = DiscordWebhook(
+        url=settings["webhook"],
+        rate_limit_retry=True,
+        username="Uzumaki™",
+        avatar_url=LOGO,
+    )
 
-    tracking = f"https://www.correos.es/es/es/herramientas/localizador/envios/detalle?tracking-number={tracking_number}"
+    embed = DiscordEmbed(
+        title=tracking_number,
+        description="> " + extendedText,
+        color=12298642,
+        url=f"https://www.correos.es/es/es/herramientas/localizador/envios/detalle?tracking-number={tracking_number}",
+    )
 
-    data = {
-        "username": "Uzumaki™",
-        "avatar_url": LOGO,
-        "content": " ",
-        "embeds": [
-            {
-                "title": tracking_number,
-                "url": tracking,
-                "color": 12298642,
-                "description": "> " + extendedText,
-                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
-                "thumbnail": {"url": CORREOS_LOGO},
-                "fields": [
-                    {"name": "Type", "value": type, "inline": True},
-                    {"name": "Quantity", "value": quatity, "inline": True},
-                    {"name": "Summary", "value": summaryText, "inline": True},
-                    {"name": "Event Date", "value": eventDate, "inline": True},
-                    {"name": "Event Time", "value": eventTime, "inline": True},
-                    {
-                        "name": "Date Delivery",
-                        "value": date_delivery_sum,
-                        "inline": True,
-                    },
-                ],
-            }
-        ],
-    }
+    embed.set_thumbnail(url=CORREOS_LOGO)
 
-    try:
-        requests.post(
-            webhook,
-            data=json.dumps(data),
-            headers={"Content-Type": "application/json"},
-            timeout=10,
-        )
-        print_task(f"[correos {tracking_number}] webhook sent", GREEN)
-    except Exception as e:
-        print_task(f"Error: {e}", RED)
+    embed.add_embed_field(name="Type", value=type, inline=True)
+    embed.add_embed_field(name="Quantity", value=quatity, inline=True)
+    embed.add_embed_field(name="Summary", value=summaryText, inline=True)
+    embed.add_embed_field(name="Event Date", value=eventDate, inline=True)
+    embed.add_embed_field(name="Event Time", value=eventTime, inline=True)
+    embed.add_embed_field(name="Date Delivery", value=date_delivery_sum, inline=True)
+
+    embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+    webhook.add_embed(embed)
+
+    response = webhook.execute()
+    if "<Response [405]>" in str(response):
+        print_task(f"[correos {tracking_number}] error Webhook Incorrect", RED)
+    else:
+        print_task(f"[correos {tracking_number}] successfully sent webhook", GREEN)
 
 
 def poste_webhook(
@@ -81,58 +71,47 @@ def poste_webhook(
     status,
 ):
     settings = load_settings()
-    webhook = settings["webhook"]
+    webhook = DiscordWebhook(
+        url=settings["webhook"],
+        rate_limit_retry=True,
+        username="Uzumaki™",
+        avatar_url=LOGO,
+    )
 
-    tracking = f"https://jouw.postnl.nl/track-and-trace/{tracking_number}-NL-{zip_code}"
+    embed = DiscordEmbed(
+        title=tracking_number,
+        description="> " + status.upper(),
+        color=12298642,
+        url=f"https://jouw.postnl.nl/track-and-trace/{tracking_number}-NL-{zip_code}",
+    )
 
-    data = {
-        "username": "Uzumaki™",
-        "avatar_url": LOGO,
-        "content": " ",
-        "embeds": [
-            {
-                "title": tracking_number,
-                "url": tracking,
-                "color": 12298642,
-                "description": "> " + status,
-                "footer": {"text": "by Uzumaki Tools", "icon_url": LOGO},
-                "thumbnail": {"url": POSTE_NL_LOGO},
-                "fields": [
-                    {"name": "Shipper", "value": sender, "inline": False},
-                    {
-                        "name": "Receiver",
-                        "value": "||" + deliveryAddress + "||",
-                        "inline": True,
-                    },
-                    {"name": "Street", "value": "||" + street + "||", "inline": True},
-                    {
-                        "name": "House Number",
-                        "value": "||" + houseNumber + "||",
-                        "inline": True,
-                    },
-                    {
-                        "name": "Postal Code",
-                        "value": "||" + postalCode + "||",
-                        "inline": True,
-                    },
-                    {"name": "Town", "value": "||" + town + "||", "inline": True},
-                    {"name": "Country", "value": "||" + country + "||", "inline": True},
-                    {"name": "Date", "value": effectiveDate, "inline": False},
-                ],
-            }
-        ],
-    }
+    embed.set_thumbnail(url=POSTE_NL_LOGO)
 
-    try:
-        requests.post(
-            webhook,
-            data=json.dumps(data),
-            headers={"Content-Type": "application/json"},
-            timeout=10,
-        )
-        print_task(f"[poste {tracking_number}] sent to webhook", GREEN)
-    except Exception as e:
-        print_task(f"Error: {e}", RED)
+    embed.add_embed_field(name="Shipper", value=sender, inline=False)
+    embed.add_embed_field(name="Date", value=effectiveDate, inline=False)
+    embed.add_embed_field(
+        name="Receiver", value="||" + deliveryAddress + "||", inline=True
+    )
+
+    embed.add_embed_field(name="Street", value="||" + street + "||", inline=True)
+    embed.add_embed_field(
+        name="House Number", value="||" + houseNumber + "||", inline=True
+    )
+    embed.add_embed_field(
+        name="Postal Code", value="||" + postalCode + "||", inline=True
+    )
+    embed.add_embed_field(name="Town", value="||" + town + "||", inline=True)
+    embed.add_embed_field(name="Country", value="||" + country + "||", inline=True)
+
+    embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+    webhook.add_embed(embed)
+
+    response = webhook.execute()
+    if "<Response [405]>" in str(response):
+        print_task(f"[poste {tracking_number}] error Webhook Incorrect", RED)
+    else:
+        print_task(f"[poste {tracking_number}] successfully sent webhook", GREEN)
 
 
 def gls_webhook(
@@ -491,15 +470,18 @@ def webhook_nike(
 ):
     settings = load_settings()
 
-    
-    webhook = DiscordWebhook(url=settings["webhook"], rate_limit_retry=True, username="Uzumaki™", avatar_url=LOGO)
+    webhook = DiscordWebhook(
+        url=settings["webhook"],
+        rate_limit_retry=True,
+        username="Uzumaki™",
+        avatar_url=LOGO,
+    )
 
     embed = DiscordEmbed(
         title="Tracking Number",
-        description="> " +  lineItemStatus.upper(),
+        description="> " + lineItemStatus.upper(),
         color=12298642,
         url=tracklink,
-    
     )
 
     embed.set_thumbnail(url=url_image)
@@ -511,7 +493,9 @@ def webhook_nike(
     embed.add_embed_field(name="City", value="||" + city + "||", inline=True)
     embed.add_embed_field(name="Country", value="||" + country + "||", inline=True)
     embed.add_embed_field(name="Zip", value="||" + zip + "||", inline=True)
-    embed.add_embed_field(name="Order Number", value="||" + tracking_number + "||", inline=True)
+    embed.add_embed_field(
+        name="Order Number", value="||" + tracking_number + "||", inline=True
+    )
     embed.add_embed_field(name="Email", value="||" + email + "||", inline=False)
 
     embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
@@ -520,9 +504,7 @@ def webhook_nike(
 
     response = webhook.execute()
     if "<Response [405]>" in str(response):
-        print_task(
-            f"[nike {tracking_number}] error Webhook Incorrect", RED
-        )
+        print_task(f"[nike {tracking_number}] error Webhook Incorrect", RED)
     else:
         print_task(f"[nike {tracking_number}] successfully sent webhook", GREEN)
 
@@ -543,11 +525,16 @@ def webhook_newBalance(
     trackingLink,
 ):
     settings = load_settings()
-    webhook = DiscordWebhook(url=settings["webhook"], rate_limit_retry=True, username="Uzumaki™", avatar_url=LOGO)
+    webhook = DiscordWebhook(
+        url=settings["webhook"],
+        rate_limit_retry=True,
+        username="Uzumaki™",
+        avatar_url=LOGO,
+    )
 
     embed = DiscordEmbed(
         title=title,
-        description="> " +  status.upper(),
+        description="> " + status.upper(),
         color=12298642,
         url=trackingLink,
     )
@@ -557,10 +544,14 @@ def webhook_newBalance(
     embed.add_embed_field(name="Date", value=date, inline=True)
     embed.add_embed_field(name="Price", value=price, inline=True)
     embed.add_embed_field(name="Style", value=style, inline=True)
-    embed.add_embed_field(name="Order Number", value="||" + orderNumber + "||", inline=False)
+    embed.add_embed_field(
+        name="Order Number", value="||" + orderNumber + "||", inline=False
+    )
     embed.add_embed_field(name="Email", value="||" + email + "||", inline=False)
     embed.add_embed_field(name="First Name", value="||" + firstName + "||", inline=True)
-    embed.add_embed_field(name="Second Name", value="||" + secondName + "||", inline=True)
+    embed.add_embed_field(
+        name="Second Name", value="||" + secondName + "||", inline=True
+    )
     embed.add_embed_field(name="Address", value="||" + addy + "||", inline=True)
     embed.add_embed_field(name="Zip Code", value="||" + zipCode + "||", inline=True)
 
@@ -570,11 +561,10 @@ def webhook_newBalance(
 
     response = webhook.execute()
     if "<Response [405]>" in str(response):
-        print_task(
-            f"[newBalance {orderNumber}] error Webhook Incorrect", RED
-        )
+        print_task(f"[newBalance {orderNumber}] error Webhook Incorrect", RED)
     else:
         print_task(f"[newBalance {orderNumber}] successfully sent webhook", GREEN)
+
 
 def webhook_courir(
     email,
@@ -590,24 +580,35 @@ def webhook_courir(
     carrierCode,
 ):
     settings = load_settings()
-    webhook = DiscordWebhook(url=settings["webhook"], rate_limit_retry=True, username="Uzumaki™", avatar_url=LOGO)
+    webhook = DiscordWebhook(
+        url=settings["webhook"],
+        rate_limit_retry=True,
+        username="Uzumaki™",
+        avatar_url=LOGO,
+    )
 
     embed = DiscordEmbed(
         title=title,
-        description="> " +  status.upper(),
+        description="> " + status.upper(),
         color=12298642,
         url=trackingLink,
     )
 
     embed.set_thumbnail(url=image)
 
-    embed.add_embed_field(name="Order Number", value="||" + orderNumber + "||", inline=False)
+    embed.add_embed_field(
+        name="Order Number", value="||" + orderNumber + "||", inline=False
+    )
     embed.add_embed_field(name="Email", value="||" + email + "||", inline=False)
-    embed.add_embed_field(name="Tracking Number", value="||" + trackingNumber + "||", inline=False)
+    embed.add_embed_field(
+        name="Tracking Number", value="||" + trackingNumber + "||", inline=False
+    )
     embed.add_embed_field(name="Zip Code", value="||" + zipCode + "||", inline=False)
     embed.add_embed_field(name="Carrier Code", value=carrierCode, inline=True)
     embed.add_embed_field(name="Ordered At", value=orderedAt, inline=True)
-    embed.add_embed_field(name="Expected Delivery", value=expectedDelivery, inline=False)
+    embed.add_embed_field(
+        name="Expected Delivery", value=expectedDelivery, inline=False
+    )
 
     embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
 
@@ -615,9 +616,6 @@ def webhook_courir(
 
     response = webhook.execute()
     if "<Response [405]>" in str(response):
-        print_task(
-            f"[courir {email}] error Webhook Incorrect", RED
-        )
+        print_task(f"[courir {email}] error Webhook Incorrect", RED)
     else:
         print_task(f"[courir {email}] successfully sent webhook", GREEN)
-

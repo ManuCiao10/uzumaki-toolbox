@@ -314,6 +314,9 @@ def session(row: list):
 def pickup(username):
     processRunning()
     setTitleMode("Pickup ups")
+    print_task("ups pickup is locked", RED)
+    input("Press Enter to exit...")
+    os._exit(1)
 
     os.system("cls" if os.name == "nt" else "clear")
 

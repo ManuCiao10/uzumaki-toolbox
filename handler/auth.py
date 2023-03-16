@@ -84,7 +84,7 @@ def update():
 
         except:
             print_task("Failed to update", RED)
-            time.sleep(300)
+            time.sleep(3)
             return
 
 

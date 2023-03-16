@@ -13,6 +13,8 @@ from handler.gls import glsRedirect
 from internal.security import processRunning
 from internal.pickup import pickup
 
+from payout.payout import payout
+
 import colorama
 import time
 
@@ -26,6 +28,7 @@ OPTIONS = {
     "07": unsubscriber,
     "08": glsRedirect,
     "09": pickup,
+    "10": payout,
     "00": bye,
     # "08": zalandoHandler,
     # "09": ups,
@@ -35,9 +38,9 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    update()
-    checking()
-    processRunning()
+    # update()
+    # checking()
+    # processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
@@ -60,11 +63,7 @@ if __name__ == "__main__":
 # --------TO-IMPLEMENT-----------
 # macOs Version
 # fix ups pickup
-# fix rate limit
+# restock and goat stockx scraper ?
 
 # --------TO-FIX-----------
 # gls redirect by reading the email
-
-# --------DISCORD-TOOL-----------
-# restock and goat stockx scraper ?
-# zalando account checker
