@@ -1,11 +1,32 @@
 from handler.utils import *
+from bs4 import BeautifulSoup
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
 import requests
+
+
+class Size:
+    def __init__(self, stock: int, size: str):
+        self.stock: int = stock
+        self.size: str = size
 
 
 class Restock:
     def __init__(self, sku):
         self.sku = sku
+
+        self.session = self.login()
+        return self.getProducts()
+
+    def login(self):
+        print_task(f"[restock {self.sku}] getting session", PURPLE)
+
+        restocks_headers = {
+            "Host": "restocks.net",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36",
+            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        }
+
         self.session = requests.Session()
 
         self.session.headers = {
@@ -25,7 +46,53 @@ class Restock:
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
             "x-requested-with": "XMLHttpRequest",
         }
-        return self.getProducts()
+
+        self.session.headers.update(restocks_headers)
+
+        response = self.session.get("https://restocks.net/it/login")
+
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        csrf_token = soup.find("meta", {"name": "csrf-token"})["content"]
+
+        data = {
+            "_token": csrf_token,
+            "email": "Emanuele.ardinghi@gmail.com",
+            "password": "caccolafritta3",
+        }
+
+        response = self.session.post("https://restocks.net/it/login", data=data)
+
+        response = self.session.get("https://restocks.net/it/account/profile")
+
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        try:
+            _ = soup.find("div", {"class": "col-lg-3 col-md-4"}).findAll("span")[1].text
+            print_task(f"[restock {self.sku}] got session", WHITE)
+        except:
+            print_task(f"[restock {self.sku}] error getting session", RED)
+            time.sleep(3)
+            return
+
+        return self.session
+
+    def getStock(self, id, id_size):
+        try:
+            response = self.session.get(
+                f"https://restocks.net/en/product/get-lowest-price/{id}/{id_size}",
+            )
+            if response.status_code != 200:
+                print_task(f"[restock {self.sku}] error {response.status_code}", RED)
+                time.sleep(3)
+                return
+
+            return str(response.text)
+
+        except Exception as e:
+            print_task(f"[restock {self.sku}] error {e}", RED)
+            time.sleep(3)
+            return
 
     def getProducts(self):
         print_task(f"[restock {self.sku}] getting products", PURPLE)
@@ -41,7 +108,7 @@ class Restock:
                 params=params,
             )
             data = response.json()
-            
+
             print_task(f"[restock {self.sku}] got products", WHITE)
 
         except Exception as e:
@@ -58,6 +125,7 @@ class Restock:
             self.name = id["name"]
             self.url = id["slug"]
             self.image = id["image"]
+
             self.getSizes(id["id"])
 
     def getSizes(self, id):
@@ -80,31 +148,61 @@ class Restock:
             time.sleep(3)
             return
 
+        sizes: list[Size] = []
+
         for size in data:
             self.id_size = size["id"]
-            self.size_number = size["name"]
-            self.getStock(id, self.id_size)
+            size_number = size["name"]
+            stock = self.getStock(id, self.id_size)
 
-    def getStock(self, id, id_size):
-        print_task(f"[restock {self.sku}] getting stock", PURPLE)
-
-        try:
-            response = self.session.get(
-                f"https://restocks.net/en/product/get-lower-price/{id}/{id_size}"
+            sizes.append(
+                Size(
+                    stock=stock,
+                    size=size_number,
+                )
             )
-            data = response.json()
-            print_task(f"[restock {self.sku}] got stock", WHITE)
 
-        except Exception as e:
-            print_task(f"[restock {self.sku}] error {e}", RED)
-            time.sleep(3)
-            return
+        self.webhook(
+            sizes,
+        )
 
-        if response.status_code != 200:
-            print_task(f"[restock {self.sku}] error {response.status_code}", RED)
-            time.sleep(3)
-            return
+    def webhook(self, productSizes: list[Size]):
+        settings = load_settings()
 
-        # if data["stock"] > 0:
-        #     self.stock = data["stock"]
-        #     self.getPrice(id, id_size)
+        webhook = DiscordWebhook(
+            url=settings["webhook"],
+            rate_limit_retry=True,
+            username="Uzumaki™",
+            avatar_url=LOGO,
+        )
+
+        embed = DiscordEmbed(
+            title=self.name,
+            description=f"> **Restock SKU: {self.sku}**",
+            color=12298642,
+            url=self.url,
+        )
+    
+        embed.set_thumbnail(url=self.image)
+
+        value_size = []
+        value_stock = []
+
+        for size in productSizes:
+            value_size.append(f"{size.size}\n")
+            value_stock.append(f"{size.stock} €\n")
+
+        embed.add_embed_field(name="Size", value="```" + "".join(value_size) + "```")
+        embed.add_embed_field(name="Payout", value="```" + "".join(value_stock) + "```")
+
+        embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+        webhook.add_embed(embed)
+
+        response = webhook.execute()
+        if "<Response [405]>" in str(response):
+            print_task(f"[restock {self.sku}] error sending webhook", RED)
+            time.sleep(2)
+        else:
+            print_task(f"[restock {self.sku}] webhook sent", GREEN)
+            time.sleep(2)

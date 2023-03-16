@@ -91,7 +91,7 @@ def checking():
         "Uzumaki/unsubscriber",
         "Uzumaki/gls",
         "Uzumaki/pickup",
-        # "Uzumaki/payout",
+        "Uzumaki/payout",
     ]
 
     for directory in directories:
@@ -253,11 +253,11 @@ def checking():
         if os.path.exists("Uzumaki/pickup/ups.csv"):
             os.remove("Uzumaki/pickup/ups.csv")
 
-    # # ----payout----#
-    # if not os.path.exists("Uzumaki/payout/restock.csv"):
-    #     with open("Uzumaki/payout/restock.csv", "w") as f:
-    #         f.write("sku/keyword")
-    #         print_task("restock.csv created", GREEN)
+    # ----payout----#
+    if not os.path.exists("Uzumaki/payout/restock.csv"):
+        with open("Uzumaki/payout/restock.csv", "w") as f:
+            f.write("sku")
+            print_task("restock.csv created", GREEN)
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)

@@ -39,7 +39,7 @@ def main():
     colorama.init(wrap=True)
 
     # update()
-    # checking()
+    checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
