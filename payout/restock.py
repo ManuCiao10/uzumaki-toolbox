@@ -57,8 +57,8 @@ class Restock:
 
         data = {
             "_token": csrf_token,
-            "email": "Emanuele.ardinghi@gmail.com",
-            "password": "caccolafritta3",
+            "email": "EMAIL",
+            "password": "PASSWORD",
         }
 
         response = self.session.post("https://restocks.net/it/login", data=data)

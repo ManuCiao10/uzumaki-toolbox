@@ -30,8 +30,6 @@ OPTIONS = {
     "09": pickup,
     "10": payout,
     "00": bye,
-    # "08": zalandoHandler,
-    # "09": ups,
 }
 
 
@@ -62,9 +60,7 @@ if __name__ == "__main__":
 
 # --------TO-IMPLEMENT-----------
 # fix geocode address Spain
-# change jigger
 # macOs Version
-# fix ups pickup
 # goat stockx scraper
 
 # --------TO-FIX-----------

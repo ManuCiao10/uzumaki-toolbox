@@ -61,7 +61,7 @@ def banner(username):
     print(f"\t{RED} 06 {Fore.WHITE}Restock\tMissing Payout Scraper")
     print(f"\t{RED} 07 {Fore.WHITE}Email\tUnsubscriber")
     print(f"\t{RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
-    print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a pickup [LOCKED]")
+    print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a ups pickup")
     print(f"\t{RED} 10 {Fore.WHITE}Payout\tRestock")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
