@@ -182,7 +182,7 @@ class Restock:
             color=12298642,
             url=self.url,
         )
-    
+
         embed.set_thumbnail(url=self.image)
 
         value_size = []

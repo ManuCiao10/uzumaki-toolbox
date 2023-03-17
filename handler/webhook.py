@@ -262,9 +262,9 @@ def checker_brt_discord(
     settings = load_settings()
     webhook = settings["webhook"]
 
-    description = "> You can't redirect your parcel, pleease wait."
+    description = "> You can't redirect your parcel, please wait!"
 
-    if redictable == "Yes":
+    if redictable == "YES":
         description = "> You can redirect your parcel!"
 
     data = {

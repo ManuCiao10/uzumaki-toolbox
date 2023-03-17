@@ -5,162 +5,110 @@ import threading
 import random
 import time
 import names
-import numpy as np
 from internal.security import processRunning
 
-road_dictionary = {
-    "Italy": "Via",
-    "France": "Rue",
-    "Spain": "Calle",
-    "Germany": "Straße",
-    "United Kingdom": "Road",
-    "United States": "Street",
-    "Canada": "Street",
-    "Australia": "Street",
-}
 
+class Addyjigger:
+    def __init__(
+        self, first_name, second_name, mobile_number, address, house_number, country
+    ):
+        self.street_name = {
+            "France": ["rue", "r", "boulevard", "blvd", "avenue", "av", "chemin", "ch"],
+            "Spain": ["calle", "cl", "avenida", "av", "carrer", "c", "passeig", "pg"],
+            "Italy": ["via", "v", "piazza", "p", "corso", "c", "viale", "vl"],
+            "Germany": ["straße", "str", "straße", "str", "platz", "pl", "allee", "al"],
+        }
 
-def get_middle_char(input_str):
-    length = len(input_str)
-    if length % 2 == 0:
-        return input_str[length // 2 - 1 : length // 2 + 1]
-    else:
-        return input_str[length // 2]
+        self.first_name = first_name
+        self.second_name = second_name
+        self.mobile_number = mobile_number
+        self.address = address
+        self.house_number = house_number
+        self.country = country
 
+        return self.jig()
 
-def generate_phone_number(prefix):
-    # Remove the '+' sign from the prefix
-    prefix = prefix.replace("+", "")
+    def generate_phone_number(self, prefix):
+        # Remove the '+' sign from the prefix
+        prefix = prefix.replace("+", "")
 
-    # Determine the number of digits in the prefix
-    num_prefix_digits = len(prefix)
+        # Determine the number of digits in the prefix
+        num_prefix_digits = len(prefix)
 
-    # Generate a random number with the remaining digits
-    remaining_digits = 10 - num_prefix_digits
-    subscriber_number = "".join(
-        [str(random.randint(0, 9)) for _ in range(remaining_digits)]
-    )
-
-    # Combine the prefix and subscriber number and return the phone number
-    return f"{prefix}{subscriber_number}"
-
-
-def generate_modifications(name, prefix=""):
-    modifications = []
-    last_car = name[-1]
-    middle_car = get_middle_char(name)
-
-    # Add modified versions of the name
-    modifications.append(name + last_car)
-    modifications.append(name[:-1])
-    modifications.append(name[1:])
-    modifications.append(name.replace(middle_car, middle_car + middle_car))
-    modifications.append(prefix + name)
-    modifications.append(name + "x")
-    modifications.append("x" + name)
-
-    return modifications
-
-
-def jig_start(
-    First_Name,
-    Second_name,
-    Mobile_Number,
-    Address,
-    HouseNumebr,
-    Country,
-):
-    print_task("Jigging the data...", PURPLE)
-    array_name = []
-    array_surname = []
-    array_mobile = []
-
-    try:
-        road = road_dictionary[Country]
-    except KeyError:
-        road = "Street"
-
-    # if First_Name != "random":
-    array_name.extend(generate_modifications(First_Name))
-    array_name.extend(generate_modifications(Second_name, prefix=First_Name[0]))
-    # else:
-    #     First_Name = names.get_first_name()
-    #     array_name.append(First_Name)
-
-    # if Second_name != "random":
-    array_surname.extend(generate_modifications(Second_name))
-    array_surname.extend(generate_modifications(First_Name, prefix=Second_name[0]))
-    # else:
-    #     Second_name = names.get_last_name()
-    #     array_surname.append(Second_name)
-
-    prefix = country_prefix[Country]
-
-    for i in array_name:
-        array_mobile.append(generate_phone_number(prefix))
-
-    addy = Address.split()
-
-    array_ = (
-        [i + i[-1] for i in addy]
-        + [i[:-1] for i in addy]
-        + [i[1:] for i in addy]
-        + [i.replace(get_middle_char(i), get_middle_char(i) * 2) for i in addy]
-        + [i[0] + i for i in addy]
-        + [i + "x" for i in addy]
-        + [road + i for i in addy]
-        + [i + "xx" for i in addy]
-        + ["xx" + i for i in addy]
-        + ["x" + i for i in addy]
-        + [i + "x" for i in addy]
-        + ["x" + i + "x" for i in addy]
-        + ["x" + i + "xx" for i in addy]
-        + ["x " + i for i in addy]
-        + [i + " x" for i in addy]
-    )
-
-    num_addresses = len(addy)
-    split_arrays = np.array_split(array_, num_addresses)
-    result_array = [" ".join(row) for row in np.transpose(split_arrays)]
-
-    with open("Uzumaki/jigger/result.csv", "w", newline="") as file:
-        writer = csv.writer(file)
-
-        writer.writerow(
-            [
-                "First Name",
-                "Second Name",
-                "Mobile Number",
-                "Address",
-                "House Number",
-                "Country",
-            ]
+        # Generate a random number with the remaining digits
+        remaining_digits = 10 - num_prefix_digits
+        subscriber_number = "".join(
+            [str(random.randint(0, 9)) for _ in range(remaining_digits)]
         )
 
-    # csv
-    for i in range(len(array_name)):
-        with open("Uzumaki/jigger/result.csv", "a", newline="") as file:
+        # Combine the prefix and subscriber number and return the phone number
+        return f"{prefix}{subscriber_number}"
+
+    def random_name(self):
+        return names.get_full_name().split(" ")[0]
+
+    def random_surname(self):
+        return names.get_full_name().split(" ")[1]
+
+    def jig(self):
+        print_task("Jigging the address...", PURPLE)
+
+        streets = []
+        phone_number = []
+        name = []
+        surname = []
+
+        # remove the street name from the address
+        address_tochange = self.address.split(" ")
+        for i in address_tochange:
+            if i in self.street_name[self.country]:
+                address_tochange.remove(i)
+        street_name = " ".join(address_tochange)
+
+        for addy in self.street_name[self.country]:
+            streets.append(addy + " " + street_name)
+            phone_number.append(self.generate_phone_number(self.mobile_number))
+            name.append(self.random_name())
+            surname.append(self.random_name())
+
+        with open("Uzumaki/jigger/result.csv", "w", newline="") as file:
             writer = csv.writer(file)
 
             writer.writerow(
                 [
-                    array_name[i],
-                    array_surname[i],
-                    array_mobile[i],
-                    result_array[i],
-                    HouseNumebr,
-                    Country,
+                    "First Name",
+                    "Second Name",
+                    "Mobile Number",
+                    "Address",
+                    "House Number",
+                    "Country",
                 ]
             )
-            print_task("writing info in result.csv", GREEN)
 
-    input("press enter to exit...")
-    return
+        for i in range(len(streets)):
+            with open("Uzumaki/jigger/result.csv", "a", newline="") as file:
+                writer = csv.writer(file)
+
+                writer.writerow(
+                    [
+                        name[i],
+                        surname[i],
+                        phone_number[i],
+                        streets[i],
+                        self.house_number,
+                        self.country,
+                    ]
+                )
+                print_task("writing info in result.csv", GREEN)
+
+        input("press enter to exit...")
+        return
 
 
 def jigger(username):
     processRunning()
     setTitleMode("jigger")
+
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 
@@ -223,7 +171,7 @@ def jigger(username):
 
             try:
                 threading.Thread(
-                    target=jig_start,
+                    target=Addyjigger,
                     args=(
                         First_Name,
                         Second_name,

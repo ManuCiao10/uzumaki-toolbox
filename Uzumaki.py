@@ -61,9 +61,11 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
+# fix geocode address Spain
+# change jigger
 # macOs Version
 # fix ups pickup
-# restock and goat stockx scraper ?
+# goat stockx scraper
 
 # --------TO-FIX-----------
 # gls redirect by reading the email
