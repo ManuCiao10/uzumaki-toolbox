@@ -36,13 +36,13 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # update()
+    update()
     checking()
-    # processRunning()
-    # username = auth()
-    # reachPresence(username)
-    # setTitle()
-    username = "dev"
+    processRunning()
+    username = auth()
+    reachPresence(username)
+    setTitle()
+    # username = "dev"
 
     while True:
         option = banner(username)
