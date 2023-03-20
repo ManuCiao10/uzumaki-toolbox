@@ -348,20 +348,25 @@ def load_settings():
     try:
         with open(path, "r") as f:
             settings = json.load(f)
+            return settings
 
     except FileNotFoundError:
-        print_task("settings.json not found", RED)
-        print_task("check your folder", RED)
-        input("Press Enter to exit...")
-        return
+        os.chdir("..")
+        try:
+            with open("settings.json", "r") as f:
+                settings = json.load(f)
+                return settings
+        except FileNotFoundError:
+            print_task("settings.json not found", RED)
+            print_task("check your folder", RED)
+            input("Press Enter to exit...")
+            return
 
     except json.decoder.JSONDecodeError:
         print_task("settings.json is corrupted", RED)
         print_task("check your folder", RED)
         input("Press Enter to exit...")
         return
-
-    return settings
 
 
 def bye(username):

@@ -12,6 +12,39 @@ POSTE_NL_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/10841
 CORREOS_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1085322661854466141/Correos-Symbol.png"
 
 
+def webhook_wethenew(url, image, name, size, price):
+    settings = load_settings()
+    webhook = DiscordWebhook(
+        url=settings["webhook"],
+        rate_limit_retry=True,
+        username="Uzumaki™",
+        avatar_url=LOGO,
+    )
+
+    embed = DiscordEmbed(
+        title="Wethenew QuickTask",
+        description="> SUCCESSFULLY SOLD",
+        color=12298642,
+        url=url,
+    )
+
+    embed.set_thumbnail(url=image)
+
+    embed.add_embed_field(name="Name", value=name, inline=False)
+    embed.add_embed_field(name="Size", value=size, inline=True)
+    embed.add_embed_field(name="Payout", value=str(price) + "€", inline=True)
+
+    embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+    webhook.add_embed(embed)
+
+    response = webhook.execute()
+    if "<Response [405]>" in str(response):
+        print_task(f"error Webhook Incorrect", RED)
+    else:
+        print_task(f"successfully sent webhook", GREEN)
+
+
 def correos_webhook(
     tracking_number,
     type,

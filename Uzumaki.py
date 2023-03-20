@@ -40,7 +40,7 @@ def main():
 
     # update()
     checking()
-    processRunning()
+    # processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
@@ -57,11 +57,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n")
+        print_task("Key Interrupt", YELLOW)
+        time.sleep(2)
+        os._exit(1)
 
 
 # --------TO-IMPLEMENT-----------
-# loopback-ip-address
 # macOs Version
 # goat stockx scraper
 
