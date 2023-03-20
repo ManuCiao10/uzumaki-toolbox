@@ -40,7 +40,7 @@ def main():
 
     # update()
     checking()
-    # processRunning()
+    processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
