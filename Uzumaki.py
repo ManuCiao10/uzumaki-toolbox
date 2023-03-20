@@ -69,7 +69,7 @@ if __name__ == "__main__":
 # --------TO-IMPLEMENT-----------
 # macOs Version
 # goat stockx scraper
-# imporve wethenew session + change monitor with MQT
+# imporve wethenew session + change monitor with MQT => http://localhost:8080/url=https://sell.wethenew.com/instant-sales/6290
 
 # --------TO-FIX-----------
 # gls redirect by reading the email
