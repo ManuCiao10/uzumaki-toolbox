@@ -39,7 +39,7 @@ def main():
     colorama.init(wrap=True)
 
     # update()
-    checking()
+    # checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
@@ -69,6 +69,7 @@ if __name__ == "__main__":
 # --------TO-IMPLEMENT-----------
 # macOs Version
 # goat stockx scraper
+# imporve wethenew session + change monitor with MQT
 
 # --------TO-FIX-----------
 # gls redirect by reading the email

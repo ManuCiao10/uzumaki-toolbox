@@ -83,72 +83,6 @@ def wethenew(username):
     conn.close()
 
 
-def checkout(url, checkoutToken, uuid_payment, uuid_address):
-    session = tls_client.Session(client_identifier="chrome_105")
-
-    session.headers = {
-        "authority": "api-sell.wethenew.com",
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-        "authorization": "Bearer " + checkoutToken,
-        "cache-control": "no-cache",
-        "feature-policy": "microphone 'none'; geolocation 'none'; camera 'none'; payment 'none'; battery 'none'; gyroscope 'none'; accelerometer 'none';",
-        "origin": "https://sell.wethenew.com",
-        "pragma": "no-cache",
-        "referer": "https://sell.wethenew.com/",
-        "sec-ch-ua": '"Brave";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-site",
-        "sec-gpc": "1",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
-        "x-xss-protection": "1;mode=block",
-    }
-
-    try:
-        response = session.get(
-            f"https://api-sell.wethenew.com/sell-nows/{url.split('/')[-1]}"
-        )
-        resp = response.json()
-    except Exception as e:
-        print_task(f"error getting shoes data: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
-
-    id = resp["id"]
-    variant_id = resp["variantId"]
-    image = resp["image"]
-    name = resp["name"]
-    size = resp["size"]
-    price = resp["price"]
-
-    json_data = {
-        "sellNowId": id,
-        "variantId": variant_id,
-        "paymentInfosUuid": uuid_payment,
-        "isTermsAndConditionsAccepted": True,
-        "addressUuid": uuid_address,
-    }
-
-    try:
-        response = session.post(
-            "https://api-sell.wethenew.com/sell-nows", json=json_data
-        )
-        if "Problem ocurred while processing seller info" in response.text:
-            print_task("Problem ocurred while processing seller info", RED)
-            input("Press Enter to exit...")
-            os._exit(1)
-
-    except Exception as e:
-        print_task(f"error posting shoes data: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
-
-    webhook_wethenew(url, image, name, size, price)
-
-
 def payload(email: str, password: str) -> tuple:
     print_task(f"starting Wethenew QuickTask", PURPLE)
 
@@ -279,3 +213,69 @@ def payload(email: str, password: str) -> tuple:
         os._exit(1)
 
     return token_bearer, uuid_payment, uuid_bank
+
+
+def checkout(url, checkoutToken, uuid_payment, uuid_address):
+    session = tls_client.Session(client_identifier="chrome_105")
+
+    session.headers = {
+        "authority": "api-sell.wethenew.com",
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "authorization": "Bearer " + checkoutToken,
+        "cache-control": "no-cache",
+        "feature-policy": "microphone 'none'; geolocation 'none'; camera 'none'; payment 'none'; battery 'none'; gyroscope 'none'; accelerometer 'none';",
+        "origin": "https://sell.wethenew.com",
+        "pragma": "no-cache",
+        "referer": "https://sell.wethenew.com/",
+        "sec-ch-ua": '"Brave";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-gpc": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+        "x-xss-protection": "1;mode=block",
+    }
+
+    try:
+        response = session.get(
+            f"https://api-sell.wethenew.com/sell-nows/{url.split('/')[-1]}"
+        )
+        resp = response.json()
+    except Exception as e:
+        print_task(f"error getting shoes data: {str(e)}", RED)
+        input("Press Enter to exit...")
+        os._exit(1)
+
+    id = resp["id"]
+    variant_id = resp["variantId"]
+    image = resp["image"]
+    name = resp["name"]
+    size = resp["size"]
+    price = resp["price"]
+
+    json_data = {
+        "sellNowId": id,
+        "variantId": variant_id,
+        "paymentInfosUuid": uuid_payment,
+        "isTermsAndConditionsAccepted": True,
+        "addressUuid": uuid_address,
+    }
+
+    try:
+        response = session.post(
+            "https://api-sell.wethenew.com/sell-nows", json=json_data
+        )
+        if "Problem ocurred while processing seller info" in response.text:
+            print_task("Problem ocurred while processing seller info", RED)
+            input("Press Enter to exit...")
+            os._exit(1)
+
+    except Exception as e:
+        print_task(f"error posting shoes data: {str(e)}", RED)
+        input("Press Enter to exit...")
+        os._exit(1)
+
+    webhook_wethenew(url, image, name, size, price)
