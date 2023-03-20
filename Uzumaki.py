@@ -14,6 +14,7 @@ from internal.security import processRunning
 from internal.pickup import pickup
 
 from payout.payout import payout
+from monitor.wethenew import wethenew
 
 import colorama
 import time
@@ -29,6 +30,7 @@ OPTIONS = {
     "08": glsRedirect,
     "09": pickup,
     "10": payout,
+    "11": wethenew,
     "00": bye,
 }
 
@@ -36,13 +38,13 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    update()
+    # update()
     checking()
-    processRunning()
-    username = auth()
-    reachPresence(username)
-    setTitle()
-    # username = "dev"
+    # processRunning()
+    # username = auth()
+    # reachPresence(username)
+    # setTitle()
+    username = "dev"
 
     while True:
         option = banner(username)
@@ -59,7 +61,7 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
-# fix geocode address Spain
+# loopback-ip-address
 # macOs Version
 # goat stockx scraper
 

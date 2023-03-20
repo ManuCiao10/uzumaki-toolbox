@@ -63,6 +63,7 @@ def banner(username):
     print(f"\t{RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
     print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a ups pickup")
     print(f"\t{RED} 10 {Fore.WHITE}Payout\tRestock")
+    print(f"\t{RED} 11 {Fore.WHITE}Quicktask\tWethenew Quicktask")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
@@ -92,6 +93,7 @@ def checking():
         "Uzumaki/gls",
         "Uzumaki/pickup",
         "Uzumaki/payout",
+        "Uzumaki/wethenew",
     ]
 
     for directory in directories:
@@ -259,6 +261,16 @@ def checking():
             f.write("sku")
             print_task("restock.csv created", GREEN)
 
+    wethenew_login = {
+        "email": "",
+        "password": "",
+    }
+    # ----wethewnew----#
+    if not os.path.exists("Uzumaki/wethenew/login.json"):
+        with open("Uzumaki/wethenew/login.json", "w") as f:
+            json.dump(wethenew_login, f, indent=2)
+            print_task("login.json created", GREEN)
+
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
         input("Press Enter to exit...")
@@ -363,6 +375,14 @@ def bye(username):
 
 def validate(credentials):
     required_fields = ["userGmail", "passwordGmail"]
+    for field in required_fields:
+        if credentials.get(field, "").strip() == "":
+            return False
+    return True
+
+
+def validate_wethenew(credentials):
+    required_fields = ["email", "password"]
     for field in required_fields:
         if credentials.get(field, "").strip() == "":
             return False
