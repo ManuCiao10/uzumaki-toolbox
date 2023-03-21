@@ -101,7 +101,7 @@ class Addyjigger:
                 )
                 print_task("writing info in result.csv", GREEN)
 
-        input("press enter to exit...")
+        time.sleep(3)
         return
 
 
@@ -149,15 +149,13 @@ def jigger(username):
             next(reader)
         except StopIteration:
             print_task("file is empty", RED)
-            time.sleep(2)
-            os._exit(1)
+            exit_program()
 
         try:
             row = next(reader)
         except StopIteration:
             print_task("Please Fill Uzumaki/jigger/" + file, RED)
-            time.sleep(2)
-            os._exit(1)
+            exit_program()
 
         f.seek(0)
         reader = csv.reader(f)
@@ -184,5 +182,4 @@ def jigger(username):
 
             except Exception as e:
                 print_task(f"Error: {e}", RED)
-                time.sleep(3)
-                os._exit(1)
+                exit_program()

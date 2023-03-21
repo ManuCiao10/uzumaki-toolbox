@@ -365,15 +365,13 @@ def pickup(username):
                 next(reader)
             except StopIteration:
                 print_task("file is empty, you must delete it.", RED)
-                time.sleep(3)
-                os._exit(1)
+                exit_program()
 
             try:
                 row = next(reader)
             except StopIteration:
                 print_task("please fill Uzumaki/pickup/pickup_ups.csv", RED)
-                input("Press Enter to exit...")
-                os._exit(1)
+                exit_program()
 
             f.seek(0)
             reader = csv.reader(f)
@@ -385,5 +383,5 @@ def pickup(username):
 
     except FileNotFoundError:
         print_task("Uzumaki/pickup/pickup_ups not found", RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return

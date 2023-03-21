@@ -30,9 +30,7 @@ def webhook_cracked(i=None, key=None):
     webhook.add_embed(embed)
     webhook.execute()
     print_task("Cracker Detected...", RED)
-    input("Press Enter to exit...")
-    os._exit(1)
-
+    exit_program()
 
 def processRunning():
     settings = load_settings()
@@ -40,8 +38,7 @@ def processRunning():
 
     if not key or key == "KEY HERE":
         print_task("please set key...", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     # get the current ip
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

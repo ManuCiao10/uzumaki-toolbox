@@ -7,6 +7,8 @@ import logging
 import logging
 from logtail import LogtailHandler
 import time
+import platform
+import sys 
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -47,7 +49,7 @@ def banner(username):
 
     print(RED + BANNER + Style.RESET_ALL)
 
-    print(f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Style.RESET_ALL}\n")
+    print(f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()} {Style.RESET_ALL}\n")
 
     print(
         f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"
@@ -273,8 +275,7 @@ def checking():
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
 
 def time_task():
@@ -359,13 +360,13 @@ def load_settings():
         except FileNotFoundError:
             print_task("settings.json not found", RED)
             print_task("check your folder", RED)
-            input("Press Enter to exit...")
+            time.sleep(3)
             return
 
     except json.decoder.JSONDecodeError:
         print_task("settings.json is corrupted", RED)
         print_task("check your folder", RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
 
@@ -438,3 +439,16 @@ def updateTitle(succes, fail):
     )
     if os.name == "nt":
         ctypes.windll.kernel32.SetConsoleTitleW(title)
+
+def exit_program():
+    """
+    Exits the program.
+    Based on the operating system, the program will exit differently.
+    """
+
+    time.sleep(2)
+    
+    if platform.system() == "Windows":
+        os._exit(1)
+    elif platform.system() == "Darwin":
+        sys.exit()

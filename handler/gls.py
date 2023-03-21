@@ -38,16 +38,14 @@ def get_gls_mails(user, password):
 
     except Exception as e:
         print_task(str(e), RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
 
 def glsRedirect(username):
     processRunning()
     setTitleMode("gls redirect")
     print_task("gls redirect is locked", RED)
-    input("Press Enter to exit...")
-    os._exit(1)
+    exit_program()
 
     os.chdir("Uzumaki/gls")
     os.system("cls" if os.name == "nt" else "clear")
@@ -65,13 +63,11 @@ def glsRedirect(username):
 
         if not validate(credentials):
             print_task("please fill credentials.json", RED)
-            input("Press Enter to exit...")
-            os._exit(1)
+            exit_program()
 
     except:
         print_task("error getting credentials", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     userGmail = credentials["userGmail"]
     passwordGmail = credentials["passwordGmail"]
@@ -82,13 +78,11 @@ def glsRedirect(username):
         gls_mails = get_gls_mails(userGmail, passwordGmail)
         if not gls_mails:
             print_task("no gls redirectable gls tracking found", RED)
-            input("Press Enter to exit...")
-            os._exit(1)
+            exit_program()
 
     except Exception as e:
         print_task(f"error getting gls mails: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     quantity = len(gls_mails) if isinstance(gls_mails, list) else 0
     print_task(f"found {quantity} redirectable gls tracking", GREEN)
@@ -100,7 +94,7 @@ def glsRedirect(username):
             ).start()
         except:
             print_task("Error starting tasks", RED)
-            input("Press enter to exit...")
+            time.sleep(3)
             return
 
 

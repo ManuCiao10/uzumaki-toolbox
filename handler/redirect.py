@@ -56,7 +56,7 @@ def brt_tracking_checker(tracking, zip_code):
         if "non è possibile fornire indicazioni di consegna" in response.text.lower():
             print_task(f"[brt {tracking}] Shipment not redirectable...", RED)
             time.sleep(3)
-            input("press enter to exit...")
+            time.sleep(3)
             return
 
         if "n. spedizione" in response.text.lower():
@@ -74,7 +74,7 @@ def brt_tracking_checker(tracking, zip_code):
                     "[brt %s] %s" % (tracking, "Redirect not available"),
                     RED,
                 )
-                input("Press enter to exit...")
+                time.sleep(3)
                 return
 
             headers = {
@@ -156,7 +156,7 @@ def brt_tracking_checker(tracking, zip_code):
 
                 if "Il CAP inserito non corrisponde alla spedizione" in response.text:
                     print_task("[brt %s] %s" % (tracking, "Wrong ZipCode"), RED)
-                    input("Press enter to exit...")
+                    time.sleep(3)
                     return
 
                 if (
@@ -167,7 +167,7 @@ def brt_tracking_checker(tracking, zip_code):
                         "[brt %s] %s" % (tracking, "problema tecnico."),
                         RED,
                     )
-                    input("Press enter to exit...")
+                    time.sleep(3)
                     return
 
                 if (
@@ -175,7 +175,7 @@ def brt_tracking_checker(tracking, zip_code):
                     in response.text
                 ):
                     print_task("[brt %s] %s" % (tracking, "CAPTCHA hit."), RED)
-                    input("Press enter to exit...")
+                    time.sleep(3)
                     return
 
                 try:
@@ -489,12 +489,12 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
 
         else:
             print_task("[brt %s] %s" % (tracking, "Failed to redirect"), RED)
-            input("Press enter to exit...")
+            time.sleep(3)
             return
 
     else:
         print_task("[brt %s] %s" % (tracking, "No Redirect possible"), RED)
-        input("Press enter to exit...")
+        time.sleep(3)
         return
 
 
@@ -538,15 +538,13 @@ def redirect(username):
             next(reader)
         except StopIteration:
             print_task("file is empty", RED)
-            time.sleep(2)
-            os._exit(1)
+            exit_program()
 
         try:
             row = next(reader)
         except StopIteration:
             print_task(f"Please Fill {REDIRECT_PATH}/{file}", RED)
-            time.sleep(2)
-            os._exit(1)
+            exit_program()
 
         f.seek(0)
         reader = csv.reader(f)
@@ -563,7 +561,7 @@ def redirect(username):
                     ).start()
                 except:
                     print_task("Error starting tasks", RED)
-                    input("Press enter to exit...")
+                    time.sleep(3)
                     return
 
         if file == "brt_redirect.csv":
@@ -593,5 +591,5 @@ def redirect(username):
                     ).start()
                 except:
                     print_task("Error starting tasks", RED)
-                    input("Press enter to exit...")
+                    time.sleep(3)
                     return

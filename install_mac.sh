@@ -1,0 +1,1 @@
+pyinstaller --onefile --add-binary '/Users/admin/Desktop/UzumakiTools/env/lib/python3.11/site-packages/tls_client/dependencies/tls-client-x86.dylib:tls_client/dependencies' Uzumaki.py --name Uzumaki_0.0.34.

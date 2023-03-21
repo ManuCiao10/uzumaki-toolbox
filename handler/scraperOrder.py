@@ -244,15 +244,13 @@ def scraperOrder(username):
             next(reader)
         except StopIteration:
             print_task("file is empty", RED)
-            time.sleep(2)
-            os._exit(1)
+            exit_program()
 
         try:
             row = next(reader)
         except StopIteration:
             print_task("please fill " + file, RED)
-            time.sleep(2)
-            os._exit(1)
+            exit_program()
 
         f.seek(0)
         reader = csv.reader(f)
@@ -267,8 +265,7 @@ def scraperOrder(username):
 
                 except IndexError:
                     print_task("invalid file", RED)
-                    time.sleep(3)
-                    os._exit(1)
+                    exit_program()
 
                 threading.Thread(
                     target=newBalance,
@@ -283,12 +280,10 @@ def scraperOrder(username):
 
                 except IndexError:
                     print_task("invalid file", RED)
-                    time.sleep(3)
-                    os._exit(1)
+                    exit_program()
 
                 threading.Thread(target=courir, args=(email, zipCode)).start()
 
         else:
             print_task("invalid option", RED)
-            time.sleep(3)
-            os._exit(1)
+            exit_program()

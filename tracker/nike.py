@@ -10,7 +10,6 @@ SLEEP_TIME = 3
 
 
 def nike(tracking_number, email):
-    assert email, print_task("email is required", RED) or time.sleep(3) or os._exit(1)
 
     setTitleMode("tracker - nike")
     headers = {
@@ -42,7 +41,7 @@ def nike(tracking_number, email):
             "[nike %s] error: %s" % (tracking_number, "error connecting to nike..."),
             RED,
         )
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
     headers = {
@@ -91,7 +90,7 @@ def nike(tracking_number, email):
                         "[nike %s] error: %s" % (tracking_number, "Order Not Found..."),
                         RED,
                     )
-                    input("Press Enter to exit...")
+                    time.sleep(3)
                     return
             except:
                 pass
@@ -102,7 +101,7 @@ def nike(tracking_number, email):
                 % (tracking_number, "invalid or unavailable order..."),
                 RED,
             )
-            input("Press Enter to exit...")
+            time.sleep(3)
             return
 
         print_task("[nike %s] successful got order..." % tracking_number, YELLOW)
@@ -147,5 +146,4 @@ def nike(tracking_number, email):
 
     except requests.exceptions.ConnectionError:
         print_task("connection error", RED)
-        time.sleep(3)
-        os._exit(1)
+        exit_program()

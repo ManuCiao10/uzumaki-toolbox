@@ -17,7 +17,7 @@ def unsubscriber(username):
         os.chdir("Uzumaki/unsubscriber")
     except:
         print_task("error finding unsubscriber folder...", RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
     # Get credentials from file
@@ -27,12 +27,12 @@ def unsubscriber(username):
 
         if not validate(credentials):
             print_task("please fill unsubscriber.json", RED)
-            input("Press Enter to exit...")
+            time.sleep(3)
             return
 
     except:
         print_task("error getting credentials", RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
     user = credentials["userGmail"]
@@ -47,7 +47,7 @@ def unsubscriber(username):
 
     except:
         print_task("error connecting to email", RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
     # Define the companies and their corresponding names

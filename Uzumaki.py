@@ -16,6 +16,8 @@ from internal.pickup import pickup
 from payout.payout import payout
 from monitor.wethenew import wethenew
 
+from multiprocessing import freeze_support
+
 import colorama
 import time
 
@@ -38,13 +40,13 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # update()
-    # checking()
-    # processRunning()
-    # username = auth()
-    # reachPresence(username)
-    # setTitle()
-    username = "dev"
+    update()
+    checking()
+    processRunning()
+    username = auth()
+    reachPresence(username)
+    setTitle()
+    # username = "dev"
 
     while True:
         option = banner(username)
@@ -57,19 +59,22 @@ def main():
 
 
 if __name__ == "__main__":
+    freeze_support()
     try:
         main()
     except KeyboardInterrupt:
         print("\n")
         print_task("Key Interrupt", YELLOW)
-        time.sleep(2)
-        os._exit(1)
+        exit_program()
+        
 
 
 # --------TO-IMPLEMENT-----------
 # macOs Version
+# guide
 # goat stockx scraper
-# imporve wethenew session + change monitor with MQT => http://localhost:8080/url=https://sell.wethenew.com/instant-sales/6290
+# imporve wethenew session
+# Proxy-Scraper
 
 # --------TO-FIX-----------
 # gls redirect by reading the email

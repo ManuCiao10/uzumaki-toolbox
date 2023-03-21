@@ -12,7 +12,7 @@ POSTE_NL_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/10841
 CORREOS_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1085322661854466141/Correos-Symbol.png"
 
 
-def webhook_wethenew(url, image, name, size, price):
+def webhook_wethenew(id, image, name, size, price):
     settings = load_settings()
     webhook = DiscordWebhook(
         url=settings["webhook"],
@@ -20,12 +20,13 @@ def webhook_wethenew(url, image, name, size, price):
         username="Uzumaki™",
         avatar_url=LOGO,
     )
+    url_webhook = f"https://api-sell.wethenew.com/sell-nows/{id}"
 
     embed = DiscordEmbed(
         title="Wethenew QuickTask",
         description="> SUCCESSFULLY SOLD",
         color=12298642,
-        url=url,
+        url=url_webhook,
     )
 
     embed.set_thumbnail(url=image)

@@ -33,7 +33,7 @@ def zalando_handler(my_mail: imaplib.IMAP4_SSL):
                 threading.Thread(target=zalando, args=(data[0],)).start()
             except:
                 print_task("Error starting tasks", RED)
-                input("Press enter to exit...")
+                time.sleep(3)
                 return
 
 

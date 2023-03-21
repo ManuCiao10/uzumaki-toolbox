@@ -16,7 +16,7 @@ def geocodeRunItaly(zipcode):
         )
     except:
         print_task("[geocode %s] error: %s" % (zipcode, "error getting data..."), RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
     try:
@@ -58,17 +58,17 @@ def geocodeRunItaly(zipcode):
                             )
 
         print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
     except urllib.error.HTTPError:
         print_task("[geocode %s] http error" % zipcode, RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
     except:
         print_task("[geocode %s] unexpected error" % zipcode, RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
 
@@ -91,15 +91,13 @@ def geocode(username):
                 next(reader)
             except StopIteration:
                 print_task("file is empty", RED)
-                time.sleep(3)
-                os._exit(1)
+                exit_program()
 
             try:
                 row = next(reader)
             except StopIteration:
                 print_task("please fill Uzumaki/geocode/geocode.csv", RED)
-                input("Press Enter to exit...")
-                os._exit(1)
+                exit_program()
 
             f.seek(0)
             reader = csv.reader(f)
@@ -115,7 +113,7 @@ def geocode(username):
 
     except FileNotFoundError:
         print_task("Uzumaki/geocode/geocode.csv not found", RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
 
@@ -176,17 +174,17 @@ def geocodeRunUsa(zipcode):
                                 )
 
             print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
-            input("Press Enter to exit...")
+            time.sleep(3)
             return
 
         except urllib.error.HTTPError:
             print_task("[geocode %s] http error" % zipcode, RED)
-            input("Press Enter to exit...")
+            time.sleep(3)
             return
 
         except:
             print_task("[geocode %s] unexpected error" % zipcode, RED)
-            input("Press Enter to exit...")
+            time.sleep(3)
             return
 
 
@@ -253,7 +251,7 @@ def geocodeRunSpain(zipcode):
             print_task("[geocode %s] unexpected error" % zipcode, RED)
 
     print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
-    input("Press Enter to exit...")
+    time.sleep(3)
     return
 
 
@@ -270,5 +268,5 @@ def geocode_handler(country, zip_code):
         geocodeRunUsa(zip_code)
     else:
         print_task("[geocode %s] error: %s" % (zip_code, "country not supported"), RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return

@@ -28,8 +28,7 @@ def create_csv(restocks_sales, wise_mails):
 
     except Exception as e:
         print_task(str(e), RED)
-        time.sleep(5)
-        os._exit(1)
+        exit_program()
 
     return missing_payout_count
 
@@ -46,8 +45,7 @@ def get_restocks_sales(restocks_user, restocks_password):
 
     except Exception as e:
         print_task(str(e), RED)
-        time.sleep(5)
-        os._exit(1)
+        exit_program()
 
     return history_filtered
 
@@ -88,8 +86,7 @@ def get_wise_mails(user, password, wise_mail):
 
     except Exception as e:
         print_task(str(e), RED)
-        time.sleep(5)
-        os._exit(1)
+        exit_program()
 
 
 def validate_credentials(credentials):
@@ -121,13 +118,11 @@ def restockPayout(username):
 
         if not validate_credentials(credentials):
             print_task("please fill credentials.json", RED)
-            input("Press Enter to exit...")
-            os._exit(1)
+            exit_program()
 
     except:
         print_task("error getting credentials", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     userGmail = credentials["userGmail"]
     passwordGmail = credentials["passwordGmail"]
@@ -141,8 +136,7 @@ def restockPayout(username):
         print_task(f"wise mails: {len(wise_mails)}", GREEN)
     except Exception as e:
         print_task(f"error getting wise mails: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     try:
         print_task("getting restock sales...", CYAN)
@@ -150,8 +144,7 @@ def restockPayout(username):
         print_task(f"restocks sales: {len(restocks_sales)}", GREEN)
     except Exception as e:
         print_task(f"error getting restock sales: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     # Create CSV and get missing payout count
     missing_payout_count = create_csv(restocks_sales, wise_mails)
@@ -159,4 +152,4 @@ def restockPayout(username):
 
     # check output.csv
     print_task("check restock/output.csv", PURPLE)
-    input("Press Enter to exit...")
+    time.sleep(3)

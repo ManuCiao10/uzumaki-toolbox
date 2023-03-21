@@ -14,8 +14,7 @@ def wethenew(username):
         os.chdir("Uzumaki/wethenew")
     except:
         print_task("error finding directory", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     os.system("cls" if os.name == "nt" else "clear")
 
@@ -29,13 +28,11 @@ def wethenew(username):
 
         if not validate_wethenew(credentials):
             print_task("please fill wethenew/login.json", RED)
-            input("Press Enter to exit...")
-            os._exit(1)
+            exit_program()
 
     except:
         print_task("error getting credentials", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     HOST = "127.0.0.1"  # Listen on localhost
     PORT = 8080  # Use port 8080
@@ -48,8 +45,7 @@ def wethenew(username):
         s.bind((HOST, PORT))
     except socket.error as e:
         print_task(f"{str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     # Listen for incoming connections
     s.listen()
@@ -74,10 +70,15 @@ def wethenew(username):
     # Receive data from the connection
     data = conn.recv(1024)
 
-    # http://localhost:8080/url=https://sell.wethenew.com/instant-sales/6290
-    url = data.decode().split("\n")[0].split()[1].split("=")[1]
+    # http://127.0.0.1:8080/?id=6575
 
-    checkout(url, checkoutToken, uuid_payment, uuid_address)
+    try:
+        id = data.decode().split("\n")[0].split()[1].split("=")[1]
+    except:
+        print_task("error getting url", RED)
+        exit_program()
+
+    checkout(id, checkoutToken, uuid_payment, uuid_address)
 
     # Close the connection
     conn.close()
@@ -97,8 +98,7 @@ def payload(email: str, password: str) -> tuple:
         recaptchaToken = recaptchaToken["code"]
     except Exception as e:
         print_task(f"error captha: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     session.headers = {
         "authority": "sell.wethenew.com",
@@ -122,8 +122,7 @@ def payload(email: str, password: str) -> tuple:
         csrf_token = response.json()["csrfToken"]
     except Exception as e:
         print_task(f"error cloudflare: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     params = ""
 
@@ -149,8 +148,7 @@ def payload(email: str, password: str) -> tuple:
 
     except Exception as e:
         print_task(f"error credentials: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     try:
         response = session.get("https://sell.wethenew.com/api/auth/session")
@@ -158,8 +156,7 @@ def payload(email: str, password: str) -> tuple:
 
     except Exception as e:
         print_task(f"error auth|session: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     session.headers = {
         "authority": "api-sell.wethenew.com",
@@ -187,35 +184,31 @@ def payload(email: str, password: str) -> tuple:
         data = response.json()
     except Exception as e:
         print_task(f"error payment_infos: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     try:
         uuid_payment = data[0]["uuid"]
     except Exception as e:
         print_task(f"check your payment info: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     try:
         response = session.get("https://api-sell.wethenew.com/addresses")
         data = response.json()
     except Exception as e:
         print_task(f"error addresses: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     try:
         uuid_bank = data[0]["uuid"]
     except Exception as e:
         print_task(f"check your addresses info: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
     return token_bearer, uuid_payment, uuid_bank
 
 
-def checkout(url, checkoutToken, uuid_payment, uuid_address):
+def checkout(id, checkoutToken, uuid_payment, uuid_address):
     session = tls_client.Session(client_identifier="chrome_105")
 
     session.headers = {
@@ -240,24 +233,35 @@ def checkout(url, checkoutToken, uuid_payment, uuid_address):
     }
 
     try:
-        response = session.get(
-            f"https://api-sell.wethenew.com/sell-nows/{url.split('/')[-1]}"
-        )
+        response = session.get(f"https://api-sell.wethenew.com/sell-nows/{id}")
+        if "Unauthorized" in response.text:
+            print_task("Unauthorized", RED)
+            exit_program()
+
+        if "No sell now found with this id" in response.text:
+            print_task("No sell now found with id", RED)
+            exit_program()
+
         resp = response.json()
+
     except Exception as e:
         print_task(f"error getting shoes data: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
-    id = resp["id"]
-    variant_id = resp["variantId"]
-    image = resp["image"]
-    name = resp["name"]
-    size = resp["size"]
-    price = resp["price"]
+    try:
+        id_shoes = resp["id"]
+        variant_id = resp["variantId"]
+        image = resp["image"]
+        name = resp["name"]
+        size = resp["size"]
+        price = resp["price"]
+        
+    except Exception as e:
+        print_task(f"error getting shoes response: {str(e)}", RED)
+        exit_program()
 
     json_data = {
-        "sellNowId": id,
+        "sellNowId": id_shoes,
         "variantId": variant_id,
         "paymentInfosUuid": uuid_payment,
         "isTermsAndConditionsAccepted": True,
@@ -270,12 +274,10 @@ def checkout(url, checkoutToken, uuid_payment, uuid_address):
         )
         if "Problem ocurred while processing seller info" in response.text:
             print_task("Problem ocurred while processing seller info", RED)
-            input("Press Enter to exit...")
-            os._exit(1)
+            exit_program()
 
     except Exception as e:
         print_task(f"error posting shoes data: {str(e)}", RED)
-        input("Press Enter to exit...")
-        os._exit(1)
+        exit_program()
 
-    webhook_wethenew(url, image, name, size, price)
+    webhook_wethenew(id, image, name, size, price)

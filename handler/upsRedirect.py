@@ -53,6 +53,6 @@ def ups(username):
     )
 
     phone.start()
-    input("Press enter to exit...")
+    time.sleep(3)
     phone.stop()
     return

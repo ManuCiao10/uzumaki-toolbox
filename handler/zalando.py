@@ -49,12 +49,12 @@ def zalandoHandler(username):
                     threading.Thread(target=zalando, args=(email, password)).start()
                 except:
                     print_task("Error starting tasks", RED)
-                    input("Press enter to exit...")
+                    time.sleep(3)
                     return
 
     except FileNotFoundError:
         print_task("file accounts.csv not found", RED)
-        input("Press Enter to exit...")
+        time.sleep(3)
         return
 
 
