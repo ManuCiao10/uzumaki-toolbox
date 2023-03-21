@@ -40,13 +40,13 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    update()
-    checking()
-    processRunning()
-    username = auth()
-    reachPresence(username)
-    setTitle()
-    # username = "dev"
+    # update()
+    # checking()
+    # processRunning()
+    # username = auth()
+    # reachPresence(username)
+    # setTitle()
+    username = "dev"
 
     while True:
         option = banner(username)
@@ -68,9 +68,7 @@ if __name__ == "__main__":
         exit_program()
         
 
-
 # --------TO-IMPLEMENT-----------
-# macOs Version
 # guide
 # goat stockx scraper
 # imporve wethenew session
