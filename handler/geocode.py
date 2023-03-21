@@ -10,12 +10,18 @@ from internal.security import processRunning
 
 
 def geocodeRunItaly(zipcode):
+    path_output = "Uzumaki/geocode/result.csv"
+
     try:
         url = urllib.request.urlopen(
             "https://data.openaddresses.io/runs/1042889/it/countrywide.zip"
         )
+    except TimeoutError:
+        print_task("[geocode %s] error: %s" % (zipcode, "timeout"), RED)
+        time.sleep(3)
+        
     except:
-        print_task("[geocode %s] error: %s" % (zipcode, "error getting data..."), RED)
+        print_task("[geocode %s] error: %s" % (zipcode, "error getting data, open a ticket..."), RED)
         time.sleep(3)
         return
 
@@ -32,8 +38,8 @@ def geocodeRunItaly(zipcode):
                         street = str(line).split(",")[3]
                         city = str(line).split(",")[5]
                         region = str(line).split(",")[7]
-                        with open("Uzumaki/geocode/result.csv", "a", newline="") as f:
-                            if os.stat("Uzumaki/geocode/result.csv").st_size == 0:
+                        with open(path_output, "a", newline="") as f:
+                            if os.stat(path_output).st_size == 0:
                                 writer = csv.writer(f)
                                 writer.writerow(
                                     [
@@ -56,8 +62,10 @@ def geocodeRunItaly(zipcode):
                                     "italy",
                                 ]
                             )
+                url.close()
 
-        print_task("[geocode %s] finished check results.csv file" % zipcode, CYAN)
+
+        print_task(f"[geocode %s] finished check {path_output}" % zipcode, CYAN)
         time.sleep(3)
         return
 

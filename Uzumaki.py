@@ -9,9 +9,11 @@ from handler.presence import reachPresence
 from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
 from handler.gls import glsRedirect
+from handler.dhlRedirect import dhlRedirect
 
 from internal.security import processRunning
 from internal.pickup import pickup
+from proxy.proxy import proxy
 
 from payout.payout import payout
 from monitor.wethenew import wethenew
@@ -33,13 +35,16 @@ OPTIONS = {
     "09": pickup,
     "10": payout,
     "11": wethenew,
+    "12": proxy,
     "00": bye,
 }
 
 
+    
 def main():
     colorama.init(wrap=True)
 
+    # dhlRedirect()
     # update()
     # checking()
     # processRunning()
@@ -71,8 +76,14 @@ if __name__ == "__main__":
 # --------TO-IMPLEMENT-----------
 # guide
 # goat stockx scraper
-# imporve wethenew session
 # Proxy-Scraper
 
 # --------TO-FIX-----------
+# fix error handling geocode connection
 # gls redirect by reading the email
+
+# --------UP_COMING-----------
+# ups redirect
+
+# --------QUESTION-----------
+# how to make people make money with this tool

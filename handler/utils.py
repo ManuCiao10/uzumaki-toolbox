@@ -66,6 +66,7 @@ def banner(username):
     print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a ups pickup")
     print(f"\t{RED} 10 {Fore.WHITE}Payout\tRestock")
     print(f"\t{RED} 11 {Fore.WHITE}Quicktask\tWethenew Quicktask")
+    print(f"\t{RED} 12 {Fore.WHITE}Proxy\tProxy Scraper")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")

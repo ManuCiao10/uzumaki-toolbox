@@ -12,6 +12,13 @@ class Addyjigger:
     def __init__(
         self, first_name, second_name, mobile_number, address, house_number, country
     ):
+        self.supported_countries = [
+            "France",
+            "Spain",
+            "Italy",
+            "Germany",
+        ]
+
         self.street_name = {
             "France": ["rue", "r", "boulevard", "blvd", "avenue", "av", "chemin", "ch"],
             "Spain": ["calle", "cl", "avenida", "av", "carrer", "c", "passeig", "pg"],
@@ -26,6 +33,13 @@ class Addyjigger:
         self.house_number = house_number
         self.country = country
 
+        if self.country not in self.supported_countries:
+            print_task(
+                f"{self.country} is not supported. Please choose from {self.supported_countries}",
+                RED,
+            )
+            exit_program()
+        
         return self.jig()
 
     def generate_phone_number(self, prefix):
@@ -59,11 +73,14 @@ class Addyjigger:
         surname = []
 
         # remove the street name from the address
-        address_tochange = self.address.split(" ")
-        for i in address_tochange:
-            if i in self.street_name[self.country]:
-                address_tochange.remove(i)
-        street_name = " ".join(address_tochange)
+        try:
+            address_tochange = self.address.split(" ")
+            for i in address_tochange:
+                if i in self.street_name[self.country]:
+                    address_tochange.remove(i)
+            street_name = " ".join(address_tochange)
+        except:
+            street_name = self.address
 
         for addy in self.street_name[self.country]:
             streets.append(addy + " " + street_name)
