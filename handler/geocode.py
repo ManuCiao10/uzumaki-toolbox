@@ -19,9 +19,13 @@ def geocodeRunItaly(zipcode):
     except TimeoutError:
         print_task("[geocode %s] error: %s" % (zipcode, "timeout"), RED)
         time.sleep(3)
-        
+
     except:
-        print_task("[geocode %s] error: %s" % (zipcode, "error getting data, open a ticket..."), RED)
+        print_task(
+            "[geocode %s] error: %s"
+            % (zipcode, "error getting data, open a ticket..."),
+            RED,
+        )
         time.sleep(3)
         return
 
@@ -63,7 +67,6 @@ def geocodeRunItaly(zipcode):
                                 ]
                             )
                 url.close()
-
 
         print_task(f"[geocode %s] finished check {path_output}" % zipcode, CYAN)
         time.sleep(3)

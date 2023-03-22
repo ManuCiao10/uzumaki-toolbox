@@ -10,7 +10,6 @@ SLEEP_TIME = 3
 
 
 def nike(tracking_number, email):
-
     setTitleMode("tracker - nike")
     headers = {
         "authority": "www.nike.com",

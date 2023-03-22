@@ -6,7 +6,6 @@ from requests_html import HTMLSession
 import re
 
 
-
 def proxy(username):
     proxy_list = []
     proxy_count = 0
@@ -22,7 +21,9 @@ def proxy(username):
     print(f"{RED}{BANNER}{RESET}")
     print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    url_base = "https://raw.githubusercontent.com/hendrikbgr/Proxy-Scraper/main/urls.txt"
+    url_base = (
+        "https://raw.githubusercontent.com/hendrikbgr/Proxy-Scraper/main/urls.txt"
+    )
 
     try:
         resp = requests.get(url_base, allow_redirects=True)
@@ -30,7 +31,7 @@ def proxy(username):
         print_task("error getting proxies", RED)
         exit_program()
 
-    #count response.text lines
+    # count response.text lines
     urls = resp.text.splitlines()
 
     for url in urls:
@@ -43,18 +44,18 @@ def proxy(username):
             r = session.get(url)
             links = r.html.absolute_links
             links = str(links)
-            links = links.replace('{', '')
-            links = links.replace('}', '')
-            links = links.split(',')
+            links = links.replace("{", "")
+            links = links.replace("}", "")
+            links = links.split(",")
             for link in links:
                 # print('Link Scraped: ', link)
                 print_task
                 print()
 
             # Get Proxies
-            page = r.html.find('html', first=True)
-            proxies_found = re.findall('\d+\.\d+\.\d+\.\d+\:\d+', page.html)
-            print('Proxies found: ', proxies_found)
+            page = r.html.find("html", first=True)
+            proxies_found = re.findall("\d+\.\d+\.\d+\.\d+\:\d+", page.html)
+            print("Proxies found: ", proxies_found)
 
             proxy_list = proxy_list + proxies_found
             for proxy in proxy_list:
@@ -69,20 +70,15 @@ def proxy(username):
 
                 try:
                     r = session.get(link)
-                    page = r.html.find('html', first=True)
-                    proxies_found = re.findall('\d+\.\d+\.\d+\.\d+\:\d+', page.html)
-                    print('Proxies found: ', proxies_found)
+                    page = r.html.find("html", first=True)
+                    proxies_found = re.findall("\d+\.\d+\.\d+\.\d+\:\d+", page.html)
+                    print("Proxies found: ", proxies_found)
                     proxy_list = proxy_list + proxies_found
                     for proxy in proxy_list:
                         proxy_count += 1
-                        print('Proxy found: ', proxy)
+                        print("Proxy found: ", proxy)
                     session.close()
                 except:
                     pass
         except:
             pass
-
-
-
-
-    

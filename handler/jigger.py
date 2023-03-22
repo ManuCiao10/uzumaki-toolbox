@@ -39,7 +39,7 @@ class Addyjigger:
                 RED,
             )
             exit_program()
-        
+
         return self.jig()
 
     def generate_phone_number(self, prefix):

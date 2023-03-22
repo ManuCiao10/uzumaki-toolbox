@@ -8,7 +8,7 @@ import logging
 from logtail import LogtailHandler
 import time
 import platform
-import sys 
+import sys
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -49,7 +49,9 @@ def banner(username):
 
     print(RED + BANNER + Style.RESET_ALL)
 
-    print(f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()} {Style.RESET_ALL}\n")
+    print(
+        f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()} {Style.RESET_ALL}\n"
+    )
 
     print(
         f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"
@@ -441,6 +443,7 @@ def updateTitle(succes, fail):
     if os.name == "nt":
         ctypes.windll.kernel32.SetConsoleTitleW(title)
 
+
 def exit_program():
     """
     Exits the program.
@@ -448,7 +451,7 @@ def exit_program():
     """
 
     time.sleep(2)
-    
+
     if platform.system() == "Windows":
         os._exit(1)
     elif platform.system() == "Darwin":

@@ -102,9 +102,9 @@ def update():
         elif platform.system() == "Darwin":
             with open("Uzumaki_" + hyper_version, "wb") as f:
                 f.write(response.content)
-            #rename file
+            # rename file
             os.rename("Uzumaki_" + hyper_version, "Uzumaki_" + hyper_version + ".")
-            #assign execute permissions
+            # assign execute permissions
             os.chmod("Uzumaki_" + hyper_version + ".", 0o777)
 
         print_task("Successfully downloaded update, check" + os.getcwd(), GREEN)

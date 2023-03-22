@@ -255,7 +255,7 @@ def checkout(id, checkoutToken, uuid_payment, uuid_address):
         name = resp["name"]
         size = resp["size"]
         price = resp["price"]
-        
+
     except Exception as e:
         print_task(f"error getting shoes response: {str(e)}", RED)
         exit_program()

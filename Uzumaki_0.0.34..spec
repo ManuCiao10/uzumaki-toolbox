@@ -5,9 +5,14 @@ block_cipher = None
 
 
 a = Analysis(
-    ['Uzumaki.py'],
+    ["Uzumaki.py"],
     pathex=[],
-    binaries=[('/Users/admin/Desktop/UzumakiTools/env/lib/python3.11/site-packages/tls_client/dependencies/tls-client-x86.dylib', 'tls_client/dependencies')],
+    binaries=[
+        (
+            "/Users/admin/Desktop/UzumakiTools/env/lib/python3.11/site-packages/tls_client/dependencies/tls-client-x86.dylib",
+            "tls_client/dependencies",
+        )
+    ],
     datas=[],
     hiddenimports=[],
     hookspath=[],
@@ -28,7 +33,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='Uzumaki_0.0.34.',
+    name="Uzumaki_0.0.34.",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

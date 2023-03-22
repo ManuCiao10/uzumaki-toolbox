@@ -32,6 +32,7 @@ def webhook_cracked(i=None, key=None):
     print_task("Cracker Detected...", RED)
     exit_program()
 
+
 def processRunning():
     settings = load_settings()
     key = settings["key"]

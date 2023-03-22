@@ -56,7 +56,6 @@ def brt_tracking_checker(tracking, zip_code):
         if "non è possibile fornire indicazioni di consegna" in response.text.lower():
             print_task(f"[brt {tracking}] Shipment not redirectable...", RED)
             time.sleep(3)
-            time.sleep(3)
             return
 
         if "n. spedizione" in response.text.lower():
@@ -254,11 +253,11 @@ def brt_tracking_checker(tracking, zip_code):
     except Exception as e:
         print_task(f"[brt {tracking}] error checking tracking info", RED)
         print_task(f"[brt {tracking}] {e}", RED)
-        time.sleep(5)
+        time.sleep(3)
         return
 
     print_task(f"[brt {tracking}] finished", GREEN)
-    time.sleep(5)
+    time.sleep(3)
 
 
 def handle_brt_request_success(
@@ -500,7 +499,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
 
 def redirect(username):
     processRunning()
-    setTitleMode("Redirect")
+    setTitleMode("Redirect BRT")
 
     while True:
         os.system("cls" if os.name == "nt" else "clear")

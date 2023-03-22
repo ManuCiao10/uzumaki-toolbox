@@ -36,15 +36,15 @@ OPTIONS = {
     "10": payout,
     "11": wethenew,
     "12": proxy,
+    "13": dhlRedirect,
     "00": bye,
 }
 
 
-    
 def main():
     colorama.init(wrap=True)
 
-    # dhlRedirect()
+    dhlRedirect("https://del.dhl.com/IT/9PzlE-pnRb", "50121", "free", "IT")
     # update()
     # checking()
     # processRunning()
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         print("\n")
         print_task("Key Interrupt", YELLOW)
         exit_program()
-        
+
 
 # --------TO-IMPLEMENT-----------
 # guide
@@ -79,7 +79,6 @@ if __name__ == "__main__":
 # Proxy-Scraper
 
 # --------TO-FIX-----------
-# fix error handling geocode connection
 # gls redirect by reading the email
 
 # --------UP_COMING-----------
