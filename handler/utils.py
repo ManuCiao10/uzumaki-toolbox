@@ -101,6 +101,7 @@ def checking():
         "Uzumaki/payout",
         "Uzumaki/wethenew",
         "Uzumaki/redirect_dhl",
+        "Uzumaki/proxy",
     ]
 
     for directory in directories:

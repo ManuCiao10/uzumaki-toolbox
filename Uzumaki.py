@@ -74,7 +74,6 @@ if __name__ == "__main__":
 
 # --------TO-IMPLEMENT-----------
 # guide
-# goat stockx scraper
 # Proxy-Scraper
 
 # --------TO-FIX-----------
@@ -82,6 +81,7 @@ if __name__ == "__main__":
 
 # --------UP_COMING-----------
 # ups redirect
+# newbalance module
 
 # --------QUESTION-----------
 # how to make people make money with this tool
