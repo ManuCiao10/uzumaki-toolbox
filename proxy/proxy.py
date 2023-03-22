@@ -31,47 +31,39 @@ def is_bad_proxy(pip):
     return 0
 
 
-def checker_proxies(proxies):
+def checker_proxies(proxy):
     path = "Uzumaki/proxy"
 
-    if is_bad_proxy(proxies):
-        print_task("not working proxy %s" % (proxies), RED)
+    if is_bad_proxy(proxy):
+        print_task("not working proxy %s" % (proxy), RED)
     else:
-        print_task("working Proxy %s" % (proxies), GREEN)
+        print_task("working Proxy %s" % (proxy), GREEN)
         with open(path + "/proxies.txt", "a") as f:
-            f.write(proxies + "\n")
+            f.write(proxy + "\n")
 
 
 def crwaling_proxies(url, urls):
     proxy_list = []
-    proxy_count = 0
 
-    index = urls.index(url)
-    print_task(f"[{index}] crawling proxies", PURPLE)
+    print_task(f"[{urls.index(url)}] crawling proxies", PURPLE)
 
     session = HTMLSession()
 
     try:
         r = session.get(url)
         links = r.html.absolute_links
-        links = str(links)
-        links = links.replace("{", "")
-        links = links.replace("}", "")
-        links = links.split(",")
+        links = [link for link in links]
+        links = str(links).replace("{", "").replace("}", "").split(",")
 
         # Get Proxies
         page = r.html.find("html", first=True)
         proxies_found = re.findall("\d+\.\d+\.\d+\.\d+\:\d+", page.html)
 
         proxy_list = proxy_list + proxies_found
-        for proxy in proxy_list:
-            proxy_count += 1
-
         session.close()
 
         for link in links:
-            index_link = urls.index(link)
-            print_task(f"[{index_link}] crawling sublink proxies", PURPLE)
+            print_task(f"[{urls.index(link)}] crawling sublink proxies", PURPLE)
 
             try:
                 r = session.get(link)
@@ -79,9 +71,6 @@ def crwaling_proxies(url, urls):
                 proxies_found = re.findall("\d+\.\d+\.\d+\.\d+\:\d+", page.html)
 
                 proxy_list = proxy_list + proxies_found
-                for proxy in proxy_list:
-                    proxy_count += 1
-
                 session.close()
             except:
                 pass
@@ -115,7 +104,6 @@ def proxy(username):
         print_task("error getting proxies", RED)
         exit_program()
 
-    # count response.text lines
     urls = resp.text.splitlines()
 
     for url in urls:
@@ -126,7 +114,3 @@ def proxy(username):
                 urls,
             ),
         ).start()
-
-    # print_task("proxy scraper finished", GREEN)
-
-    # print_task("check Uzumaki/proxy/proxies.txt", WHITE)
