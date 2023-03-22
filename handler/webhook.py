@@ -12,6 +12,50 @@ POSTE_NL_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/10841
 CORREOS_LOGO = "https://cdn.discordapp.com/attachments/819084339992068110/1085322661854466141/Correos-Symbol.png"
 
 
+def webhook_dhl_redirect(
+    url=None,
+    localName=None,
+    addressLine1=None,
+    city=None,
+    zipCode=None,
+    distance=None,
+    country=None,
+):
+    settings = load_settings()
+    webhook = DiscordWebhook(
+        url=settings["webhook"],
+        rate_limit_retry=True,
+        username="Uzumaki™",
+        avatar_url=DHL_LOGO,
+    )
+
+    embed = DiscordEmbed(
+        title="DHL Redirect",
+        description="> SUCCESSFULLY REDIRECTED",
+        color=12298642,
+        url=url,
+    )
+
+    embed.set_thumbnail(url=DHL_LOGO)
+
+    embed.add_embed_field(name="Access Point", value=localName, inline=False)
+    embed.add_embed_field(name="Address", value=addressLine1, inline=True)
+    embed.add_embed_field(name="City", value=city, inline=True)
+    embed.add_embed_field(name="ZipCode", value=zipCode, inline=True)
+    embed.add_embed_field(name="Distance", value=distance, inline=True)
+    embed.add_embed_field(name="Country", value=country, inline=True)
+
+    embed.set_footer(text="Powered by Uzumaki Tools", icon_url=LOGO)
+
+    webhook.add_embed(embed)
+
+    response = webhook.execute()
+    if "<Response [405]>" in str(response):
+        print_task(f"error Webhook Incorrect", RED)
+    else:
+        print_task(f"successfully sent webhook", GREEN)
+
+
 def webhook_wethenew(id, image, name, size, price):
     settings = load_settings()
     webhook = DiscordWebhook(

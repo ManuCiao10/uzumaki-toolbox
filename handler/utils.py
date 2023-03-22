@@ -57,7 +57,7 @@ def banner(username):
         f"\t{Back.RED}{Fore.WHITE} Select an option or type 00 for exiting {Style.RESET_ALL}\n"
     )
 
-    print(f"\t{RED} 01 {Fore.WHITE}Brt\t\tRedirect packages ")
+    print(f"\t{RED} 01 {Fore.WHITE}Brt\t\tRedirect packages")
     print(f"\t{RED} 02 {Fore.WHITE}Tracker\tOrder Tracker")
     print(f"\t{RED} 03 {Fore.WHITE}Geocode\tGeocode address")
     print(f"\t{RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
@@ -69,6 +69,7 @@ def banner(username):
     print(f"\t{RED} 10 {Fore.WHITE}Payout\tRestock")
     print(f"\t{RED} 11 {Fore.WHITE}Quicktask\tWethenew Quicktask")
     print(f"\t{RED} 12 {Fore.WHITE}Proxy\tProxy Scraper")
+    print(f"\t{RED} 13 {Fore.WHITE}Dhl\t\tRedirect packages")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
@@ -99,6 +100,7 @@ def checking():
         "Uzumaki/pickup",
         "Uzumaki/payout",
         "Uzumaki/wethenew",
+        "Uzumaki/redirect_dhl",
     ]
 
     for directory in directories:
@@ -275,6 +277,13 @@ def checking():
         with open("Uzumaki/wethenew/login.json", "w") as f:
             json.dump(wethenew_login, f, indent=2)
             print_task("login.json created", GREEN)
+
+    # ----redirect-DHL----#
+    if not os.path.exists("Uzumaki/redirect_dhl/redirect.csv"):
+        with open("Uzumaki/redirect_dhl/redirect.csv", "w") as f:
+            f.write("Url,Zipcode,Acces Point Name,CountryCode(IT)")
+            print_task("redirect.csv created", GREEN)
+            f.close()
 
     if firstRun:
         print_task("folder created, check " + os.getcwd(), YELLOW)

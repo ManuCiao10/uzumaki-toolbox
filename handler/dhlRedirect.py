@@ -8,6 +8,7 @@ from urllib.parse import urlparse, parse_qs
 from handler.webhook import webhook_dhl_redirect
 
 
+# maybe add 3/4 function for module to handle the error and retry
 def dhlRedirect(username):
     processRunning()
     setTitleMode("Redirect DHL")
@@ -25,7 +26,7 @@ def dhlRedirect(username):
             try:
                 next(reader)
             except StopIteration:
-                print_task("file is empty", RED)
+                print_task("file redirect_dhl/redirect.csv is empty", RED)
                 exit_program()
 
             try:
@@ -55,9 +56,19 @@ def dhlRedirect(username):
         return
 
 
-# webhook and thread to check the input data
 def dhl_redirect(url, zipcode, acces_point_client, countryCode):
-    # check if the county code is 2 letters
+    try:
+        if len(countryCode) != 2:
+            print_task("country code must be 2 letters", RED)
+            exit_program()
+    except IndexError:
+        print_task("country code must be 2 letters", RED)
+        exit_program()
+
+    if not re.match(r"^https?://", url):
+        print_task("url must start with http:// or https://", RED)
+        exit_program()
+
     data_access = {}
 
     session = requests.Session()
@@ -287,5 +298,6 @@ def dhl_redirect(url, zipcode, acces_point_client, countryCode):
         print_task(f"selection error {response.url}", RED)
         exit_program()
 
-    print_task("redirect done, check your email", GREEN)
+    print_task("redirect done, check your email", WHITE)
+
     webhook_dhl_redirect(url, localName, addressLine1, city, zipCode, distance, country)

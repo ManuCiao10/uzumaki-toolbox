@@ -44,9 +44,8 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    dhlRedirect("https://del.dhl.com/IT/9PzlE-pnRb", "50121", "free", "IT")
     # update()
-    # checking()
+    checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
