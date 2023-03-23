@@ -2,6 +2,7 @@ import ctypes
 import os
 import datetime
 import json
+
 from colorama import init, Fore, Back, Style
 import logging
 import logging
@@ -22,7 +23,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.34"
+VERSION = "0.0.35"
 
 init()
 

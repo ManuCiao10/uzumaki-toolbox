@@ -2,110 +2,106 @@ from handler.utils import *
 import os
 import requests
 import platform
-import sys
+from io import BytesIO
+from zipfile import ZipFile
 import time
+from urllib.request import urlopen
 
-api_key = "***REMOVED***"
+HYPER_API_KEY = "***REMOVED***"
+GITHUB_API_KEY = "***REMOVED***"
+DOWNLOAD_URL = (
+    "https://github.com/ManuCiao10/uzumaki-update/releases/latest/download/Archive.zip"
+)
+
+
+def getGithubVersion():
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": "Bearer " + GITHUB_API_KEY,
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+
+    try:
+        response = requests.get(
+            "https://api.github.com/repos/ManuCiao10/uzumaki-update/releases/latest",
+            headers=headers,
+        )
+        version = response.json().get("tag_name")
+        version = version.replace("v", "")
+    except requests.exceptions.RequestException as e:
+        print_task("Error: " + str(e), RED)
+        time.sleep(2)
+        return
+    except Exception as e:
+        print_task("Error: " + str(e), RED)
+        time.sleep(2)
+        return
+
+    return version
 
 
 def update():
     print_task("checking for updates...", PURPLE)
     supported = ["Windows", "Darwin"]
+    PLATFORM = platform.system()
 
-    if platform.system() not in supported:
+    if PLATFORM not in supported:
         print_task("Platform not supported", RED)
         exit_program()
 
-    cookies = {
-        "authorization": "YiDX0QjGN17Ex2ApMVbyl",
-    }
-
-    headers = {
-        "authority": "uzumakitools.hyper.co",
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-        "cache-control": "no-cache",
-        "hyper-account": "I_lF5bu5kFr1JAp-Wyu3W",
-        "hyper-env": "portal",
-        "pragma": "no-cache",
-        "referer": "https://uzumakitools.hyper.co/dashboard",
-        "sec-ch-ua": '"Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "sec-gpc": "1",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-    }
-
-    params = ""
-
-    response = requests.get(
-        "https://uzumakitools.hyper.co/ajax/products/w4AR4dZsZ4njJ6Y815DRK/files",
-        params=params,
-        cookies=cookies,
-        headers=headers,
-    )
-
-    if response.status_code != 200:
-        print_task("Failed to get response for update", RED)
-        time.sleep(3)
+    github_version = getGithubVersion()
+    if not github_version:
+        print_task("Error getting version", RED)
         return
 
-    try:
-        data = response.json()
-    except Exception as e:
-        print_task("error checking software version:" + str(e), RED)
-        exit_program()
+    if VERSION != github_version:
+        print_task(f"new update available v{github_version}", YELLOW)
 
-    version = os.path.basename(sys.argv[0])
+        try:
+            resp = urlopen(DOWNLOAD_URL)
+            myzip = ZipFile(BytesIO(resp.read()))
+        except requests.exceptions.RequestException as e:
+            print_task("Error RequestException: " + str(e), RED)
+            time.sleep(2)
+            return
 
-    try:
-        if platform.system() == "Darwin":
-            version = version.split("_")[1][:-1]
-        elif platform.system() == "Windows":
-            version = version.split("_")[1][:-4]
-    except Exception as e:
-        print_task("error checking software version:" + str(e), RED)
-        time.sleep(3)
-        return
+        except Exception as e:
+            print_task("Error Exception: " + str(e), RED)
+            time.sleep(2)
+            return
 
-    hyper_version = data.get("data")
-
-    for i in hyper_version:
-        if platform.system() == "Darwin":
-            if i.get("type") == "application/octet-stream":
-                hyper_version = i.get("filename")
-                hyper_version = hyper_version.split("_")[1][:-1]
-                break
-        elif platform.system() == "Windows":
-            if i.get("type") == "exe":
-                hyper_version = i.get("filename")
-                hyper_version = hyper_version.split("_")[1][:-4]
-                break
-
-    if version != hyper_version:
-        print_task("New update available!", GREEN)
-
-        id = getID(data)
-
-        response = requests.get(
-            "https://uzumakitools.hyper.co/ajax/files/" + id,
-            cookies=cookies,
-            headers=headers,
-        )
-
-        if platform.system() == "Windows":
-            with open("Uzumaki_" + hyper_version + ".exe", "wb") as f:
-                f.write(response.content)
-        elif platform.system() == "Darwin":
-            with open("Uzumaki_" + hyper_version, "wb") as f:
-                f.write(response.content)
-            # rename file
-            os.rename("Uzumaki_" + hyper_version, "Uzumaki_" + hyper_version + ".")
-            # assign execute permissions
-            os.chmod("Uzumaki_" + hyper_version + ".", 0o777)
+        try:
+            for file in myzip.namelist():
+                if PLATFORM == "Windows":
+                    if file.endswith(".exe") and file.startswith("Uzumaki"):
+                        new = file
+                        with open(file, "wb") as f:
+                            f.write(myzip.read(file))
+                    for file in os.listdir():
+                        if (
+                            file.startswith("Uzumaki")
+                            and file != new
+                            and file.endswith(".exe")
+                        ):
+                            print_task("removing old version", YELLOW)
+                            os.remove(file)
+                elif PLATFORM == "Darwin":
+                    if file.endswith(".") and file.startswith("Uzumaki"):
+                        new = file
+                        with open(file, "wb") as f:
+                            f.write(myzip.read(file))
+                    for file in os.listdir():
+                        if (
+                            file.startswith("Uzumaki")
+                            and file != new
+                            and file.endswith(".")
+                        ):
+                            print_task("removing old version", YELLOW)
+                            os.remove(file)
+        except Exception as e:
+            print_task("Error myzip: " + str(e), RED)
+            time.sleep(2)
+            return
 
         print_task("Successfully downloaded update, check" + os.getcwd(), GREEN)
         exit_program()
@@ -113,19 +109,9 @@ def update():
         print_task("uzumaki is up to date", YELLOW)
 
 
-def getID(data):
-    for i in data.get("data"):
-        if platform.system() == "Windows":
-            if i.get("type") == "exe":
-                return i.get("id")
-        elif platform.system() == "Darwin":
-            if i.get("type") == "application/octet-stream":
-                return i.get("id")
-
-
 def get_license(license_key):
     headers = {
-        "Authorization": f"Bearer {api_key}",
+        "Authorization": f"Bearer {HYPER_API_KEY}",
     }
 
     req = requests.get(

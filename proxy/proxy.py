@@ -12,34 +12,35 @@ import urllib.error
 socket.setdefaulttimeout(180)
 
 
-def is_bad_proxy(pip):
+def proxy(username):
+    processRunning()
+    setTitleMode("Proxy Scraper")
+
+    os.system("cls" if os.name == "nt" else "clear")
+
+    print(f"{RED}{BANNER}{RESET}")
+    print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+
+    url_base = (
+        "https://raw.githubusercontent.com/hendrikbgr/Proxy-Scraper/main/urls.txt"
+    )
+
     try:
-        proxy_handler = urllib.request.ProxyHandler({"http": pip})
-        opener = urllib.request.build_opener(proxy_handler)
-        opener.addheaders = [("User-agent", "Mozilla/5.0")]
-        urllib.request.install_opener(opener)
-        sock = urllib.request.urlopen(
-            "http://www.google.com"
-        )  # change the url address here
+        resp = requests.get(url_base, allow_redirects=True)
+    except:
+        print_task("error getting proxies", RED)
+        exit_program()
 
-    except urllib.error.HTTPError as e:
-        # print_task("error code: %s" % (e.code), RED)
-        return e.code
-    except Exception as detail:
-        # print_task("error: %s" % (detail), RED)
-        return 1
-    return 0
+    urls = resp.text.splitlines()
 
-
-def checker_proxies(proxy):
-    path = "Uzumaki/proxy"
-
-    if is_bad_proxy(proxy):
-        print_task("not working proxy %s" % (proxy), RED)
-    else:
-        print_task("working Proxy %s" % (proxy), GREEN)
-        with open(path + "/proxies.txt", "a") as f:
-            f.write(proxy + "\n")
+    for url in urls:
+        threading.Thread(
+            target=crwaling_proxies,
+            args=(
+                url,
+                urls,
+            ),
+        ).start()
 
 
 def crwaling_proxies(url, urls):
@@ -85,32 +86,31 @@ def crwaling_proxies(url, urls):
         ).start()
 
 
-def proxy(username):
-    processRunning()
-    setTitleMode("Proxy Scraper")
+def checker_proxies(proxy):
+    path = "Uzumaki/proxy"
 
-    os.system("cls" if os.name == "nt" else "clear")
+    if is_bad_proxy(proxy):
+        print_task("not working proxy %s" % (proxy), RED)
+    else:
+        print_task("working Proxy %s" % (proxy), GREEN)
+        with open(path + "/proxies.txt", "a") as f:
+            f.write(proxy + "\n")
 
-    print(f"{RED}{BANNER}{RESET}")
-    print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    url_base = (
-        "https://raw.githubusercontent.com/hendrikbgr/Proxy-Scraper/main/urls.txt"
-    )
-
+def is_bad_proxy(pip):
     try:
-        resp = requests.get(url_base, allow_redirects=True)
-    except:
-        print_task("error getting proxies", RED)
-        exit_program()
+        proxy_handler = urllib.request.ProxyHandler({"http": pip})
+        opener = urllib.request.build_opener(proxy_handler)
+        opener.addheaders = [("User-agent", "Mozilla/5.0")]
+        urllib.request.install_opener(opener)
+        sock = urllib.request.urlopen(
+            "http://www.google.com"
+        )  # change the url address here
 
-    urls = resp.text.splitlines()
-
-    for url in urls:
-        threading.Thread(
-            target=crwaling_proxies,
-            args=(
-                url,
-                urls,
-            ),
-        ).start()
+    except urllib.error.HTTPError as e:
+        # print_task("error code: %s" % (e.code), RED)
+        return e.code
+    except Exception as detail:
+        # print_task("error: %s" % (detail), RED)
+        return 1
+    return 0

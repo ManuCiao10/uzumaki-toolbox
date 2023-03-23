@@ -1,7 +1,6 @@
 from handler.utils import *
 from handler.redirect import redirect
 from handler.geocode import geocode
-from tracker.tracker import tracker
 from handler.auth import auth, update
 from handler.jigger import jigger
 from handler.scraperOrder import scraperOrder
@@ -11,17 +10,17 @@ from handler.unsubscriber import unsubscriber
 from handler.gls import glsRedirect
 from handler.dhlRedirect import dhlRedirect
 
+from tracker.tracker import tracker
+
 from internal.security import processRunning
 from internal.pickup import pickup
-from proxy.proxy import proxy
 
+from proxy.proxy import proxy
 from payout.payout import payout
 from monitor.wethenew import wethenew
-
 from multiprocessing import freeze_support
 
 import colorama
-import time
 
 OPTIONS = {
     "01": redirect,
@@ -44,12 +43,12 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # update()
-    checking()
+    update()
+    # checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
-    # setTitle()
+    setTitle()
     username = "dev"
 
     while True:
@@ -73,10 +72,12 @@ if __name__ == "__main__":
 
 
 # --------TO-IMPLEMENT-----------
-# guide
-# Proxy-Scraper
+# cosign wethenew monitor + quicktask
 
 # --------TO-FIX-----------
+# guide install macOs
+# auto delete the older version when it updates
+# fix autoupdating with api
 # gls redirect by reading the email
 
 # --------UP_COMING-----------
