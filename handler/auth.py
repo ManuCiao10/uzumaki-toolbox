@@ -9,10 +9,6 @@ from urllib.request import urlopen
 
 HYPER_API_KEY = "***REMOVED***"
 GITHUB_API_KEY = "***REMOVED***"
-DOWNLOAD_URL = (
-    "https://github.com/ManuCiao10/uzumaki-update/releases/latest/download/Archive.zip"
-)
-
 
 def getGithubVersion():
     headers = {
@@ -26,8 +22,10 @@ def getGithubVersion():
             "https://api.github.com/repos/ManuCiao10/uzumaki-update/releases/latest",
             headers=headers,
         )
-        version = response.json().get("tag_name")
+        data = response.json()
+        version = data.get("tag_name")
         version = version.replace("v", "")
+        url_download = data.get("assets")[0].get("browser_download_url")
     except requests.exceptions.RequestException as e:
         print_task("Error: " + str(e), RED)
         time.sleep(2)
@@ -37,29 +35,27 @@ def getGithubVersion():
         time.sleep(2)
         return
 
-    return version
+    return version, url_download
 
 
 def update():
     print_task("checking for updates...", PURPLE)
-    supported = ["Windows", "Darwin"]
-    PLATFORM = platform.system()
-
-    if PLATFORM not in supported:
-        print_task("Platform not supported", RED)
-        exit_program()
-
-    github_version = getGithubVersion()
+    
+    github_version, url_download = getGithubVersion()
     if not github_version:
         print_task("Error getting version", RED)
+        time.sleep(2)
+        return
+    
+    if not url_download:
+        print_task("Error getting download url", RED)
+        time.sleep(2)
         return
 
     if VERSION != github_version:
         print_task(f"new update available v{github_version}", YELLOW)
-
         try:
-            resp = urlopen(DOWNLOAD_URL)
-            myzip = ZipFile(BytesIO(resp.read()))
+            resp = urlopen(url_download)
         except requests.exceptions.RequestException as e:
             print_task("Error RequestException: " + str(e), RED)
             time.sleep(2)
@@ -71,37 +67,18 @@ def update():
             return
 
         try:
-            for file in myzip.namelist():
-                if PLATFORM == "Windows":
-                    if file.endswith(".exe") and file.startswith("Uzumaki"):
-                        new = file
-                        with open(file, "wb") as f:
-                            f.write(myzip.read(file))
-                    for file in os.listdir():
-                        if (
-                            file.startswith("Uzumaki")
-                            and file != new
-                            and file.endswith(".exe")
-                        ):
-                            print_task("removing old version", YELLOW)
-                            os.remove(file)
-                elif PLATFORM == "Darwin":
-                    if file.endswith(".") and file.startswith("Uzumaki"):
-                        new = file
-                        with open(file, "wb") as f:
-                            f.write(myzip.read(file))
-                    for file in os.listdir():
-                        if (
-                            file.startswith("Uzumaki")
-                            and file != new
-                            and file.endswith(".")
-                        ):
-                            print_task("removing old version", YELLOW)
-                            os.remove(file)
+            with open(f"Uzumaki_{github_version}.exe", "wb") as f:
+                f.write(resp.read())
         except Exception as e:
-            print_task("Error myzip: " + str(e), RED)
+            print_task("Error: " + str(e), RED)
             time.sleep(2)
             return
+        
+        #delete old version
+        for file in os.listdir():
+            if file.startswith("Uzumaki") and file.endswith(".exe") and file != f"Uzumaki_{github_version}.exe":
+                print_task("removing old version", WHITE)
+                os.remove(file)
 
         print_task("Successfully downloaded update, check" + os.getcwd(), GREEN)
         exit_program()

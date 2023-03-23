@@ -76,8 +76,6 @@ if __name__ == "__main__":
 
 # --------TO-FIX-----------
 # guide install macOs
-# auto delete the older version when it updates
-# fix autoupdating with api
 # gls redirect by reading the email
 
 # --------UP_COMING-----------
