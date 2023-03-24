@@ -20,8 +20,10 @@ class PickupUps:
         self.zip_code = row[5].strip()
         self.country = row[6].strip()
         self.email = row[7].strip()
-        self.loc = self.country_dict[self.country.lower()]
-
+        # self.numberOfPackages = print_task("How many packages?", PURPLE)
+        # self.numberOfPackages = input("How many packages?")
+        self.numberOfPackages = input("How many packages? ")
+        
         return self.session()
 
     def session(self):
@@ -43,6 +45,8 @@ class PickupUps:
             print_task("Error: " + str(e), RED)
             time.sleep(3)
             return
+        
+        self.loc = self.country_dict[self.country.lower()]
 
         params_coutry = {
             "loc": self.loc,
@@ -175,7 +179,7 @@ class PickupUps:
             "extension": "",
             "addrSuggestRadio": "",
             "repl_name": "",
-            "numberOfPackages": "1",
+            "numberOfPackages": self.numberOfPackages,
             "weight": "2",
             "numberOfPallets": "1",
             "palletweight": "",

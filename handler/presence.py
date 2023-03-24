@@ -1,4 +1,5 @@
 from pypresence import Presence
+from handler.utils import VERSION
 import time
 
 
@@ -15,7 +16,7 @@ def reachPresence(username):
 
     try:
         RPC.update(
-            details=username + " - V.0.0.25",
+            details=f"{username} - v{VERSION}",
             large_image="logo",
             large_text="Uzumaki",
             start=start_time,

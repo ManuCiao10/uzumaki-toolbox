@@ -257,7 +257,7 @@ def checking():
 
     # ----upsPickup----#
     if not os.path.exists("Uzumaki/pickup/pickup_ups.csv"):
-        with open("Uzumaki/pickup/pickup_ups.csv", "w") as f:
+        with open("Uzumaki/pickup/pickup_ups.csv", "w") as f:        
             f.write("name,surname,phone,address,city,zip,country(it),email")
             print_task("pickup_ups.csv created", GREEN)
 

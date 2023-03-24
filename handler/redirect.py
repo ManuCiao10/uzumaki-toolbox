@@ -487,7 +487,7 @@ def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code,
             return
 
         else:
-            print_task("[brt %s] %s" % (tracking, "Failed to redirect"), RED)
+            print_task("[brt %s] %s" % (tracking, "Failed to redirect, check your info"), RED)
             time.sleep(3)
             return
 

@@ -1,14 +1,12 @@
 from handler.utils import *
 import os
 import requests
-import platform
-from io import BytesIO
-from zipfile import ZipFile
 import time
 from urllib.request import urlopen
 
 HYPER_API_KEY = "***REMOVED***"
 GITHUB_API_KEY = "***REMOVED***"
+
 
 def getGithubVersion():
     headers = {
@@ -26,6 +24,7 @@ def getGithubVersion():
         version = data.get("tag_name")
         version = version.replace("v", "")
         url_download = data.get("assets")[0].get("browser_download_url")
+
     except requests.exceptions.RequestException as e:
         print_task("Error: " + str(e), RED)
         time.sleep(2)
@@ -40,13 +39,19 @@ def getGithubVersion():
 
 def update():
     print_task("checking for updates...", PURPLE)
-    
-    github_version, url_download = getGithubVersion()
+
+    try:
+        github_version, url_download = getGithubVersion()
+    except TypeError:
+        print_task("No version found", RED)
+        time.sleep(2)
+        return
+
     if not github_version:
         print_task("Error getting version", RED)
         time.sleep(2)
         return
-    
+
     if not url_download:
         print_task("Error getting download url", RED)
         time.sleep(2)
@@ -54,6 +59,7 @@ def update():
 
     if VERSION != github_version:
         print_task(f"new update available v{github_version}", YELLOW)
+
         try:
             resp = urlopen(url_download)
         except requests.exceptions.RequestException as e:
@@ -73,17 +79,25 @@ def update():
             print_task("Error: " + str(e), RED)
             time.sleep(2)
             return
-        
-        #delete old version
-        for file in os.listdir():
-            if file.startswith("Uzumaki") and file.endswith(".exe") and file != f"Uzumaki_{github_version}.exe":
-                print_task("removing old version", WHITE)
-                os.remove(file)
 
-        print_task("Successfully downloaded update, check" + os.getcwd(), GREEN)
+        # delete old version
+        for file in os.listdir():
+            if (
+                file.startswith("Uzumaki")
+                and file.endswith(".exe")
+                and file != f"Uzumaki_{github_version}.exe"
+            ):
+                print_task("removing old version", WHITE)
+                # give the permission to delete the file
+                try:
+                    os.chmod(file, 0o777)
+                    os.remove(file)
+                except OSError:
+                    # print_task("Error while deleting file", RED)
+                    pass
+
+        print_task("Successfully downloaded update " + os.getcwd(), GREEN)
         exit_program()
-    else:
-        print_task("uzumaki is up to date", YELLOW)
 
 
 def get_license(license_key):
@@ -111,11 +125,7 @@ def auth():
 
     license_data = get_license(key)
 
-    if license_data:
-        if license_data.get("metadata") != {}:
-            print_task("License is already in use on another machine!", RED)
-            exit_program()
-    else:
+    if not license_data:
         print_task("Invalid license key!", RED)
         exit_program()
 

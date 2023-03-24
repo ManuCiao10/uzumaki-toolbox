@@ -44,11 +44,11 @@ def main():
     colorama.init(wrap=True)
 
     update()
-    # checking()
+    checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
-    setTitle()
+    # setTitle()
     username = "dev"
 
     while True:
@@ -58,7 +58,7 @@ def main():
             break
         except KeyError:
             print_task("invalid option ", RED)
-            time.sleep(1)
+            time.sleep(0.5)
 
 
 if __name__ == "__main__":
@@ -73,9 +73,9 @@ if __name__ == "__main__":
 
 # --------TO-IMPLEMENT-----------
 # cosign wethenew monitor + quicktask
+# gmail gen
 
 # --------TO-FIX-----------
-# guide install macOs
 # gls redirect by reading the email
 
 # --------UP_COMING-----------
