@@ -87,13 +87,13 @@ def update():
                 and file.endswith(".exe")
                 and file != f"Uzumaki_{github_version}.exe"
             ):
-                print_task("removing old version", WHITE)
                 # give the permission to delete the file
                 try:
+                    print_task("removing old version", WHITE)
                     os.chmod(file, 0o777)
                     os.remove(file)
                 except OSError:
-                    # print_task("Error while deleting file", RED)
+                    print_task("Error permission while deleting old version", RED)
                     pass
 
         print_task("Successfully downloaded update " + os.getcwd(), GREEN)

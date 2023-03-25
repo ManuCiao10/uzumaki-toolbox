@@ -1,4 +1,5 @@
 import ctypes
+import errno
 import os
 import datetime
 import json
@@ -59,6 +60,7 @@ def banner(username):
     )
 
     print(f"\t{RED} 01 {Fore.WHITE}Brt\t\tRedirect packages")
+    print(f"\t{RED} 02 {Fore.WHITE}Gls\t\tRedirect packages")
     print(f"\t{RED} 02 {Fore.WHITE}Tracker\tOrder Tracker")
     print(f"\t{RED} 03 {Fore.WHITE}Geocode\tGeocode address")
     print(f"\t{RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")
@@ -84,8 +86,8 @@ def checking():
     # ----Uzumaki----#
     if not os.path.exists("Uzumaki"):
         print_task("creating folder Uzumaki...", PURPLE)
-        print_task("Uzumaki created", GREEN)
         os.makedirs("Uzumaki")
+        print_task("Uzumaki created", GREEN)
 
         firstRun = True
 
@@ -102,6 +104,7 @@ def checking():
         "Uzumaki/payout",
         "Uzumaki/wethenew",
         "Uzumaki/redirect_dhl",
+        "Uzumaki/redirect_gls",
         "Uzumaki/proxy",
     ]
 
@@ -257,7 +260,7 @@ def checking():
 
     # ----upsPickup----#
     if not os.path.exists("Uzumaki/pickup/pickup_ups.csv"):
-        with open("Uzumaki/pickup/pickup_ups.csv", "w") as f:        
+        with open("Uzumaki/pickup/pickup_ups.csv", "w") as f:
             f.write("name,surname,phone,address,city,zip,country(it),email")
             print_task("pickup_ups.csv created", GREEN)
 
@@ -284,6 +287,13 @@ def checking():
     if not os.path.exists("Uzumaki/redirect_dhl/redirect.csv"):
         with open("Uzumaki/redirect_dhl/redirect.csv", "w") as f:
             f.write("Url,Zipcode,Acces Point Name,CountryCode(IT)")
+            print_task("redirect.csv created", GREEN)
+            f.close()
+
+    # ----redirect-GLS----#
+    if not os.path.exists("Uzumaki/redirect_gls/redirect.csv"):
+        with open("Uzumaki/redirect_gls/redirect.csv", "w") as f:
+            f.write("Url,Acces Point Name,Zipcode,CountryCode(IT)")
             print_task("redirect.csv created", GREEN)
             f.close()
 

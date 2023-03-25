@@ -23,7 +23,7 @@ class PickupUps:
         # self.numberOfPackages = print_task("How many packages?", PURPLE)
         # self.numberOfPackages = input("How many packages?")
         self.numberOfPackages = input("How many packages? ")
-        
+
         return self.session()
 
     def session(self):
@@ -45,7 +45,7 @@ class PickupUps:
             print_task("Error: " + str(e), RED)
             time.sleep(3)
             return
-        
+
         self.loc = self.country_dict[self.country.lower()]
 
         params_coutry = {

@@ -21,6 +21,7 @@ from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
 
 import colorama
+from pyuac import main_requires_admin
 
 OPTIONS = {
     "01": redirect,
@@ -39,7 +40,7 @@ OPTIONS = {
     "00": bye,
 }
 
-
+@main_requires_admin
 def main():
     colorama.init(wrap=True)
 
