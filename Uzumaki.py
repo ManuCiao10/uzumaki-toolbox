@@ -58,7 +58,7 @@ def main():
             OPTIONS[option](username)
             break
         except KeyError:
-            print_task("invalid option ", RED)
+            print_task("invalid option", RED)
             time.sleep(0.5)
 
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 # gmail gen
 
 # --------TO-FIX-----------
-# gls redirect by reading the email
+# gls redirect
 
 # --------UP_COMING-----------
 # ups redirect
