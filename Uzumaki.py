@@ -19,6 +19,8 @@ from proxy.proxy import proxy
 from payout.payout import payout
 from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
+from generator.icloud import icloud
+from generator.yahoo import Yahoo
 
 import colorama
 from pyuac import main_requires_admin
@@ -37,29 +39,32 @@ OPTIONS = {
     "11": wethenew,
     "12": proxy,
     "13": dhlRedirect,
+    "14": icloud,
     "00": bye,
 }
+
 
 @main_requires_admin
 def main():
     colorama.init(wrap=True)
 
-    update()
-    checking()
+    Yahoo()
+    # update()
+    # checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
     username = "dev"
 
-    while True:
-        option = banner(username)
-        try:
-            OPTIONS[option](username)
-            break
-        except KeyError:
-            print_task("invalid option", RED)
-            time.sleep(0.5)
+    # while True:
+    #     option = banner(username)
+    #     try:
+    #         OPTIONS[option](username)
+    #         break
+    #     except KeyError:
+    #         print_task("invalid option", RED)
+    #         time.sleep(0.5)
 
 
 if __name__ == "__main__":

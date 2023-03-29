@@ -183,8 +183,8 @@ class GLSRedirect:
         }
         try:
             response = requests.post(
-            "https://gls-italy.com/index.php?option=com_gls&amp;lang=it", data=data
-        )
+                "https://gls-italy.com/index.php?option=com_gls&amp;lang=it", data=data
+            )
         except:
             print_task(f"[{self.index}] error while getting session", RED)
             time.sleep(2)
@@ -194,6 +194,7 @@ class GLSRedirect:
         divs = bs4.find_all("div", {"class": "col-dati"})
         for div in divs:
             print(div.text)
+
 
 # data = {
 #     "option": "com_gls",

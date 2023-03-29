@@ -73,7 +73,7 @@ def banner(username):
     print(f"\t{RED} 11 {Fore.WHITE}Quicktask\tWethenew Quicktask")
     print(f"\t{RED} 12 {Fore.WHITE}Proxy\tProxy Scraper")
     print(f"\t{RED} 13 {Fore.WHITE}Dhl\t\tRedirect packages")
-    print(f"\t{RED} 14 {Fore.WHITE}Icloud\t\tIcloud generator")
+    print(f"\t{RED} 14 {Fore.WHITE}Icloud\tIcloud generator")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
