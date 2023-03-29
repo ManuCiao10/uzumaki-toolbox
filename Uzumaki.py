@@ -21,6 +21,7 @@ from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
 from generator.icloud import icloud
 from generator.yahoo import Yahoo
+from generator.outlook import Inizialize
 
 import colorama
 from pyuac import main_requires_admin
@@ -40,6 +41,7 @@ OPTIONS = {
     "12": proxy,
     "13": dhlRedirect,
     "14": icloud,
+    "15": Inizialize,
     "00": bye,
 }
 
@@ -48,23 +50,24 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    Yahoo()
+    # Yahoo()
+    # Outlook()
     # update()
-    # checking()
+    checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
     # setTitle()
     username = "dev"
 
-    # while True:
-    #     option = banner(username)
-    #     try:
-    #         OPTIONS[option](username)
-    #         break
-    #     except KeyError:
-    #         print_task("invalid option", RED)
-    #         time.sleep(0.5)
+    while True:
+        option = banner(username)
+        try:
+            OPTIONS[option](username)
+            break
+        except KeyError:
+            print_task("invalid option", RED)
+            time.sleep(0.5)
 
 
 if __name__ == "__main__":

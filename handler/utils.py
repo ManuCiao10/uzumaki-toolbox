@@ -74,6 +74,7 @@ def banner(username):
     print(f"\t{RED} 12 {Fore.WHITE}Proxy\tProxy Scraper")
     print(f"\t{RED} 13 {Fore.WHITE}Dhl\t\tRedirect packages")
     print(f"\t{RED} 14 {Fore.WHITE}Icloud\tIcloud generator")
+    print(f"\t{RED} 15 {Fore.WHITE}Outlook\tOutlook generator")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
@@ -114,8 +115,17 @@ def checking():
             print_task(directory + " created", GREEN)
             os.makedirs(directory)
 
+    # ----proxies.txt----#
+    if not os.path.exists("Uzumaki/proxies.txt"):
+        with open("Uzumaki/proxies.txt", "w") as f:
+            print_task("proxies.txt created", GREEN)
+
     # ----settings.json----#
-    setting = {"webhook": "WEBHOOK HERE", "key": "KEY HERE"}
+    setting = {
+        "webhook": "WEBHOOK HERE",
+        "key": "KEY HERE",
+        "captcha_key": "CAPTHA KEY HERE",
+    }
 
     if not os.path.exists("Uzumaki/settings.json"):
         with open("Uzumaki/settings.json", "w") as f:
