@@ -14,6 +14,8 @@ from random import randint, choice
 from names import get_first_name, get_last_name
 from datetime import datetime
 
+# https://www.capsolver.com
+
 
 def Inizialize(username):
     processRunning()
@@ -99,6 +101,7 @@ class Outlook:
         this.client = Session(client_identifier="chrome_108")
         this.captcha_key = captcha_key
         this.proxies = proxy
+
         proxy = proxy.split(":")
 
         host = proxy[0]

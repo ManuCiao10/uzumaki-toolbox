@@ -1,5 +1,4 @@
 import ctypes
-import errno
 import os
 import datetime
 import json
@@ -24,7 +23,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.35"
+VERSION = "0.0.36"
 
 init()
 
@@ -51,8 +50,10 @@ def banner(username):
 
     print(RED + BANNER + Style.RESET_ALL)
 
+    user_permission = "admin" if isAdmin() else "user"
+
     print(
-        f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()} {Style.RESET_ALL}\n"
+        f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()}{Fore.WHITE}\tPERMISSION: {RED}{user_permission.upper()} {Style.RESET_ALL}\n"
     )
 
     print(
@@ -73,8 +74,7 @@ def banner(username):
     print(f"\t{RED} 11 {Fore.WHITE}Quicktask\tWethenew Quicktask")
     print(f"\t{RED} 12 {Fore.WHITE}Proxy\tProxy Scraper")
     print(f"\t{RED} 13 {Fore.WHITE}Dhl\t\tRedirect packages")
-    print(f"\t{RED} 14 {Fore.WHITE}Icloud\tIcloud generator")
-    print(f"\t{RED} 15 {Fore.WHITE}Outlook\tOutlook generator")
+    print(f"\t{RED} 14 {Fore.WHITE}Outlook\tOutlook generator")
     print(f"\t{RED} 00 {Fore.WHITE}Exit\tExit from Uzumaki\n")
 
     option = input("\t> choose: ")
@@ -318,10 +318,23 @@ def checking():
         exit_program()
 
 
+def isAdmin():
+    """
+    Returns True if the program is running with administrative privileges.
+    """
+
+    try:
+        is_admin = os.getuid() == 0
+    except AttributeError:
+        is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+    return is_admin
+
+
 def time_task():
     """
     Returns the current time formatted as a string.
     """
+
     now = datetime.datetime.now()
     return "[" + now.strftime("%H:%M:%S:%f") + "] "
 
@@ -330,6 +343,7 @@ def uzumaki():
     """
     Returns the name and version number of the program as a string.
     """
+
     return "[Uzumaki %s] " % VERSION
 
 

@@ -8,5 +8,4 @@ Uzumaki
 Uzumaki.spec
 Uzumaki/restock/credentials.json
 .mypy_cache
-
 __pycache__

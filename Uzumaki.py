@@ -19,12 +19,9 @@ from proxy.proxy import proxy
 from payout.payout import payout
 from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
-from generator.icloud import icloud
-from generator.yahoo import Yahoo
 from generator.outlook import Inizialize
 
 import colorama
-from pyuac import main_requires_admin
 
 OPTIONS = {
     "01": redirect,
@@ -40,18 +37,16 @@ OPTIONS = {
     "11": wethenew,
     "12": proxy,
     "13": dhlRedirect,
-    "14": icloud,
-    "15": Inizialize,
+    "14": Inizialize,
     "00": bye,
 }
 
 
-@main_requires_admin
 def main():
     colorama.init(wrap=True)
 
     # update()
-    checking()
+    # checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
