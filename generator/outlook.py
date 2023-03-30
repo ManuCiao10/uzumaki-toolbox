@@ -1,8 +1,7 @@
 import os
 import time
 from os import urandom
-from handler.utils import setTitleMode, print_task, load_settings
-from handler.utils import RED, BANNER, RESET, Fore, Style, WHITE, GREEN
+from handler.utils import *
 from tls_client import Session
 from re import findall
 from json import loads
@@ -30,7 +29,7 @@ def Inizialize(username):
         proxies = open("Uzumaki/proxies.txt", "r").read().splitlines()
         # check if file is empty
         if len(proxies) == 0:
-            print_task("Proxies file is empty", RED)
+            print_task("Please fill uzumaki/proxies.txt or outlook will fuck us", RED)
             time.sleep(2)
             return
     except Exception as e:
@@ -40,7 +39,7 @@ def Inizialize(username):
 
     try:
         settings = load_settings()
-        captcha_key = settings["captcha_key"]
+        captcha_key = settings["capsolver_key"]
 
     except Exception as e:
         print_task("Error loading settings" + str(e), RED)
@@ -54,7 +53,8 @@ def Inizialize(username):
         quantity = int(input(">>> "))
     except:
         print_task("Invalid quantity", RED)
-        print_task("using default quantity: 10", WHITE)
+        print_task("using default quantity: 3", WHITE)
+        quantity = 3
         time.sleep(3)
 
     for _ in range(quantity):
@@ -81,8 +81,15 @@ def register_loop(proxies: list, captcha_key: str):
                 f'registered account: [{account["MemberName"]}:...] {round(stop, 2)}s',
                 GREEN,
             )
-            with open("./data/accounts.txt", "a") as f:
-                f.write(f'{account["MemberName"]}:{account["password"]}\n')
+
+            with open(f"Uzumaki/accounts/outlook.txt", "a") as f:
+                if os.stat(f"Uzumaki/accounts/outlook.txt").st_size == 0:
+                    f.write("email:password\n")
+                if (
+                    account["MemberName"]
+                    not in open(f"Uzumaki/accounts/outlook.txt").read()
+                ):
+                    f.write(f'{account["MemberName"]}:{account["password"]}\n')
         else:
             print_task(f"register error: [{status}] {round(stop, 2)}s", RED)
 
@@ -222,7 +229,7 @@ class Outlook:
         first_name = get_first_name()
         last_name = get_last_name()
         email = f"{first_name}.{last_name}.{token}@outlook.com".lower()
-        password = email.encode("utf-8").hex() + ":Tek01sdsa12x@"
+        password = "UzumakiToolx@!"
 
         return {
             "password": password,
@@ -266,8 +273,8 @@ class Outlook:
         }
 
         if captcha_solved:
-            cap_token = Funcaptcha.getKey(this.proxies)
-            Outlook.log(f"solved captcha: [{cap_token[:100]}...]")
+            cap_token = Funcaptcha.getKey(this.proxies, this.captcha_key)
+            print_task(f"solved captcha: [{cap_token[:100]}...]", WHITE)
 
             payload.update(
                 {
@@ -290,7 +297,7 @@ class Outlook:
                     )
 
                     print_task(
-                        f"register resp: [{str(response.json())[:70]}...]", GREEN
+                        f"register resp: [{str(response.json())[:70]}...]", PURPLE
                     )
                     break
 

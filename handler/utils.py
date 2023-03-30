@@ -108,6 +108,7 @@ def checking():
         "Uzumaki/redirect_dhl",
         "Uzumaki/redirect_gls",
         "Uzumaki/proxy",
+        "Uzumaki/accounts",
     ]
 
     for directory in directories:
@@ -120,11 +121,15 @@ def checking():
         with open("Uzumaki/proxies.txt", "w") as f:
             print_task("proxies.txt created", GREEN)
 
+    if not os.path.exists("Uzumaki/accounts/outlook.txt"):
+        with open("Uzumaki/accounts/outlook.txt", "w") as f:
+            print_task("outlook.txt crated", GREEN)
+
     # ----settings.json----#
     setting = {
         "webhook": "WEBHOOK HERE",
         "key": "KEY HERE",
-        "captcha_key": "CAPTHA KEY HERE",
+        "capsolver_key": "CAPTHA KEY HERE",
     }
 
     if not os.path.exists("Uzumaki/settings.json"):
@@ -384,6 +389,9 @@ def load_settings():
         "settings.json",
         "../settings.json",
         "../../settings.json",
+        "../../../settings.json",
+        "../../../../settings.json",
+        "../../../../../settings.json",
     ]
 
     for path in paths:

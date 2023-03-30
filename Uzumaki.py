@@ -51,7 +51,7 @@ def main():
     colorama.init(wrap=True)
 
     # update()
-    # checking()
+    checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)
@@ -76,18 +76,3 @@ if __name__ == "__main__":
         print("\n")
         print_task("Key Interrupt", YELLOW)
         exit_program()
-
-
-# --------TO-IMPLEMENT-----------
-# cosign wethenew monitor + quicktask
-# gmail gen
-
-# --------TO-FIX-----------
-# gls redirect
-
-# --------UP_COMING-----------
-# ups redirect
-# newbalance module
-
-# --------QUESTION-----------
-# how to make people make money with this tool
