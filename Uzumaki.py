@@ -50,10 +50,8 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # Yahoo()
-    # Outlook()
     # update()
-    checking()
+    # checking()
     # processRunning()
     # username = auth()
     # reachPresence(username)

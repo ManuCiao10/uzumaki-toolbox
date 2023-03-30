@@ -379,30 +379,24 @@ def load_settings():
         dict: The settings as a dictionary.
     """
 
-    path = "Uzumaki/settings.json"
+    paths = [
+        "Uzumaki/settings.json",
+        "settings.json",
+        "../settings.json",
+        "../../settings.json",
+    ]
 
-    try:
-        with open(path, "r") as f:
-            settings = json.load(f)
-            return settings
-
-    except FileNotFoundError:
-        os.chdir("..")
+    for path in paths:
         try:
-            with open("settings.json", "r") as f:
+            with open(path, "r") as f:
                 settings = json.load(f)
                 return settings
         except FileNotFoundError:
             print_task("settings.json not found", RED)
-            print_task("check your folder", RED)
-            time.sleep(3)
-            return
-
-    except json.decoder.JSONDecodeError:
-        print_task("settings.json is corrupted", RED)
-        print_task("check your folder", RED)
-        time.sleep(3)
-        return
+            exit_program()
+        except json.decoder.JSONDecodeError:
+            print_task("settings.json is corrupted", RED)
+            exit_program()
 
 
 def bye(username):

@@ -1,12 +1,22 @@
 from requests import post
 from time import sleep
-from json import load
+
 import json
-from random import randint, choice
+import time
+from handler.utils import load_settings, print_task, RED, WHITE
+from random import choice
 
 
 class Funcaptcha:
-    key = load(open("./data/config.json"))["captcha_key"]
+    try:
+        settings = load_settings()
+        key = settings["captcha_key"]
+        print(key)
+
+    except Exception as e:
+        print_task("Error loading settings" + str(e), RED)
+        time.sleep(2)
+        exit()
 
     def getKey(proxy) -> str:
         proxy_selected = choice(proxy)
