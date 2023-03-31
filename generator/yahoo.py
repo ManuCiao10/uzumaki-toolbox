@@ -1,12 +1,67 @@
+import os
 import time
-import re
+
+from handler.utils import *
 from tls_client import Session
-import requests
+from threading import Thread
+from internal.security import processRunning
+
+
+def yahoo(username):
+    processRunning()
+    setTitleMode("GENERATOR YAHOO")
+
+    os.system("cls" if os.name == "nt" else "clear")
+
+    print(RED + BANNER + RESET)
+
+    print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
+
+    try:
+        proxies = open("Uzumaki/proxies.txt", "r").read().splitlines()
+        # check if file is empty
+        if len(proxies) == 0:
+            print_task("Please fill uzumaki/proxies.txt or yahoo will fuck us", RED)
+            time.sleep(2)
+            return
+    except Exception as e:
+        print_task("Error loading proxies" + str(e), RED)
+        time.sleep(2)
+        return
+
+    try:
+        settings = load_settings()
+        captcha_key = settings["capsolver_key"]
+
+    except Exception as e:
+        print_task("Error loading settings" + str(e), RED)
+        time.sleep(2)
+        return
+
+    # insert quantity
+    print_task("Insert quantity:", WHITE)
+
+    try:
+        quantity = int(input(">>> "))
+    except:
+        print_task("Invalid quantity", RED)
+        print_task("using default quantity: 3", WHITE)
+        quantity = 3
+        time.sleep(3)
+
+    for _ in range(quantity):
+        Thread(
+            target=Yahoo,
+            args=(
+                proxies,
+                captcha_key,
+            ),
+        ).start()
 
 
 class Yahoo:
-    def __init__(self, proxy: str = None):
-        self.client = requests.Session()
+    def __init__(self, proxy: str = None, captcha_key :str = None):
+        self.client = Session(client_identifier="chrome_108")
 
         self.headers = {
             "authority": "login.yahoo.com",
