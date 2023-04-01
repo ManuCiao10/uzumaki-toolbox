@@ -1,10 +1,14 @@
 import os
 import time
+import re
 
 from handler.utils import *
 from tls_client import Session
 from threading import Thread
 from internal.security import processRunning
+from names import get_first_name, get_last_name
+from os import urandom
+from generator.utils.sms import getPhone
 
 
 def yahoo(username):
@@ -52,16 +56,13 @@ def yahoo(username):
     for _ in range(quantity):
         Thread(
             target=Yahoo,
-            args=(
-                proxies,
-                captcha_key,
-            ),
+            args=(proxies, captcha_key),
         ).start()
 
 
 class Yahoo:
-    def __init__(self, proxy: str = None, captcha_key :str = None):
-        self.client = Session(client_identifier="chrome_108")
+    def __init__(self, proxy: str = None, captcha_key: str = None):
+        self.client = Session(client_identifier="chrome_111")
 
         self.headers = {
             "authority": "login.yahoo.com",
@@ -85,6 +86,7 @@ class Yahoo:
         }
 
         self.data_token = ""
+        self.password = "UzumakiToolx@!"
 
         return self.login()
 
@@ -111,6 +113,14 @@ class Yahoo:
             if match:
                 self.data_token = match.group(1)
 
+            # <input type="hidden" value="s0RwWUF2" name="acrumb">
+            match = re.search(
+                r'<input type="hidden" value="(.*?)" name="acrumb">', resp.text
+            )
+
+            if match:
+                self.acrumb = match.group(1)
+
             print("Successfull got session...")
         except Exception as e:
             print("error doing request" + str(e))
@@ -122,6 +132,11 @@ class Yahoo:
     def payload(self):
         print("getting payload...")
 
+        token = urandom(3).hex()
+        self.name = get_first_name()
+        self.surname = get_last_name()
+        self.email = f"{self.name}.{self.surname}{token}".lower()
+
         params = {
             "intl": "it",
             "specId": "yidregsimplified",
@@ -129,31 +144,103 @@ class Yahoo:
             "done": "https://www.yahoo.com",
         }
 
+        self.browser_fp_data = "browser-fp-data=%7B%22language%22%3A%22en-GB%22%2C%22colorDepth%22%3A30%2C%22deviceMemory%22%3A4%2C%22pixelRatio%22%3A2%2C%22hardwareConcurrency%22%3A8%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FRome%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22MacIntel%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%220b9799dd33522fb458a9aa13bea17079%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A27%2C%22hash%22%3A%22d52a1516cfb5f1c2d8a427c14bc3645f%22%7D%2C%22audio%22%3A%22122.8735701811529%22%2C%22resolution%22%3A%7B%22w%22%3A%221728%22%2C%22h%22%3A%221117%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%221020%22%2C%22h%22%3A%221728%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1680262528711%2C%22render%22%3A1680262529058%7D%7D"
+
         data = (
-            "browser-fp-data=%7B%22language%22%3A%22en-GB%22%2C%22colorDepth%22%3A24%2C%22deviceMemory%22%3A1%2C%22pixelRatio%22%3A2%2C%22hardwareConcurrency%22%3A7%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FRome%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22MacIntel%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%222d8b4607a01680e3ff172e1ccd83a02a%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22webglVendorAndRenderer%22%3A%22Google+Inc.+%28Google%29%7EANGLE+%28Google%2C+Vulkan+1.3.0+%28SwiftShader+Device+%28Subzero%29+%280x0000C0DE%29%29%2C+SwiftShader+driver%29%22%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A27%2C%22hash%22%3A%22d52a1516cfb5f1c2d8a427c14bc3645f%22%7D%2C%22audio%22%3A%22123.30898461164907%22%2C%22resolution%22%3A%7B%22w%22%3A%221440%22%2C%22h%22%3A%22900%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%22816%22%2C%22h%22%3A%221440%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1680035449265%2C%22render%22%3A1680035449771%7D%7D&specId=yidregsimplified&cacheStored=&crumb=&acrumb=X3z3MBBy&sessionIndex=&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=0&specData="
+            self.browser_fp_data
+            + "&specId=yidregsimplified&cacheStored=&crumb=&acrumb="
+            + self.acrumb
+            + "&sessionIndex=&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=0&specData="
             + self.data_token
-            + "&multiDomain=&tos0=oath_freereg%7Cit%7Cit-IT&firstName=emanuele&lastName=ardinghid&userid-domain=yahoo&userId=dcfgdddddddvhb&yidDomainDefault=yahoo.com&yidDomain=yahoo.com&password=jJ%23NK%2Bee%26sMDE5C&birthYear=2000&signup="
+            + "&multiDomain=&tos0=oath_freereg%7Cit%7Cit-IT&firstName="
+            + self.name
+            + "&lastName="
+            + self.surname
+            + "&userid-domain=yahoo&userId="
+            + self.email
+            + "&yidDomainDefault=yahoo.com&yidDomain=yahoo.com"
+            + "&password="
+            + self.password
+            + "&birthYear=2000&signup="
         )
+
         try:
             response = self.client.post(
                 "https://login.yahoo.com/account/create",
                 params=params,
                 data=data,
             )
+
             if response.status_code != 200:
                 print("error getting payload " + str(response.status_code))
                 time.sleep(2)
                 return self.payload()
 
-            if "It looks like something went" in response.text:
+            if (
+                "challenge-button pure-button puree-button-primary puree-spinner-button send-code"
+                not in response.text
+            ):
                 print("something went wrong " + str(response.status_code))
                 time.sleep(2)
                 return self.payload()
-
-            print("Successfull got payload")
-            # print(response.text)
 
         except Exception as e:
             print("error doing request " + str(e))
             time.sleep(2)
             return self.payload()
+
+        print("Successfull got payload")
+
+        # <input type="hidden" value="QQ--" name="sessionIndex">
+        self.sessionIndex = re.search(
+            r'<input type="hidden" value="(.*)" name="sessionIndex">', response.text
+        ).group(1)
+
+        self.crumb = re.search(
+            r'<input type="hidden" value="(.*)" name="crumb">', response.text
+        ).group(1)
+
+        self.specData = re.search(
+            r'<input type="hidden" value="(.*)" name="specData">', response.text
+        ).group(1)
+
+
+        # print(response.text)
+
+        return self.verify()
+
+    def verify(self):
+        print("verifying...")
+        self.country = "IT"
+        phone_number = "3662299420"
+
+        # get phone number from sms-activate
+        # id, phone_number = getPhone()
+        # respisne type => 1379189108 79059336349
+
+        # put phone number in the form
+        params = {
+            "intl": "it",
+            "specId": "yidregsimplified",
+            "done": "https://www.yahoo.com",
+            "context": "reg",
+        }
+
+        data = (self.browser_fp_data
+        +"&specId=yidregsimplified&cacheStored=&crumb=" + self.crumb
+        +"&acrumb=" + self.acrumb
+        +"&sessionIndex=" + self.sessionIndex
+        +"&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=1"
+        +"&specData=" + self.specData
+        +"&multiDomain=def&shortCountryCode=" + self.country
+        +"&phone=" + phone_number + "&signup=")
+
+        response = self.client.post(
+            "https://login.yahoo.com/account/create",
+            params=params,
+            data=data,
+            headers=self.headers,
+        )
+        print(response.text)
+        # get code from sms-activate
+        # put code in the form

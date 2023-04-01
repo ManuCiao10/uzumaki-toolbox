@@ -14,8 +14,6 @@ from random import randint, choice
 from names import get_first_name, get_last_name
 from datetime import datetime
 
-# https://www.capsolver.com
-
 
 def Inizialize(username):
     processRunning()

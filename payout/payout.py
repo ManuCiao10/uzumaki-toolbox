@@ -23,10 +23,6 @@ def payoutHandler(fileName, pid):
 
 
 def payout(username):
-    """Displays a list of tracking files and prompts the user to select one.
-    For each row in the selected file, launches a new thread to handle the tracking
-    for the given company."""
-
     processRunning()
     setTitleMode("payout")
 

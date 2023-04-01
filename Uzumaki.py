@@ -40,12 +40,19 @@ OPTIONS = {
     "13": dhlRedirect,
     "14": Inizialize,
     "15": yahoo,
+    # "16": gmail,
     "00": bye,
 }
 
 
 def main():
     colorama.init(wrap=True)
+
+    # from generator.utils.sms import getPhone
+
+
+    # verify_code = getPhone()
+    # print(verify_code)
 
     # update()
     # checking()
@@ -73,3 +80,6 @@ if __name__ == "__main__":
         print("\n")
         print_task("Key Interrupt", YELLOW)
         exit_program()
+
+
+#gmail - yahoo generator email

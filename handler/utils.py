@@ -498,7 +498,7 @@ def exit_program():
     Based on the operating system, the program will exit differently.
     """
 
-    time.sleep(2)
+    # time.sleep(2)
 
     if platform.system() == "Windows":
         os._exit(1)
