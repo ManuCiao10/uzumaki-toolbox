@@ -204,7 +204,6 @@ class Yahoo:
             r'<input type="hidden" value="(.*)" name="specData">', response.text
         ).group(1)
 
-
         # print(response.text)
 
         return self.verify()
@@ -221,19 +220,31 @@ class Yahoo:
         # put phone number in the form
         params = {
             "intl": "it",
+            "lang": "it-IT",
             "specId": "yidregsimplified",
-            "done": "https://www.yahoo.com",
+            "done": "https://www.yahoo.com/",
+            "altreg": "1",
             "context": "reg",
         }
 
-        data = (self.browser_fp_data
-        +"&specId=yidregsimplified&cacheStored=&crumb=" + self.crumb
-        +"&acrumb=" + self.acrumb
-        +"&sessionIndex=" + self.sessionIndex
-        +"&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=1"
-        +"&specData=" + self.specData
-        +"&multiDomain=def&shortCountryCode=" + self.country
-        +"&phone=" + phone_number + "&signup=")
+        data = (
+            self.browser_fp_data
+            + "&specId=yidregsimplified&cacheStored=&crumb=Xk9WdeE.L4K"
+            + "&acrumb="
+            + self.acrumb
+            + "&sessionIndex="
+            + self.sessionIndex
+            + "&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=1"
+            + "&specData="
+            + self.specData
+            + "&multiDomain=def&shortCountryCode="
+            + self.country
+            + "&phone="
+            + phone_number
+            + "&signup="
+        )
+
+        # data = 'browser-fp-data=%7B%22language%22%3A%22en-GB%22%2C%22colorDepth%22%3A30%2C%22deviceMemory%22%3A8%2C%22pixelRatio%22%3A2%2C%22hardwareConcurrency%22%3A4%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FRome%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22MacIntel%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%221046b850352ac59d69fbb6eb4400a833%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A27%2C%22hash%22%3A%22d52a1516cfb5f1c2d8a427c14bc3645f%22%7D%2C%22audio%22%3A%22123.28221746520285%22%2C%22resolution%22%3A%7B%22w%22%3A%221728%22%2C%22h%22%3A%221117%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%221020%22%2C%22h%22%3A%221728%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1680363802110%2C%22render%22%3A1680363802341%7D%7D&specId=yidregsimplified&cacheStored=&crumb=Xk9WdeE.L4K&acrumb=TQHbMJK3&sessionIndex=Qg--&done=https%3A%2F%2Fwww.yahoo.com%2F&googleIdToken=&authCode=&attrSetIndex=1&specData=2gHG8i3V8DLbrqyTQpAaQmFn%2FwMAZ45qhqvxJlJuOnGQBvIvg8p79jNb%2FkBe0WhNLIEhDpsAg8Yk98%2B%2FmA8Jmf%2BhuchRNJuFiYQPGL4pvg4gqAycJru4W4acXTY%2FhfgDFRG6hvVHZP1BId4xfBpQ7xLAS92zLj1TngaOgwMlJDJcL8WR7%2FPb0FjYxzoRggH%2BBhEzVEDloCrODYVcY7V95vhDaPOIt94zGWqsBAgng%2B9pGChJ%2FZruU8qYArOo9gIhjNshrHmmzatbQCMQN%2B3kmcqHoRV1QpDLdpQwGRssbGGzOUOyjcLYuYW%2BjUHBaLyx2cw96h%2FYNaocImo92hFP8ZL0KZNab93XhbezamgeiviR3DFG9dv91d48F4153KddrhCNFRXiR%2F6KXhC3ZF2JVbRxR3IuwtNj7qpCdXBFodP4CdSMBf4%2FbIO6omXqyB43mZaBWdYtz61r3yoWUT5PIsUcsuu89qFyKRBSdlNyNhizonEj0FBAx0pTVjPeT%2BQhqyrH5fkeMdRryB6ipC8mLm8okFOGbbqkhWqhR14cy2Q5I7dxkzD2P%2B9PGTcgKtLh1AphjfSJZ2BTYlfhlgUuVS8cygqxJEP7Ig3KI70yT0omsowrf0UViwHYxu76k9GkVwSiwKjHMnzESaTGZwfYxNF8ah%2FYtccAq1sXXujilMJ8%2BXetVEGeHDDTK35%2F%2FMLX3zlDustuFLpoNlT1JtoW4YK07FTa1Qe1sP7LpW378pTHsp4qdprbdQx7VhwJVu2oEfdBCVQCPBhW%2FpIlSG%2F7E%2FJSiVGLPRZhZMVZbZJiv0E%2FCyEcTwDLiBCeBmQzZ1aeE7mnHA1jKPIabt3xbAbfki29unbusSz7gbQk7Is%3D%7CGJKMYHTf6nZWa3K5CUYv5w%3D%3D%7CAOkXxO425sYKGocoRg5fVQ%3D%3D&multiDomain=def&shortCountryCode=IT&phone=3662299421&signup='
 
         response = self.client.post(
             "https://login.yahoo.com/account/create",

@@ -136,17 +136,22 @@ class Outlook:
         )
 
     def __init_client(this):
-        content = this.client.get(
-            "https://signup.live.com/signup?lic=1",
-            headers={
-                "host": "signup.live.com",
-                "accept": "*/*",
-                "accept-encoding": "gzip, deflate, br",
-                "connection": "keep-alive",
-                "user-agent": this.userAgent,
-            },
-        )
-
+        try:
+            content = this.client.get(
+                "https://signup.live.com/signup?lic=1",
+                headers={
+                    "host": "signup.live.com",
+                    "accept": "*/*",
+                    "accept-encoding": "gzip, deflate, br",
+                    "connection": "keep-alive",
+                    "user-agent": this.userAgent,
+                },
+            )
+        except Exception as e:
+            print_task("Error loading client" + str(e), RED)
+            time.sleep(2)
+            
+            
         this.Key, this.randomNum, this.SKI = findall(
             r'Key="(.*?)"; var randomNum="(.*?)"; var SKI="(.*?)"', content.text
         )[0]
@@ -188,13 +193,13 @@ class Outlook:
 
     def __handle_error(this, code: str) -> str:
         errors = {
-            "403": "Bad Username",
+            "403":  "Bad Username",
             "1040": "SMS Needed",
             "1041": "Enforcement Captcha",
             "1042": "Text Captcha",
             "1043": "Invalid Captcha",
             "1312": "Captcha Error",
-            "450": "Daily Limit Reached",
+            "450":  "Daily Limit Reached",
             "1304": "OTP Invalid",
             "1324": "Verification SLT Invalid",
             "1058": "Username Taken",
@@ -220,7 +225,7 @@ class Outlook:
             "1330": "Password Required",
             "1256": "Invalid Email",
             "1334": "Eviction Warning Required",
-            "100": "Bad Register Request",
+            "100":  "Bad Register Request",
         }
 
         return errors[code]
@@ -252,7 +257,7 @@ class Outlook:
             "MemberNameUnavailableCount": 0,
             "CipherValue": this.cipher,
             "SKI": this.SKI,
-            "Country": "CA",
+            "Country": "IT",
             "AltEmail": None,
             "IsOptOutEmailDefault": True,
             "IsOptOutEmailShown": True,
@@ -265,8 +270,8 @@ class Outlook:
             "SignupReturnUrl": None,
             "uiflvr": 1001,
             "uaid": this.uaid,
-            "SuggestedAccountType": "OUTLOOK",
-            "SuggestionType": "Locked",
+            "SuggestedAccountType": "EASI",
+            "SuggestionType": "Prefer",
             "encAttemptToken": this.encAttemptToken,
             "dfpRequestId": this.dfpRequestId,
             "scid": 100118,
@@ -287,7 +292,7 @@ class Outlook:
 
         return payload
 
-    def register_account(this, captcha_solved: bool = False) -> dict and str:
+    def register_account(this, captcha_solved: bool = True) -> dict and str:
         try:
             for _ in range(3):
                 try:
@@ -304,7 +309,7 @@ class Outlook:
 
                 except Exception as e:
                     print_task(f"http error [{e}]", RED)
-                    time.sleep(2)
+                    time.sleep(1)
                     continue
 
             error = response.json().get("error")
@@ -315,6 +320,8 @@ class Outlook:
 
                     this.encAttemptToken = error_data["encAttemptToken"]
                     this.dfpRequestId = error_data["dfpRequestId"]
+
+                    print_task(f"captcha needed: [{code}]", YELLOW)
 
                     return this.register_account(True)
 

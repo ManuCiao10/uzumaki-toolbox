@@ -48,12 +48,6 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # from generator.utils.sms import getPhone
-
-
-    # verify_code = getPhone()
-    # print(verify_code)
-
     # update()
     # checking()
     # processRunning()
@@ -82,4 +76,6 @@ if __name__ == "__main__":
         exit_program()
 
 
+#DHL pickup
+#macOS Version to get more client
 #gmail - yahoo generator email
