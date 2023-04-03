@@ -11,7 +11,6 @@ from handler.gls import glsRedirect
 from handler.dhlRedirect import dhlRedirect
 
 from tracker.tracker import tracker
-
 from internal.security import processRunning
 from internal.pickup import pickup
 
@@ -20,7 +19,6 @@ from payout.payout import payout
 from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
 from generator.outlook import Inizialize
-from generator.yahoo import yahoo
 
 import colorama
 
@@ -39,7 +37,7 @@ OPTIONS = {
     "12": proxy,
     "13": dhlRedirect,
     "14": Inizialize,
-    "15": yahoo,
+    # "15": yahoo,
     # "16": gmail,
     "00": bye,
 }
@@ -76,6 +74,8 @@ if __name__ == "__main__":
         exit_program()
 
 
-#DHL pickup
+#fix Monitor Wethenew
+#fix Payout Restock Mode on Windows
 #macOS Version to get more client
-#gmail - yahoo generator email
+#gmail - yahoo - icloud generator email
+#Airness and Oqium Monitor

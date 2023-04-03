@@ -280,7 +280,7 @@ class Outlook:
 
         if captcha_solved:
             cap_token = Funcaptcha.getKey(this.proxies, this.captcha_key)
-            print_task(f"solved captcha: [{cap_token[:100]}...]", WHITE)
+            print_task(f"solved captcha: [{cap_token[:100]}...]", BLUE)
 
             payload.update(
                 {
@@ -292,10 +292,12 @@ class Outlook:
 
         return payload
 
-    def register_account(this, captcha_solved: bool = True) -> dict and str:
+    def register_account(this, captcha_solved: bool = False) -> dict and str:
         try:
             for _ in range(3):
                 try:
+                    print_task(f"registering account...", WHITE)
+
                     response = this.client.post(
                         "https://signup.live.com/API/CreateAccount?lic=1",
                         json=this.__base_payload(captcha_solved),
@@ -309,13 +311,12 @@ class Outlook:
 
                 except Exception as e:
                     print_task(f"http error [{e}]", RED)
-                    time.sleep(1)
                     continue
 
             error = response.json().get("error")
             if error:
                 code = error.get("code")
-                if "1041" in code:
+                if "1041" or "1040" in code:
                     error_data = loads(error.get("data"))
 
                     this.encAttemptToken = error_data["encAttemptToken"]

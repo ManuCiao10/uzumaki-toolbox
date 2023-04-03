@@ -23,7 +23,6 @@ class Funcaptcha:
 
         status = ""
         while status == "" or status == "processing":
-            sleep(1)
             task = post(
                 "https://api.capsolver.com/getTaskResult",
                 json={"clientKey": key, "taskId": req.json()["taskId"]},
