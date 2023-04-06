@@ -70,7 +70,7 @@ def banner(username):
     print(f"\t{RED} 07 {Fore.WHITE}Email\tUnsubscriber")
     print(f"\t{RED} 08 {Fore.WHITE}Gls\t\tRedirect packages [LOCKED]")
     print(f"\t{RED} 09 {Fore.WHITE}Schedule\tSchedule a ups pickup")
-    print(f"\t{RED} 10 {Fore.WHITE}Payout\tRestock")
+    print(f"\t{RED} 10 {Fore.WHITE}Payout\tRestock [LOCKED]")
     print(f"\t{RED} 11 {Fore.WHITE}Quicktask\tWethenew Quicktask")
     print(f"\t{RED} 12 {Fore.WHITE}Proxy\tProxy Scraper")
     print(f"\t{RED} 13 {Fore.WHITE}Dhl\t\tRedirect packages")
