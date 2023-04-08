@@ -326,7 +326,6 @@ class Yahoo:
             "https://login.yahoo.com/account/create", params=params, data=data
         )
 
-
         if "error?code=E500" in response.text:
             print("error getting code " + str(response.status_code))
             time.sleep(5)
