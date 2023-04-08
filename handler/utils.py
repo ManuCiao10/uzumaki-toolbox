@@ -10,6 +10,8 @@ from logtail import LogtailHandler
 import time
 import platform
 import sys
+import hashlib
+import getpass
 
 PURPLE = "\033[95m"
 CYAN = "\033[96m"
@@ -504,3 +506,22 @@ def exit_program():
         os._exit(1)
     elif platform.system() == "Darwin":
         sys.exit()
+
+
+def get_hwid():
+    # sha256(Disk Serials (sep by comma) + Computer Name + Running User)
+
+    disk_serials = ",".join(
+        [
+            os.environ.get("SystemSerialNumber", ""),
+            os.environ.get("SystemUUID", ""),
+            os.environ.get("DiskSerialNumber", ""),
+        ]
+    )
+    computer_name = platform.node()
+    running_user = getpass.getuser()
+    hwid_input = disk_serials + computer_name + running_user
+    hwid_bytes = hwid_input.encode("utf-8")
+    hwid_hash = hashlib.sha256(hwid_bytes).hexdigest()
+
+    return hwid_hash

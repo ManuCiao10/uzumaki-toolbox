@@ -1,7 +1,7 @@
 from handler.utils import *
 from handler.redirect import redirect
 from handler.geocode import geocode
-from handler.auth import auth, update, authWhop
+from handler.auth import update, authWhop
 from handler.jigger import jigger
 from handler.scraperOrder import scraperOrder
 from handler.presence import reachPresence
@@ -51,10 +51,10 @@ def main():
     # checking()
     # processRunning()
     # username = auth()
-    # username = authWhop()
+    username = authWhop()
     # reachPresence(username)
     # setTitle()
-    username = "dev"
+    # username = "dev"
 
     while True:
         option = banner(username)

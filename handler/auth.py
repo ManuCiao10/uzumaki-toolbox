@@ -12,25 +12,6 @@ GITHUB_API_KEY = "***REMOVED***"
 WHOP_API_KEY = "***REMOVED***"
 
 
-def get_hwid():
-    # sha256(Disk Serials (sep by comma) + Computer Name + Running User)
-
-    disk_serials = ",".join(
-        [
-            os.environ.get("SystemSerialNumber", ""),
-            os.environ.get("SystemUUID", ""),
-            os.environ.get("DiskSerialNumber", ""),
-        ]
-    )
-    computer_name = platform.node()
-    running_user = getpass.getuser()
-    hwid_input = disk_serials + computer_name + running_user
-    hwid_bytes = hwid_input.encode("utf-8")
-    hwid_hash = hashlib.sha256(hwid_bytes).hexdigest()
-
-    return hwid_hash
-
-
 # class Login(BaseModel):
 #     licenseKey: str
 #     HWID: str  #: sha256(Disk Serials (sep by comma) + Computer Name + Running User)
@@ -68,25 +49,14 @@ def authWhop() -> str:
 
     try:
         response = response.json()
-        print(response)
     except requests.exceptions.JSONDecodeError:
         print_task("Backend login error.", RED)
         exit_program()
 
-    if response.get("message"):
-        if response["message"] == "Please reset your key to use on a new machine":
-            print_task("HWID does not match current computer's HWID.", RED)
-            exit_program()
-
-        if response["message"] == "Not found":
-            print_task("License key not found.", RED)
-            exit_program()
-
-        if response["message"] == "Please confirm your API token":
-            print_task("Backend API Key Error", RED)
-            exit_program()
-
-        print_task("Unknown error...", RED)
+    error = response.get("error")
+    if error and error.get("message"):
+        error_msg = error["message"]
+        print_task(error_msg, RED)
         exit_program()
 
     if response.get("banned"):
@@ -97,24 +67,17 @@ def authWhop() -> str:
         print_task("License key is marked as a scammer.", RED)
         exit_program()
 
-    if not response.get("valid"):
+    if response.get("valid") != True:
         print_task("License key is invalid.", RED)
         exit_program()
 
-    if any(
-        [response["key_status"] == "approved", response["key_status"] == "listed"]
-    ) and any(
-        [
-            response["subscription_status"] == "completed",
-            response["subscription_status"] == "active",
-            response["subscription_status"] == "trialing",
-        ]
-    ):
-        # return username
-        return response["discord"]["discord_account_id"]
-
-    print_task("License Unknown key is invalid.", RED)
-    exit_program()
+    discord_info = response.get("discord")
+    if discord_info and "username" in discord_info:
+        username = discord_info["username"]
+        return username.split("#")[0]
+    else:
+        print_task("Discord info not found.", RED)
+        exit_program()
 
 
 def getGithubVersion():
@@ -209,39 +172,39 @@ def update():
         exit_program()
 
 
-def get_license(license_key):
-    headers = {
-        "Authorization": f"Bearer {HYPER_API_KEY}",
-    }
+# def get_license(license_key):
+#     headers = {
+#         "Authorization": f"Bearer {HYPER_API_KEY}",
+#     }
 
-    req = requests.get(
-        f"https://api.hyper.co/v6/licenses/{license_key}", headers=headers
-    )
-    if req.status_code == 200:
-        return req.json()
+#     req = requests.get(
+#         f"https://api.hyper.co/v6/licenses/{license_key}", headers=headers
+#     )
+#     if req.status_code == 200:
+#         return req.json()
 
-    return None
+#     return None
 
 
-def auth():
-    settings = load_settings()
-    webhook = settings["webhook"]
-    key = settings["key"]
+# def auth_hyper():
+#     settings = load_settings()
+#     webhook = settings["webhook"]
+#     key = settings["key"]
 
-    if not key or key == "KEY HERE":
-        print_task("please set key...", RED)
-        exit_program()
+#     if not key or key == "KEY HERE":
+#         print_task("please set key...", RED)
+#         exit_program()
 
-    license_data = get_license(key)
+#     license_data = get_license(key)
 
-    if not license_data:
-        print_task("Invalid license key!", RED)
-        exit_program()
+#     if not license_data:
+#         print_task("Invalid license key!", RED)
+#         exit_program()
 
-    username = license_data.get("integrations").get("discord").get("username")
+#     username = license_data.get("integrations").get("discord").get("username")
 
-    if not webhook or webhook == "WEBHOOK HERE":
-        print_task("please set webhook...", RED)
-        exit_program()
+#     if not webhook or webhook == "WEBHOOK HERE":
+#         print_task("please set webhook...", RED)
+#         exit_program()
 
-    return username
+#     return username
