@@ -1,0 +1,22 @@
+FROM python:3.11
+
+
+#Labels as key value pair
+LABEL Maintainer="@manuciao"
+
+
+#to COPY the remote file at working directory in container
+COPY main.py .
+COPY wethenew/backendlink.py .
+COPY wethenew/start.py .
+COPY wethenew/wethenewTypes.py .
+COPY requirements.txt .
+COPY wethenew/* wethenew/
+
+
+#to install the required packages requirements.txt
+RUN pip install -r requirements.txt
+
+
+
+CMD ["python", "./main.py"]

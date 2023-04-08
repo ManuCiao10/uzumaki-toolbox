@@ -77,22 +77,12 @@ if __name__ == "__main__":
 
 
 # ----monitor----#
-# -freebies-#
-# -nike-#
 # -kith-#
 # -ticketmaster-#
 # -wethenew-#
-# -ssense-#
 
 # ----generator----#
 # -gmail-#
 # -yahoo-#
 # -icloud-#
 
-# ----platform----#
-# -MacOs-#
-
-# ----dashboard----#
-# -ChangeDashboard-#
-
-# fix security bot stuff
