@@ -50,11 +50,10 @@ def main():
     # update()
     # checking()
     # processRunning()
-    # username = auth()
-    username = authWhop()
+    # username = authWhop()
     # reachPresence(username)
     # setTitle()
-    # username = "dev"
+    username = "dev"
 
     while True:
         option = banner(username)
@@ -79,10 +78,8 @@ if __name__ == "__main__":
 # ----monitor----#
 # -kith-#
 # -ticketmaster-#
-# -wethenew-#
 
 # ----generator----#
 # -gmail-#
 # -yahoo-#
 # -icloud-#
-

@@ -7,7 +7,7 @@ import hashlib
 import os
 import getpass
 
-HYPER_API_KEY = "***REMOVED***"
+# HYPER_API_KEY = "***REMOVED***"
 GITHUB_API_KEY = "***REMOVED***"
 WHOP_API_KEY = "***REMOVED***"
 
@@ -24,7 +24,7 @@ def authWhop() -> str:
     licenseKey = settings["key"]
 
     if not licenseKey or licenseKey == "KEY HERE":
-        print_task("please set key...", RED)
+        print_task("please set key... [from Whop dashboard]", RED)
         exit_program()
 
     if not webhook or webhook == "WEBHOOK HERE":
@@ -172,7 +172,7 @@ def update():
         exit_program()
 
 
-# def get_license(license_key):
+# def get_license_hyper(license_key):
 #     headers = {
 #         "Authorization": f"Bearer {HYPER_API_KEY}",
 #     }

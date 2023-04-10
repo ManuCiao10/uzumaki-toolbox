@@ -500,12 +500,12 @@ def exit_program():
     Based on the operating system, the program will exit differently.
     """
 
-    # time.sleep(2)
+    time.sleep(2)
 
-    if platform.system() == "Windows":
+    if os.name == "nt":
         os._exit(1)
-    elif platform.system() == "Darwin":
-        sys.exit()
+    else:
+        sys.exit(1)
 
 
 def get_hwid():

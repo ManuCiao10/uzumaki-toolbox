@@ -67,7 +67,6 @@ def getStoreData():
                 )
 
     for data in response.json()["objects"]:
-
         id = data.get("id")  # get the id
         name = data.get("name")  # get the name
         address = data.get("address").get("address1")  # get the address

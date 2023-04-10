@@ -15,7 +15,6 @@ def webhook(
     name_store: str,
     slug: str,
 ):
-
     array_address = []
     array_sizes = []
     embee = []

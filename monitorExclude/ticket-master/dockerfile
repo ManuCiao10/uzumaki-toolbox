@@ -1,0 +1,25 @@
+FROM python:3.11
+
+
+#Labels as key value pair
+LABEL Maintainer="@manuciao"
+
+
+#to COPY the remote file at working directory in container
+COPY main.py .
+COPY nike/backendlink.py .
+COPY nike/start.py .
+COPY nike/helper.py .
+COPY nike/webhook.py .
+COPY nike/nikeTypes.py .
+COPY nike/threads.py .
+COPY requirements.txt .
+COPY nike/* nike/
+
+
+#to install the required packages requirements.txt
+RUN pip install -r requirements.txt
+
+
+
+CMD ["python", "./main.py"]
