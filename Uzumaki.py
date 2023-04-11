@@ -19,7 +19,7 @@ from payout.payout import payout
 from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
 from generator.outlook import Inizialize
-from generator.yahoo import yahoo
+
 
 import colorama
 
@@ -38,7 +38,7 @@ OPTIONS = {
     "12": proxy,
     "13": dhlRedirect,
     "14": Inizialize,
-    "15": yahoo,
+    # "15": yahoo,
     # "16": gmail,
     "00": bye,
 }
@@ -47,13 +47,13 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # update()
-    # checking()
-    # processRunning()
-    # username = authWhop()
-    # reachPresence(username)
-    # setTitle()
-    username = "dev"
+    update()
+    checking()
+    processRunning()
+    username = authWhop()
+    reachPresence(username)
+    setTitle()
+    # username = "dev"
 
     while True:
         option = banner(username)

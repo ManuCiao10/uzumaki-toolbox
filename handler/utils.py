@@ -25,7 +25,7 @@ BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
 TAB = "\t"
 WHITE = "\033[97m"
-VERSION = "0.0.37"
+VERSION = "0.0.38"
 
 init()
 

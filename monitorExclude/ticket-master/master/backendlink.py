@@ -32,7 +32,6 @@ def BackendLinkFlow(URL: str, parentThread: Thread):
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
     }
-    
 
     while True:
         session = requests.Session()
@@ -96,7 +95,7 @@ def BackendLinkFlow(URL: str, parentThread: Thread):
                 endDate = json_data["endDate"].split("T")[0]
 
                 dict_data = list()
-                
+
                 for ticket_type in json_data["offers"]["offers"]:
                     name = ticket_type["name"]
                     dict_data.append({"name": name})
@@ -116,7 +115,9 @@ def BackendLinkFlow(URL: str, parentThread: Thread):
                     if "Attualmente non disponibile" in soup.get_text():
                         stock = "OOS"
                     else:
-                        select_tag = soup.find("select", {"name": lambda x: x and "idProductItemQta" in x})
+                        select_tag = soup.find(
+                            "select", {"name": lambda x: x and "idProductItemQta" in x}
+                        )
                         stock = select_tag["qtqtymax"]
 
                     # data_list.append([price, stock, name])
@@ -137,7 +138,7 @@ def webhook(
     webhook_uzumaki = "WEBHOOK_HERE"
 
     embee = []
-    
+
     print(ticket_info)
 
     for ticket in ticket_info:
@@ -145,7 +146,7 @@ def webhook(
         embee.append(
             {
                 "name": ticket[0],
-                "value": ticket[1] + "["+ ticket[2] + "]",
+                "value": ticket[1] + "[" + ticket[2] + "]",
                 "inline": False,
             }
         )
@@ -182,4 +183,5 @@ def webhook(
     except:
         print("An unexpected error occurred")
 
-#add row to the table
+
+# add row to the table
