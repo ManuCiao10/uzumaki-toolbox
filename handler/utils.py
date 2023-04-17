@@ -37,7 +37,7 @@ BANNER = (
     / /     \(  )/    -----
    //////   ' \/ '   ---            ┏───────────────────────────────┓
   //// / // :    : ---              │    WELCOME TO UZUMAKI TOOLS   │
- // /   /  /'    '--                │ https://uzumakitools.hyper.co │
+ // /   /  /'    '--                │   https://whop.com//uzumaki   │
 //           /..\                   │            v.%s           │
        ====UU====UU====             └───────────────────────────────┘
             ./||\.
@@ -55,7 +55,7 @@ def banner(username):
     user_permission = "admin" if isAdmin() else "user"
 
     print(
-        f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()}{Fore.WHITE}\tPERMISSION: {RED}{user_permission.upper()} {Style.RESET_ALL}\n"
+        f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()}{Fore.WHITE}\n"
     )
 
     print(
@@ -63,7 +63,6 @@ def banner(username):
     )
 
     print(f"\t{RED} 01 {Fore.WHITE}Brt\t\tRedirect packages")
-    print(f"\t{RED} 02 {Fore.WHITE}Gls\t\tRedirect packages")
     print(f"\t{RED} 02 {Fore.WHITE}Tracker\tOrder Tracker")
     print(f"\t{RED} 03 {Fore.WHITE}Geocode\tGeocode address")
     print(f"\t{RED} 04 {Fore.WHITE}Jigger\tCsv filler Jig")

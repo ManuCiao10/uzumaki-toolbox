@@ -281,6 +281,7 @@ def handle_brt_request_success(
 
 def brt_tracking_redirect(tracking, name, phone, address, city, state, zip_code, email):
     base_url = "https://vas.brt.it/vas/"
+    
     print_task(f"[brt {tracking}] getting tracking info", PURPLE)
 
     headers = {

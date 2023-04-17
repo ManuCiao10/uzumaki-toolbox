@@ -19,6 +19,7 @@ from payout.payout import payout
 from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
 from generator.outlook import Inizialize
+from generator.yahoo import yahoo
 
 
 import colorama
@@ -47,13 +48,14 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    update()
-    checking()
-    processRunning()
-    username = authWhop()
-    reachPresence(username)
-    setTitle()
-    # username = "dev"
+    # update()
+    # checking()
+    # processRunning()
+    # username = authWhop()
+    # reachPresence(username)
+    # setTitle()
+    username = "dev"
+    # yahoo(username=username)
 
     while True:
         option = banner(username)
@@ -75,11 +77,6 @@ if __name__ == "__main__":
         exit_program()
 
 
-# ----monitor----#
-# -kith-#
-# -ticketmaster-#
-
 # ----generator----#
 # -gmail-#
 # -yahoo-#
-# -icloud-#

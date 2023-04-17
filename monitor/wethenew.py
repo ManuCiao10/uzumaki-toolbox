@@ -86,10 +86,10 @@ def wethenew(username):
 
 def payload(email: str, password: str) -> tuple:
     print_task(f"starting Wethenew QuickTask", PURPLE)
-
+    key_capthca = "INSERT KEY"
     session = tls_client.Session(client_identifier="chrome_105")
 
-    solver = TwoCaptcha("2715cf93c9fb0ef644a452ba7a6990f1")
+    solver = TwoCaptcha(key_capthca)
     sitekey = "6LeJBSAdAAAAACyoWxmCY7q5G-_6GnKBdpF4raee"
     url_key = "https://sell.wethenew.com/login"
 
