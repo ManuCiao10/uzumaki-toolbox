@@ -1,33 +1,5 @@
-from pyVoIP.VoIP import VoIPPhone, InvalidStateError, CallState
-import time
-import wave
 from handler.utils import *
-
-
-def answer(call):
-    try:
-        f = wave.open("announcment.wav", "rb")
-        frames = f.getnframes()
-        data = f.readframes(frames)
-        f.close()
-
-        call.answer()
-        call.write_audio(
-            data
-        )  # This writes the audio data to the transmit buffer, this must be bytes.
-
-        stop = time.time() + (
-            frames / 8000
-        )  # frames/8000 is the length of the audio in seconds. 8000 is the hertz of PCMU.
-
-        while time.time() <= stop and call.state == CallState.ANSWERED:
-            time.sleep(0.1)
-        call.hangup()
-    except InvalidStateError:
-        pass
-    except:
-        print_task("Failed to initiate the session", RED)
-        call.hangup()
+import requests
 
 
 def ups(username):
@@ -37,22 +9,80 @@ def ups(username):
 
     print(f"{Fore.WHITE}WELCOME BACK: {Fore.RED}{username.upper()}{Style.RESET_ALL}\n")
 
-    username = "5406532021"
-    password = "Es9P8t2Z"
-    myIP = ""
-    domain = "sip.messagenet.it"
-    port = 5061
+    print("starting ups redirect...\n")
 
-    phone = VoIPPhone(
-        server=domain,
-        port=port,
-        username=username,
-        password=password,
-        myIP=myIP,
-        callCallback=answer,
+    session = requests.Session()
+
+    tracknum = "1ZJ71VT56829494447"
+
+    referer = f"https://www.ups.com/track?loc=en_IT&tracknum={tracknum}&requester=ST/trackdetails"
+
+    headers = {
+        "authority": "www.ups.com",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "referer": referer,
+        "sec-ch-ua": '"Brave";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-user": "?1",
+        "sec-gpc": "1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+    }
+
+    params = {
+        "clientId": "TRK",
+        "loc": "en_IT",
+        "trackingNumber": tracknum,
+        "infoNoticeNum": "",
+        "returnToURL": f"/track?loc=en_IT&tracknum={tracknum}&src=&requester=",
+    }
+
+    response = session.get(
+        "https://www.ups.com/deliverychange",
+        params=params,
+        headers=headers,
     )
 
-    phone.start()
-    time.sleep(3)
-    phone.stop()
-    return
+    headers = {
+        "authority": "www.ups.com",
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "content-type": "application/json",
+        "origin": "https://www.ups.com",
+        "sec-ch-ua": '"Brave";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "sec-gpc": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+    }
+
+    json_data = {
+        "trackingNumber": tracknum,
+        "infoNoticeNumber": "",
+        "loc": "en_IT",
+        "isADBD": False,
+        "isAC": False,
+        "userID": "ManuCiao10",
+        "param1": "",
+        "inqType": None,
+        "clientUrl": f"https://www.ups.com/deliverychange?clientId=TRK&loc=en_IT&trackingNumber={tracknum}&infoNoticeNum=",
+        "isAnonymousSendBack": False,
+        "isShipper": False,
+        "dcrReturn": "0",
+    }
+
+    response = requests.post(
+        "https://www.ups.com/deliverychange/api/Entry/GetEntryInformation",
+        headers=headers,
+        json=json_data,
+    )
+
+    print(response.text)
