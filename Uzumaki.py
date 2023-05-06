@@ -57,7 +57,6 @@ def main():
     # reachPresence(username)
     # setTitle()
     username = "dev"
-    # yahoo(username=username)
 
     while True:
         option = banner(username)
@@ -77,8 +76,3 @@ if __name__ == "__main__":
         print("\n")
         print_task("Key Interrupt", YELLOW)
         exit_program()
-
-
-# ----generator----#
-# -gmail-#
-# -yahoo-#

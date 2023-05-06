@@ -13,7 +13,7 @@ def ups(username):
 
     session = requests.Session()
 
-    tracknum = "1ZJ71VT56829494447"
+    tracknum = "1Z175Y406893005280"
 
     referer = f"https://www.ups.com/track?loc=en_IT&tracknum={tracknum}&requester=ST/trackdetails"
 
@@ -48,12 +48,14 @@ def ups(username):
         headers=headers,
     )
 
+    referer = f"https://www.ups.com/deliverychange/?clientId=TRK&loc=en_IT&trackingNumber={tracknum}&infoNoticeNum=&returnToURL=%2Ftrack%3Floc%3Den_IT%26tracknum%3D{tracknum}%26src%3D%26requester%3D"
     headers = {
         "authority": "www.ups.com",
         "accept": "application/json, text/plain, */*",
         "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
         "content-type": "application/json",
         "origin": "https://www.ups.com",
+        "referer": referer,
         "sec-ch-ua": '"Brave";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": '"macOS"',
@@ -73,13 +75,12 @@ def ups(username):
         "userID": "ManuCiao10",
         "param1": "",
         "inqType": None,
-        "clientUrl": f"https://www.ups.com/deliverychange?clientId=TRK&loc=en_IT&trackingNumber={tracknum}&infoNoticeNum=",
-        "isAnonymousSendBack": False,
+        "clientUrl": "",
         "isShipper": False,
         "dcrReturn": "0",
     }
 
-    response = requests.post(
+    response = session.post(
         "https://www.ups.com/deliverychange/api/Entry/GetEntryInformation",
         headers=headers,
         json=json_data,
