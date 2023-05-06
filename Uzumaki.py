@@ -9,6 +9,7 @@ from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
 from handler.gls import glsRedirect
 from handler.dhlRedirect import dhlRedirect
+from handler.upsRedirect import ups
 
 from tracker.tracker import tracker
 from internal.security import processRunning
@@ -39,8 +40,9 @@ OPTIONS = {
     "12": proxy,
     "13": dhlRedirect,
     "14": Inizialize,
-    # "15": yahoo,
+    "15": yahoo,
     # "16": gmail,
+    "17": ups,
     "00": bye,
 }
 
