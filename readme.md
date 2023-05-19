@@ -1,4 +1,4 @@
-<kbd> <img width="646" alt="Screenshot 2023-05-19 at 23 06 03" src="https://github.com/ManuCiao10/UzumakiTools/assets/89024276/d214cf17-5be1-46a9-8c29-005683452622">  </kbd>
+<kbd> <img alt=img" src="https://github.com/ManuCiao10/UzumakiTools/assets/89024276/d214cf17-5be1-46a9-8c29-005683452622">  </kbd>
 
 #### Features
 
