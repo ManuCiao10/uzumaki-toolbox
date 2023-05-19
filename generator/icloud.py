@@ -63,12 +63,12 @@ def getSession(self):
 def getPayload(self):
     json_data = {
         "account": {
-            "name": "francesc.palombo@gmail.com",
-            "password": "PASSWORD",
+            "name": "pierino@gmail.com",
+            "password": "IAododood",
             "person": {
                 "name": {
-                    "firstName": "emanuele",
-                    "lastName": "ardinghi",
+                    "firstName": "peirim",
+                    "lastName": "giacomo",
                 },
                 "birthday": "2000-11-02",
                 "primaryAddress": {

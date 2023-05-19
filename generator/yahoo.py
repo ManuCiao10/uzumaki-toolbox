@@ -1,4 +1,3 @@
-
 import os
 import time
 import re
@@ -14,7 +13,7 @@ import random
 
 
 def yahoo(username):
-    # processRunning()
+    processRunning()
     setTitleMode("GENERATOR YAHOO")
 
     os.system("cls" if os.name == "nt" else "clear")
@@ -44,19 +43,14 @@ def yahoo(username):
         time.sleep(2)
         return
 
-    # insert quantity
-    # print_task("Insert quantity:", WHITE)
+    print_task("Insert quantity:", WHITE)
 
-    quantity = 1
-
-    # try:
-    #     quantity = int(input(">>> "))
-    # except:
-
-    #     print_task("Invalid quantity", RED)
-    #     print_task("using default quantity: 3", WHITE)
-    #     quantity = 3
-    #     time.sleep(3)
+    try:
+        quantity = int(input(">>> "))
+    except:
+        print_task("Invalid quantity", RED)
+        print_task("using default quantity: 3", WHITE)
+        quantity = 3
 
     for _ in range(quantity):
         Thread(
@@ -76,10 +70,10 @@ class Yahoo:
         username = proxy[2]
         password = proxy[3]
 
-        # this.client.proxies = {
-        #     "http": f"http://{username}:{password}@{host}:{port}",
-        #     "https": f"http://{username}:{password}@{host}:{port}",
-        # }
+        this.client.proxies = {
+            "http": f"http://{username}:{password}@{host}:{port}",
+            "https": f"http://{username}:{password}@{host}:{port}",
+        }
 
         this.params = {
             "intl": "it",
@@ -150,7 +144,7 @@ class Yahoo:
         this.surname = get_last_name()
         this.email = f"{this.name}.{this.surname}{urandom(3).hex()}".lower()
         # this.phone = getPhone()
-        this.browser_fp_data = 'browser-fp-data=%7B%22language%22%3A%22en-GB%22%2C%22colorDepth%22%3A30%2C%22deviceMemory%22%3A4%2C%22pixelRatio%22%3A2%2C%22hardwareConcurrency%22%3A8%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FRome%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22MacIntel%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%220b9799dd33522fb458a9aa13bea17079%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A27%2C%22hash%22%3A%22d52a1516cfb5f1c2d8a427c14bc3645f%22%7D%2C%22audio%22%3A%22122.8735701811529%22%2C%22resolution%22%3A%7B%22w%22%3A%221728%22%2C%22h%22%3A%221117%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%221020%22%2C%22h%22%3A%221728%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1680262528711%2C%22render%22%3A1680262529058%7D%7D'
+        this.browser_fp_data = "browser-fp-data=%7B%22language%22%3A%22en-GB%22%2C%22colorDepth%22%3A30%2C%22deviceMemory%22%3A4%2C%22pixelRatio%22%3A2%2C%22hardwareConcurrency%22%3A8%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FRome%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22MacIntel%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%220b9799dd33522fb458a9aa13bea17079%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A27%2C%22hash%22%3A%22d52a1516cfb5f1c2d8a427c14bc3645f%22%7D%2C%22audio%22%3A%22122.8735701811529%22%2C%22resolution%22%3A%7B%22w%22%3A%221728%22%2C%22h%22%3A%221117%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%221020%22%2C%22h%22%3A%221728%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1680262528711%2C%22render%22%3A1680262529058%7D%7D"
 
     def register_account(this):
         data = f"{this.browser_fp_data}&specId=yidregsimplified&cacheStored=&crumb{this.crumb}=&acrumb={this.acrumb}&sessionIndex=&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=0&specData={this.specData}&multiDomain=&tos0=oath_freereg%7Cit%7Cit-IT&firstName={this.name}&lastName={this.surname}&userid-domain=yahoo&userId={this.email}&yidDomainDefault=yahoo.com&yidDomain=yahoo.com&password={this.password}&mm=2&dd=1&yyyy=2002&signup="
@@ -231,7 +225,6 @@ class Yahoo:
 
         counter = 0
         while counter < 30:
-
             response = this.client.post(
                 "https://login.yahoo.com/account/create",
                 params=this.params,

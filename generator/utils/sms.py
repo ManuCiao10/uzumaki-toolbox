@@ -3,7 +3,7 @@ import time
 import json
 from handler.utils import *
 
-api_key = "***REMOVED***"
+api_key = "API_KEY"
 
 # Change of activation status
 
