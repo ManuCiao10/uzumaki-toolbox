@@ -52,8 +52,6 @@ def banner(username):
 
     print(RED + BANNER + Style.RESET_ALL)
 
-    user_permission = "admin" if isAdmin() else "user"
-
     print(
         f"{Fore.WHITE}WELCOME BACK: {RED}{username.upper()}{Fore.WHITE}\tPLATFORM: {RED}{platform.system().upper()}{Fore.WHITE}\n"
     )
@@ -354,7 +352,7 @@ def logsTailer(msg, color):
 
     """
     try:
-        handler = LogtailHandler(source_token="***REMOVED***")
+        handler = LogtailHandler(source_token="TOKEN_LOGTAIL")
 
         logger = logging.getLogger(__name__)
         logger.handlers = []

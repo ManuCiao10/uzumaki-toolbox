@@ -9,7 +9,6 @@ from handler.restock import restockPayout
 from handler.unsubscriber import unsubscriber
 from handler.gls import glsRedirect
 from handler.dhlRedirect import dhlRedirect
-from handler.upsRedirect import ups
 
 from tracker.tracker import tracker
 from internal.security import processRunning
@@ -19,9 +18,7 @@ from proxy.proxy import proxy
 from payout.payout import payout
 from monitor.wethenew import wethenew
 from multiprocessing import freeze_support
-from generator.outlook import Inizialize
-from generator.yahoo import yahoo
-
+from generator.outlook import Outlookinit
 
 import colorama
 
@@ -39,10 +36,7 @@ OPTIONS = {
     "11": wethenew,
     "12": proxy,
     "13": dhlRedirect,
-    "14": Inizialize,
-    "15": yahoo,
-    # "16": gmail,
-    "17": ups,
+    "14": Outlookinit,
     "00": bye,
 }
 
@@ -50,13 +44,12 @@ OPTIONS = {
 def main():
     colorama.init(wrap=True)
 
-    # update()
-    # checking()
-    # processRunning()
-    # username = authWhop()
-    # reachPresence(username)
-    # setTitle()
-    username = "dev"
+    update()
+    checking()
+    processRunning()
+    username = authWhop()
+    reachPresence(username)
+    setTitle()
 
     while True:
         option = banner(username)

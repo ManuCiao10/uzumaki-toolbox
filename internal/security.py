@@ -20,7 +20,7 @@ def is_loopback(ip):
 
 
 def webhook_cracked(i=None, key=None):
-    url_webhook = "WEBHOOK_HERE"
+    url_webhook = "WEBHOOK HERE"
     webhook = DiscordWebhook(url=url_webhook, username="Cracker Detected")
 
     embed = DiscordEmbed(title="Cracker Detected", color="5865F2")

@@ -10,13 +10,8 @@ from internal.security import processRunning
 
 
 def glsRedirect(username):
-    # processRunning()
+    processRunning()
     setTitleMode("Redirect GLS")
-
-    print_task("module is locked", YELLOW)
-    time.sleep(3)
-    return
-
     os.system("cls" if os.name == "nt" else "clear")
 
     print(f"{RED}{BANNER}{RESET}")

@@ -26,10 +26,6 @@ def payout(username):
     processRunning()
     setTitleMode("payout")
 
-    print_task("payout checker is locked", RED)
-    time.sleep(3)
-    return
-
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 

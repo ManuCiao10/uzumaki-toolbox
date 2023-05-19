@@ -15,7 +15,7 @@ from names import get_first_name, get_last_name
 from datetime import datetime
 
 
-def Inizialize(username):
+def Outlookinit(username):
     processRunning()
     setTitleMode("GENERATOR OUTLOOK")
 

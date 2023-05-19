@@ -1,3 +1,4 @@
+
 import os
 import time
 import re
@@ -205,7 +206,7 @@ class Yahoo:
             f.write(response.text)
 
     def __message(this):
-        # data = f"{this.browser_fp_data}&specId=yidregsimplified&cacheStored=&crumb={this.crumb}&acrumb={this.acrumb}&sessionIndex={this.session_index}&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=1&specData={this.spec_data}&multiDomain=def&shortCountryCode=IT&phone=3662299421&signup="
+        data = f"{this.browser_fp_data}&specId=yidregsimplified&cacheStored=&crumb={this.crumb}&acrumb={this.acrumb}&sessionIndex={this.session_index}&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=1&specData={this.spec_data}&multiDomain=def&shortCountryCode=IT&phone=3662299421&signup="
         headers = {
             "authority": "login.yahoo.com",
             "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -226,14 +227,17 @@ class Yahoo:
             "upgrade-insecure-requests": "1",
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
         }
-        data = f"browser-fp-data=%7B%22language%22%3A%22en-GB%22%2C%22colorDepth%22%3A30%2C%22deviceMemory%22%3A4%2C%22pixelRatio%22%3A2%2C%22hardwareConcurrency%22%3A10%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FRome%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22MacIntel%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%22b751869d0b6e96ff50b320748f196d80%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A27%2C%22hash%22%3A%22d52a1516cfb5f1c2d8a427c14bc3645f%22%7D%2C%22audio%22%3A%22123.2905692974673%22%2C%22resolution%22%3A%7B%22w%22%3A%221728%22%2C%22h%22%3A%221117%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%221020%22%2C%22h%22%3A%221728%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1683404094898%2C%22render%22%3A1683404094967%7D%7D&specId=yidregsimplified&cacheStored=&crumb=&acrumb={this.acrumb}&sessionIndex=Qg--&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=1&specData={this.spec_data}&multiDomain=def&shortCountryCode=IT&phone=3662299421&signup="
+        # data = f"browser-fp-data=%7B%22language%22%3A%22en-GB%22%2C%22colorDepth%22%3A30%2C%22deviceMemory%22%3A4%2C%22pixelRatio%22%3A2%2C%22hardwareConcurrency%22%3A10%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FRome%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22MacIntel%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%22b751869d0b6e96ff50b320748f196d80%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A27%2C%22hash%22%3A%22d52a1516cfb5f1c2d8a427c14bc3645f%22%7D%2C%22audio%22%3A%22123.2905692974673%22%2C%22resolution%22%3A%7B%22w%22%3A%221728%22%2C%22h%22%3A%221117%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%221020%22%2C%22h%22%3A%221728%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1683404094898%2C%22render%22%3A1683404094967%7D%7D&specId=yidregsimplified&cacheStored=&crumb=&acrumb={this.acrumb}&sessionIndex=Qg--&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=1&specData={this.spec_data}&multiDomain=def&shortCountryCode=IT&phone=3662299421&signup="
 
-        response = this.client.post(
-            "https://login.yahoo.com/account/create",
-            params=this.params,
-            headers=headers,
-            data=data,
-        )
+        counter = 0
+        while counter < 30:
 
-        with open("response.html", "w") as f:
-            f.write(response.text)
+            response = this.client.post(
+                "https://login.yahoo.com/account/create",
+                params=this.params,
+                headers=headers,
+                data=data,
+            )
+
+            print(response.text)
+            counter += 1

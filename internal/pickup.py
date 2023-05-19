@@ -20,8 +20,6 @@ class PickupUps:
         self.zip_code = row[5].strip()
         self.country = row[6].strip()
         self.email = row[7].strip()
-        # self.numberOfPackages = print_task("How many packages?", PURPLE)
-        # self.numberOfPackages = input("How many packages?")
         self.numberOfPackages = input("How many packages? ")
 
         return self.session()
