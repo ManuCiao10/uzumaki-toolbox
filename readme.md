@@ -1,4 +1,4 @@
-<kbd> <img alt=img" src="https://github.com/ManuCiao10/UzumakiTools/assets/89024276/d214cf17-5be1-46a9-8c29-005683452622">  </kbd>
+<kbd> <img alt="img" src="https://github.com/ManuCiao10/UzumakiTools/assets/89024276/d214cf17-5be1-46a9-8c29-005683452622">  </kbd>
 
 #### Features
 
