@@ -66,7 +66,6 @@ def sda(tracking_number):
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            # 'Cookie': 'DigestTracker=AAABhlHaBeE; JSESSIONID=0000QNrJGmdhlxczSS7N6zRIzZE:1dguhajts; WASReqURL=https:///wps/wcm/myconnect/sda/7c456830-d753-49e2-bd79-70c1176244ec/logo-crononline.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_6O5IG2G0OG6540QCGUATFF0000-7c456830-d753-49e2-bd79-70c1176244ec-n2-.at0',
             "Origin": "https://www.sda.it",
             "Pragma": "no-cache",
             "Referer": "https://www.sda.it/wps/portal/Servizi_online/dettaglio-spedizione?locale=it&tracing.letteraVettura=288044I077562",

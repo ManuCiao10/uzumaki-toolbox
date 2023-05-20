@@ -11,7 +11,7 @@ def dhl(tracking_number):
 
     querystring = {"trackingNumber": tracking_number}
 
-    headers = {"DHL-API-Key": "***REMOVED***"}
+    headers = {"DHL-API-Key": "DHL_API_Key"}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
 

@@ -3,19 +3,7 @@ import os
 import requests
 import time
 from urllib.request import urlopen
-import hashlib
 import os
-import getpass
-
-# HYPER_API_KEY = "***REMOVED***"
-GITHUB_API_KEY = "***REMOVED***"
-WHOP_API_KEY = "***REMOVED***"
-
-
-# class Login(BaseModel):
-#     licenseKey: str
-#     HWID: str  #: sha256(Disk Serials (sep by comma) + Computer Name + Running User)
-#     username: str  #: Discord Username
 
 
 def authWhop() -> str:
@@ -170,41 +158,3 @@ def update():
 
         print_task("Successfully downloaded update " + os.getcwd(), GREEN)
         exit_program()
-
-
-# def get_license_hyper(license_key):
-#     headers = {
-#         "Authorization": f"Bearer {HYPER_API_KEY}",
-#     }
-
-#     req = requests.get(
-#         f"https://api.hyper.co/v6/licenses/{license_key}", headers=headers
-#     )
-#     if req.status_code == 200:
-#         return req.json()
-
-#     return None
-
-
-# def auth_hyper():
-#     settings = load_settings()
-#     webhook = settings["webhook"]
-#     key = settings["key"]
-
-#     if not key or key == "KEY HERE":
-#         print_task("please set key...", RED)
-#         exit_program()
-
-#     license_data = get_license(key)
-
-#     if not license_data:
-#         print_task("Invalid license key!", RED)
-#         exit_program()
-
-#     username = license_data.get("integrations").get("discord").get("username")
-
-#     if not webhook or webhook == "WEBHOOK HERE":
-#         print_task("please set webhook...", RED)
-#         exit_program()
-
-#     return username

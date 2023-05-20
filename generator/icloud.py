@@ -7,7 +7,6 @@ def icloud(username):
     processRunning()
     setTitleMode("Generator - Icloud")
 
-    # while True:
     os.system("cls" if os.name == "nt" else "clear")
 
     print(RED + BANNER + RESET)
@@ -107,7 +106,7 @@ def getPayload(self):
     }
 
     response = requests.post(
-        "https://appleid.apple.com/account/validate", headers=headers, json=json_data
+        "https://appleid.apple.com/account/validate", json=json_data
     )
 
 

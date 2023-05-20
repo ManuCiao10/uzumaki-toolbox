@@ -57,7 +57,6 @@ def getCode(id: str) -> str:
         + forward
     )
 
-    time.sleep(20)
     if ch_activation_status.text in access_ready:
         print("number readiness confirmed\n")
 
@@ -80,7 +79,6 @@ def getCode(id: str) -> str:
         ):
             if code in status_wait:
                 print("wait sometime for SMS")
-                time.sleep(20)
                 get_sms = requests.get(
                     "https://sms-activate.ru/stubs/handler_api.php?api_key="
                     + api_key
