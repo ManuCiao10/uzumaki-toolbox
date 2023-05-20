@@ -1,4 +1,4 @@
-<kbd> <img width="646" alt="img" src="https://github.com/ManuCiao10/UzumakiTools/assets/89024276/d214cf17-5be1-46a9-8c29-005683452622">  </kbd>
+<kbd> <img width="646" alt="img" src="https://github.com/ManuCiao10/uzumaki-toolbox/blob/master/generator/utils/git.png">  </kbd>
 
 ### Contributing
 If you would like to contribute to Uzumaki TollBox, please follow these steps:
