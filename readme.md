@@ -3,7 +3,7 @@
 <kbd> <img width="700" alt="logo" src="https://github.com/ManuCiao10/uzumaki-toolbox/assets/89024276/f35acc7e-ce91-49f9-997c-4c0327b527a3"></kbd>
 
 **Uzumaki Toolbox** is a versatile command-line tool designed to provide various features and utilities for efficient package management, email generation, data manipulation, web scraping, and more.
-With its user-friendly interface and powerful functionality, Uzumaki Toolbox aims to streamline your workflow and enhance productivity.
+With its user-friendly interface and powerful functionality.
 
 ### Features
 
