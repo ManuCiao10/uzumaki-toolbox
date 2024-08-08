@@ -59,4 +59,4 @@ Contributions are highly appreciated and welcome! By contributing to Uzumaki Too
 
 If you have any questions, suggestions, or feedback regarding Uzumaki Toolbox, feel free to reach out:
 
-- Discord: manuciao.
+- Discord: manuciao_dev
